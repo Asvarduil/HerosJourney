@@ -1,0 +1,193 @@
+using UnityEngine;
+using System.Linq;
+using System.Collections.Generic;
+
+// Programmer's Notes
+// ------------------------------------------------
+// This class provides the GUI implementation of
+// the dialogue system.  It shows and advances
+// text, gives dialogue rewards, and even plays
+// supplementary sound effects or alters the
+// background music as necessary, based on the
+// dialogue data of the NPC that the user can
+// interact with.
+
+public class DialogueGUI : MonoBehaviour 
+{
+	#region Variables / Properties
+	
+	public bool DebugMode = false;
+	public GUISkin skin;
+	public bool DialogueAvailable = false;
+	public AsvarduilImage Background;
+	public AsvarduilLabel SpeakerName;
+	public AsvarduilLabel SpeakerText;
+	public AsvarduilButton NextButton;
+	
+	private string _speakerName;
+	private DialogueThread _currentThread;
+	private EntityText[] _textProviders;
+	private Ambassador _ambassador;
+	private Maestro _maestro;
+	
+	#endregion Variables / Properties
+	
+	#region Engine Hooks
+	
+	public void Start()
+	{
+		_textProviders = (EntityText[]) FindObjectsOfType(typeof(EntityText));
+		_ambassador = (Ambassador) FindObjectOfType(typeof(Ambassador));
+		_maestro = (Maestro) FindObjectOfType(typeof(Maestro));
+	}
+	
+	public void OnGUI()
+	{
+		if(! DialogueAvailable)
+			return;
+		
+		GUI.skin = skin;
+		
+		Background.DrawMe();
+		SpeakerName.DrawMe();
+		SpeakerText.DrawMe();
+		
+		if(NextButton.IsClicked())
+		{
+			
+			DialogueText text = _currentThread.AdvanceSpeakerText();
+			if(text != default(DialogueText))
+			{
+				SpeakerName.Text = text.SpeakerName;
+				SpeakerText.Text = text.SpeakerText;
+				
+				if(text.BGMOverride != null)
+					_maestro.ChangeTunes(text.BGMOverride);
+				
+				if(text.OneShotClip != null)
+					_maestro.PlaySoundEffect(text.OneShotClip);
+				
+				if(!string.IsNullOrEmpty(text.ConversationEvent))
+					gameObject.SendMessage(text.ConversationEvent, SendMessageOptions.RequireReceiver);
+				
+				if(!string.IsNullOrEmpty(text.ConversationGift))
+					_ambassador.GainItem(text.ConversationGift);
+				
+				if(text.AltersProgression)
+					_ambassador.UpdateThread(text.QuestThreadName, text.ResultingQuestThreadPhase);
+				
+				if(text.CausesSelfDestruct)
+					Destroy(_currentThread.CallingGameObject);
+			}
+			
+			if(_currentThread.TextExhausted)
+			{
+				PlayerHasControl(true);
+				HideElements();
+			}
+		}
+	}
+	
+	public void FixedUpdate()
+	{
+		AcquireTextFromAvailableEntities();
+		TweenElements();
+	}
+	
+	#endregion Engine Hooks
+	
+	#region Methods
+	
+	private void AcquireTextFromAvailableEntities()
+	{
+		EntityText availableEntity = _textProviders.FirstOrDefault(t => t.CanTalk == true);
+		
+		// Code Case: We no longer have an entity, but we still show there being dialogue.
+		// User Case: Player has left a trigger with text still shown.
+		// Desired Result: Stop showing text, reset line counter.
+		if(availableEntity == default(EntityText)
+		   && DialogueAvailable)
+		{
+			_currentThread.ResetIndex();
+			DialogueAvailable = false;
+			HideElements();
+		}
+		// Code Case: We have an entity, and we do not see any current dialogue.
+		// User Case: Player has initiated a conversation sequence.
+		// Desired Result: Start showing text, set line counter to first item, set speaker name.
+		//                 Also, lock the player's player control script.
+		else if(availableEntity != default(EntityText)
+			    && (! DialogueAvailable))
+		{
+			_currentThread = availableEntity.CurrentThread(_ambassador.SequenceCounters);
+			_currentThread.ResetIndex();
+			
+			DialogueText currentText = _currentThread.GetCurrentText();
+			if(currentText != null)
+			{
+				PlayerHasControl(false);
+				
+				SpeakerName.Text = currentText.SpeakerName;
+				SpeakerText.Text = currentText.SpeakerText;
+				
+				DialogueAvailable = true;
+				
+				ShowElements();
+			}
+		}
+		
+		// Code Case: We have both an entity and show dialogue
+		// User Case: An conversation is on-going
+		// Desired Result: Do not mess with it!
+		
+		// Code Case: We have no entity and show no dialogue [Default State]
+		// User Case: User is doing some non-conversation activity
+		// Desired Result: Do nothing.
+	}
+	
+	private void PlayerHasControl(bool canControl)
+	{
+		PlayerControl controls = (PlayerControl) FindObjectOfType(typeof(PlayerControl));
+		if(controls == null)
+		{
+			if(DebugMode)
+				Debug.LogWarning("Found no player control script in this scene!");
+			
+			return;
+		}
+		
+		if(DebugMode)
+			Debug.Log("Player controls " + (canControl ? "won't" : "will") + " be locked.");
+			
+		if(canControl)
+			controls.Resume();
+		else
+			controls.Halt();
+	}
+	
+	private void HideElements()
+	{
+		Background.TargetTint.a = 0;
+		SpeakerName.TargetTint.a = 0;
+		SpeakerText.TargetTint.a = 0;
+		NextButton.TargetTint.a = 0;
+	}
+	
+	private void ShowElements()
+	{
+		Background.TargetTint.a = 1;
+		SpeakerName.TargetTint.a = 1;
+		SpeakerText.TargetTint.a = 1;
+		NextButton.TargetTint.a = 1;
+	}
+	
+	private void TweenElements()
+	{
+		Background.Tween();
+		SpeakerName.Tween();
+		SpeakerText.Tween();
+		NextButton.Tween();
+	}
+	
+	#endregion Methods
+}
