@@ -81,7 +81,6 @@
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\Waypoint.cs" />
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\WaypointMapAI.cs" />
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\WorldMapPlayerControl.cs" />
-     <Compile Include="Assets\EarthbaneGauntlets.cs" />
      <Compile Include="Assets\Game-Specific Assets\GUI\Dialogue\DialogueGUI.cs" />
      <Compile Include="Assets\Game-Specific Assets\GUI\Health\PlayerHealthProvider.cs" />
      <Compile Include="Assets\Game-Specific Assets\GUI\Logos\LogoPresenter.cs" />
@@ -105,6 +104,7 @@
      <Compile Include="Assets\Game-Specific Assets\Scripts\Dialogue\ConversationEvents.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Dialogue\Door.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Dialogue\EntityText.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\Pickups\EarthbaneGauntlets.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Pickups\HealthPickup.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Pickups\HeartContainer.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Pickups\SkillPickup.cs" />
