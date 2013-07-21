@@ -46,15 +46,13 @@ public class PressureSwitch : MonoBehaviour
 	
 	public void OnTriggerEnter(Collider who)
 	{
-		if(! AllowedTags.Contains(who.tag))
-			return;
-		
-		if(_isDisabled)
+		if(! AllowedTags.Contains(who.tag)
+		   || _isDisabled)
 			return;
 		
 		AudioClip sfx = null;
 		Texture2D texture = null;
-		string debugVerb = "activated";
+		string debugVerb;
 		
 		switch(Type)
 		{
@@ -85,9 +83,10 @@ public class PressureSwitch : MonoBehaviour
 			Debug.Log(String.Format("{0} with tag {1} has {2} switch {3}", who.name, who.tag, debugVerb, gameObject.name));
 		
 		if(texture != null)
-			_renderer.material.SetTexture("_Texture", texture);
+			_renderer.material.SetTexture("_MainTex", texture);
 		
-		if (_maestro != null && sfx != null)
+		if (_maestro != null 
+			&& sfx != null)
 			_maestro.PlaySoundEffect(sfx);
 	}
 	
@@ -104,9 +103,12 @@ public class PressureSwitch : MonoBehaviour
 			Debug.Log(who.name + " with tag " + who.tag + " has released the switch!");
 		
 		IsPressed = false;
-		_renderer.material.SetTexture("_MainTex", Unpressed);
 		
-		if(_maestro != null && ReleasedSfx != null)
+		if(Unpressed != null)
+			_renderer.material.SetTexture("_MainTex", Unpressed);
+		
+		if (_maestro != null 
+		    && ReleasedSfx != null)
 			_maestro.PlaySoundEffect(ReleasedSfx);
 	}
 	
