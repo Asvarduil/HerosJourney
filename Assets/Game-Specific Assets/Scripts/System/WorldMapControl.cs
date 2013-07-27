@@ -5,24 +5,29 @@ using System.Collections.Generic;
 
 public class WorldMapControl : MonoBehaviour 
 {
+	#region Constants
+	
+	private const float _moveEpsilon = 0.01f;
+	
+	#endregion Constants
+	
 	#region Variables
 	
+	public bool DebugMode = false;
 	public float WalkSpeed = 2.0f;
+	
 	public List<DirectionalBehavior> Behaviors;
 	
-	public string UpName = "Up";
-	public string LeftName = "Left";
-	public string DownName = "Down";
-	public string RightName = "Right";
-	public string IdleName = "Idle";
-	public string MoveName = "Move";
+	public string IdlePart = "Idle";
+	public string MovePart = "Move";
+	public string UpPart = "Up";
+	public string LeftPart = "Left";
+	public string DownPart = "Down";
+	public string RightPart = "Right";
 	
-	private bool _idle = true;
+	private string _lastDirection;
 	private string _animation;
-	private string _direction;
-	private Vector3 _moveVector;
 	private SpriteSystem _sprite;
-	private DirectionalBehavior _behavior;
 	private CharacterController _controller;
 	
 	#endregion Variables
@@ -34,75 +39,76 @@ public class WorldMapControl : MonoBehaviour
 		_controller = GetComponent<CharacterController>();
 		_sprite = GetComponentInChildren<SpriteSystem>();
 		
-		_direction = DownName;
+		_lastDirection = DownPart;
 	}
 	
 	public void Update()
 	{
-		InitializeIdle();
-		
-		CheckHorizontalMovement();
-		CheckVerticalMovement();
-		
-		PerformMovementAndAnimation();
+		DirectionalBehavior behavior = CheckInput();
+		PerformMovement(behavior);
+		Animate(behavior);
 	}
 	
 	#endregion Engine Hooks
 	
 	#region Methods
 	
-	public void InitializeIdle()
-	{
-		_idle = true;
-		_moveVector = Vector3.zero;
-		_behavior = default(DirectionalBehavior);
-	}
-	
-	public void CheckHorizontalMovement()
-	{
-		if(Input.GetAxis("Horizontal") < 0)
-		{
-			_idle = false;
-			_direction = LeftName;
-		}
-		else if (Input.GetAxis("Horizontal") > 0)
-		{
-			_idle = false;
-			_direction = RightName;
-		}
-	}
-	
-	public void CheckVerticalMovement()
-	{
-		if(Input.GetAxis("Vertical") > 0)
-		{
-			_idle = false;
-			_direction = UpName;
-		}
-		else if (Input.GetAxis("Vertical") < 0)
-		{
-			_idle = false;
-			_direction = DownName;
-		}
-	}
-	
-	public void PerformMovementAndAnimation()
-	{
-		string activityLevel = _idle 
-						       ? IdleName 
-							   : MoveName;
-		_behavior = Behaviors.FirstOrDefault(b => b.Name.Contains(_direction)
-				                                  && b.Name.Contains(activityLevel));
+	private DirectionalBehavior CheckInput()
+	{	
+		Vector2 inputVector = ReadAxes();
+		bool idle = inputVector == Vector2.zero;
+		string actionModifier = idle ? IdlePart : MovePart;
 		
-		if(_behavior != default(DirectionalBehavior))
+		string directionModifier = ReadDirectionFromInputVector(inputVector);
+		_lastDirection = directionModifier;
+		
+		DirectionalBehavior result = Behaviors.FirstOrDefault(b => b.HasState(actionModifier, directionModifier));
+		if(result == default(DirectionalBehavior))
 		{
-			_animation = _behavior.ActionAnimation;
-			_moveVector = _behavior.MoveDirection * WalkSpeed;
-			_moveVector.y = Physics.gravity.y;
+			if(DebugMode)
+				Debug.Log(string.Format("No Behavior exists for a {0} state facing {1}.", actionModifier, directionModifier));
 		}
 		
-		_controller.Move(_moveVector * Time.deltaTime);
-		_sprite.PlaySingleFrame(_animation, false, AnimationMode.Loop);
+		return result;
+	}
+	
+	private Vector2 ReadAxes()
+	{
+		return new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+	}
+	
+	private string ReadDirectionFromInputVector(Vector2 inputVector)
+	{
+		string result = string.Empty;
+		
+		if(inputVector.x > 0)
+			result = RightPart;
+		else if(inputVector.x < 0)
+			result = LeftPart;
+					
+		if(inputVector.y > 0)
+			result = UpPart;
+		else if(inputVector.y < 0)
+			result = DownPart;
+		
+		if(string.IsNullOrEmpty(result))
+			result = _lastDirection;
+		
+		return result;
+	}
+	
+	private void PerformMovement(DirectionalBehavior behavior)
+	{
+		Vector3 moveVector = behavior.MoveDirection * WalkSpeed;
+		moveVector.y = Physics.gravity.y;
+		moveVector *= Time.deltaTime;
+		
+		_controller.Move(moveVector);
+	}
+	
+	private void Animate(DirectionalBehavior behavior)
+	{
+		_sprite.PlaySingleFrame(behavior.ActionAnimation, false, AnimationMode.Loop);
 	}
 	
 	#endregion Methods
@@ -118,4 +124,13 @@ public class DirectionalBehavior
 	public string ActionAnimation;
 	
 	#endregion Variables / Properties
+	
+	#region Methods
+	
+	public bool HasState(string activity, string direction)
+	{
+		return Name.Contains(activity) && Name.Contains (direction);
+	}
+	
+	#endregion Methods
 }

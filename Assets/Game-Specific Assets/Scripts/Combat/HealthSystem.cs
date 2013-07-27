@@ -55,7 +55,7 @@ public class HealthSystem : MonoBehaviour
 				Debug.Log(gameObject.name + " died.");
 			
 			GameObject.Instantiate(DeathEffect, transform.position, transform.rotation);
-			gameObject.SetActive(false);
+			Destroy(gameObject);
 		}
 	}
 	

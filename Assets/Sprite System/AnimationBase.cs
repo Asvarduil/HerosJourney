@@ -158,7 +158,7 @@ public abstract class AnimationSystemBase<T> : MonoBehaviour
 		}
 		
 		if(DebugMode)
-			Debug.Log(String.Format("Advancing animation {0}...", CurrentAnimation.Name));
+			Debug.Log(String.Format("Advancing animation {0} to frame {1}...", CurrentAnimation.Name, CurrentAnimation.Current));
 		
 		AdvanceCurrentAnimationOne();
 	}

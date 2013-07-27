@@ -1,11 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
-public class ConversationEvents : MonoBehaviour 
+public class TeleportConversationEffect : MonoBehaviour 
 {
 	#region Variables / Properties
 	
-	public GameObject Garlan;
+	public GameObject Character;
 	public GameObject TeleportEffect;
 	
 	#endregion Variables / Properties
@@ -16,17 +16,9 @@ public class ConversationEvents : MonoBehaviour
 	
 	#region Messages
 		
-	public void TeleportGarlan()
+	public void TeleportCharacterAway()
 	{
-		TeleportCharacter(Garlan);
-	}
-	
-	public void TeleportBarbariccia()
-	{
-	}
-	
-	public void TeleportArtasandro()
-	{
+		TeleportCharacter(Character);
 	}
 	
 	#endregion Messages
