@@ -1,11 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\Scripts\AI\BossGarlan.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\Scripts\Combat\HealthSystem.cs">
     <Files>
-      <File FileName="Assets\Game-Specific Assets\Scripts\AI\BossGarlan.cs" Line="35" Column="33" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\Combat\HealthSystem.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\Pickups\HealthPickup.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\AI\BossGarlan.cs" Line="1" Column="1" />
       <File FileName="Assets\Game-Specific Assets\Scripts\Dialogue\EntityText.cs" Line="1" Column="1" />
       <File FileName="Assets\Sprite System\SpriteSystem.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\System\PressureSwitch.cs" Line="8" Column="22" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\System\PressureSwitch.cs" Line="1" Column="1" />
       <File FileName="Assets\Game-Specific Assets\Scripts\System\WorldMapControl.cs" Line="1" Column="1" />
       <File FileName="Assets\Game-Specific Assets\Scripts\Dialogue\ConversationEvents.cs" Line="1" Column="1" />
       <File FileName="Assets\Game-Specific Assets\GUI\Logos\LogoPresenter.cs" Line="1" Column="1" />

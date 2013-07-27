@@ -29,7 +29,8 @@ public class HealthPickup : MonoBehaviour
 			_maestro.PlaySoundEffect(HealingSound);
 		
 		who.gameObject.SendMessage("Heal", HealAmount, SendMessageOptions.DontRequireReceiver);
-		Destroy(gameObject);
+		gameObject.SetActive(false);
+		//Destroy(gameObject);
 	}
 	
 	#endregion Engine Hooks
