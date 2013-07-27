@@ -7,6 +7,7 @@ public class TeleportConversationEffect : MonoBehaviour
 	
 	public GameObject Character;
 	public GameObject TeleportEffect;
+	public Vector3 TeleportTarget;
 	
 	#endregion Variables / Properties
 	
@@ -28,7 +29,7 @@ public class TeleportConversationEffect : MonoBehaviour
 	public void TeleportCharacter(GameObject character)
 	{
 		Instantiate(TeleportEffect, character.transform.position, character.transform.rotation);
-		Destroy(character);
+		character.transform.position = TeleportTarget;
 	}
 	
 	#endregion Methods

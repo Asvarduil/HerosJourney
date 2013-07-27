@@ -102,6 +102,7 @@
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\RepellingObject.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\Shield.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\WebbingEffect.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\Dialogue\ActivateConversationObjects.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Dialogue\Door.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Dialogue\EntityText.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Dialogue\TeleportConversationEffect.cs" />
