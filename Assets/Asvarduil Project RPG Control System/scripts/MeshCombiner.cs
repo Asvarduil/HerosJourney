@@ -115,4 +115,14 @@ public class MeshCombiner : MonoBehaviour
 	    smr.bones = aBones;
 	    renderer.material = material;
 	}
+	
+	public void OnDestroy()
+	{
+		SkinnedMeshRenderer smr = GetComponent<SkinnedMeshRenderer>();
+		
+		smr.material.mainTexture = null;
+		smr.material = null;
+		smr.bones = null;
+		smr.sharedMesh = null;
+	}
 }

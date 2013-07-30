@@ -54,31 +54,9 @@ public class DialogueGUI : MonoBehaviour
 		
 		if(NextButton.IsClicked())
 		{
-			
 			DialogueText text = _currentThread.AdvanceSpeakerText();
 			if(text != default(DialogueText))
-			{
-				SpeakerName.Text = text.SpeakerName;
-				SpeakerText.Text = text.SpeakerText;
-				
-				if(text.BGMOverride != null)
-					_maestro.ChangeTunes(text.BGMOverride);
-				
-				if(text.OneShotClip != null)
-					_maestro.PlaySoundEffect(text.OneShotClip);
-				
-				if(!string.IsNullOrEmpty(text.ConversationEvent))
-					gameObject.SendMessage(text.ConversationEvent, SendMessageOptions.RequireReceiver);
-				
-				if(!string.IsNullOrEmpty(text.ConversationGift))
-					_ambassador.GainItem(text.ConversationGift);
-				
-				if(text.AltersProgression)
-					_ambassador.UpdateThread(text.QuestThreadName, text.ResultingQuestThreadPhase);
-				
-				if(text.CausesSelfDestruct)
-					Destroy(_currentThread.CallingGameObject);
-			}
+				PresentLine(text);
 			
 			if(_currentThread.TextExhausted)
 			{
@@ -97,6 +75,33 @@ public class DialogueGUI : MonoBehaviour
 	#endregion Engine Hooks
 	
 	#region Methods
+	
+	private void PresentLine(DialogueText text)
+	{
+		SpeakerName.Text = text.SpeakerName;
+		SpeakerText.Text = text.SpeakerText;
+		
+		if(text.BGMOverride != null)
+			_maestro.ChangeTunes(text.BGMOverride);
+		
+		if(text.OneShotClip != null)
+			_maestro.PlaySoundEffect(text.OneShotClip);
+		
+		if(!string.IsNullOrEmpty(text.ConversationEvent))
+		{
+			Debug.Log("Sending message " + text.ConversationEvent + " to own scripts...");
+			gameObject.SendMessage(text.ConversationEvent, SendMessageOptions.RequireReceiver);
+		}
+		
+		if(!string.IsNullOrEmpty(text.ConversationGift))
+			_ambassador.GainItem(text.ConversationGift);
+		
+		if(text.AltersProgression)
+			_ambassador.UpdateThread(text.QuestThreadName, text.ResultingQuestThreadPhase);
+		
+		if(text.CausesSelfDestruct)
+			Destroy(_currentThread.CallingGameObject);
+	}
 	
 	private void AcquireTextFromAvailableEntities()
 	{
@@ -125,13 +130,10 @@ public class DialogueGUI : MonoBehaviour
 			DialogueText currentText = _currentThread.GetCurrentText();
 			if(currentText != null)
 			{
-				PlayerHasControl(false);
-				
-				SpeakerName.Text = currentText.SpeakerName;
-				SpeakerText.Text = currentText.SpeakerText;
-				
+				PresentLine(currentText);
 				DialogueAvailable = true;
 				
+				PlayerHasControl(false);
 				ShowElements();
 			}
 		}

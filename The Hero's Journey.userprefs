@@ -1,14 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\Scripts\Dialogue\ActivateConversationObjects.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Asvarduil Project RPG Control System\scripts\MeshCombiner.cs">
     <Files>
-      <File FileName="Assets\Game-Specific Assets\Scripts\Dialogue\TeleportConversationEffect.cs" Line="32" Column="31" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\Dialogue\ActivateConversationObjects.cs" Line="20" Column="43" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\Dialogue\TeleportConversationEffect.cs" Line="1" Column="1" />
       <File FileName="Assets\Game-Specific Assets\Scripts\AI\BossGarlan.cs" Line="1" Column="1" />
       <File FileName="Assets\Game-Specific Assets\Scripts\Dialogue\EntityText.cs" Line="1" Column="1" />
       <File FileName="Assets\Game-Specific Assets\Scripts\System\WorldMapControl.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game-Specific Assets\GUI\Dialogue\DialogueGUI.cs" Line="1" Column="1" />
-      <File FileName="Assets\Sprite System\AnimationBase.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\Dialogue\ActivateConversationObjects.cs" Line="23" Column="3" />
+      <File FileName="Assets\Game-Specific Assets\GUI\Dialogue\DialogueGUI.cs" Line="133" Column="25" />
+      <File FileName="Assets\Asvarduil Project RPG Control System\scripts\Maestro.cs" Line="67" Column="3" />
+      <File FileName="Assets\Asvarduil Project RPG Control System\scripts\MeshCombiner.cs" Line="125" Column="20" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
