@@ -93,6 +93,8 @@
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\Spyder.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\StateMachine.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\Steelguard.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\ActivateObjectsOnDeath.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\AlterThreadOnDeath.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\BreaksBreakables.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\CombatSkills.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\DamageSource.cs" />
