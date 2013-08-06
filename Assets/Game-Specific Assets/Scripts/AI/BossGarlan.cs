@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 using Random = UnityEngine.Random;
 
-public class BossGarlan : MonoBehaviour 
+public class BossGarlan : BossAI
 {
 	#region Enumerations
 	
@@ -17,10 +17,18 @@ public class BossGarlan : MonoBehaviour
 	
 	#endregion Enumerations
 	
+	#region Subclasses / Structures
+	
+	public struct GarlanActionProbability
+	{
+		public GarlanSequenceActions Action;
+		public int Probability;
+	}
+	
+	#endregion Subclasses/ Structures
+	
 	#region Variables / Properties
 	
-	public bool DebugMode = false;
-	public bool FightStarted = false;
 	public string idleLeft;
 	public string idleRight;
 	public string attackLeft;
@@ -31,21 +39,15 @@ public class BossGarlan : MonoBehaviour
 	public GameObject EarthShield;
 	public GameObject Singularity;
 	
-	public Dictionary<GarlanSequenceActions, int> StateChangeChances;
+	public List<GarlanActionProbability> StateChangeChances;
 	
 	private bool _isDamaged = false;
 	private bool _facingLeft = false;
 	private bool _castingSingularity = false;
 	private float _spellDoneTime;
-	private string _currentAnimation;
 	private Vector3 _playerLocation;
 	
 	private GarlanSequenceActions _action = GarlanSequenceActions.None;
-	private StateMachine _fsm;
-	private PlayerSense _sense;
-	private SpriteSystem _sprite;
-	private HitboxController _hitboxes;
-	private SidescrollingMovement _movement;
 	
 	#endregion Variables / Properties
 	
@@ -53,15 +55,23 @@ public class BossGarlan : MonoBehaviour
 	
 	public void Start () 
 	{
-		_movement = GetComponent<SidescrollingMovement>();
+		_currentAnimation = idleRight;
 		
+		// Link to components...
+		_movement = GetComponent<SidescrollingMovement>();
 		_sense = GetComponentInChildren<PlayerSense>();
 		_sprite = GetComponentInChildren<SpriteSystem>();
 		_hitboxes = GetComponentInChildren<HitboxController>();
-
-		_currentAnimation = idleRight;
+		
+		// Setup probabilities for different action trees...
+		StateChangeChances = new List<GarlanActionProbability> {
+			new GarlanActionProbability{Action = GarlanSequenceActions.Attack, Probability = 65},
+			new GarlanActionProbability{Action = GarlanSequenceActions.Cast, Probability = 100},
+		};
+		
+		// Setup FSM...
 		_fsm = new StateMachine(new List<State> {
-			new State{ Condition = DefaultCondition,    Behavior = DoNothing },
+			new State{ Condition = DefaultCondition,    Behavior = DefaultAction },
 			new State{ Condition = NeedsToChooseAction, Behavior = RollNewAction },
 			new State{ Condition = ChosenToCharge,      Behavior = ChargePlayer },
 			new State{ Condition = ChosenToCast,        Behavior = SummonBarrier },
@@ -69,23 +79,9 @@ public class BossGarlan : MonoBehaviour
 		});
 	}
 	
-	public void Update () 
-	{
-		Action behavior = _fsm.EvaluateState();
-		if(behavior != null)
-			behavior();
-		
-		PlayAnimations();
-	}
-	
 	#endregion Engine Hooks
 	
 	#region Conditions
-	
-	private bool DefaultCondition()
-	{
-		return true;
-	}
 	
 	private bool NeedsToChooseAction()
 	{
@@ -114,21 +110,17 @@ public class BossGarlan : MonoBehaviour
 	
 	#region Behaviors
 	
-	private void DoNothing()
-	{
-	}
-	
 	private void RollNewAction()
 	{
 		_isDamaged = false;
 		
 		int roll = Random.Range(1, 100);
-		foreach(KeyValuePair<GarlanSequenceActions, int> relationship in StateChangeChances)
+		foreach(GarlanActionProbability relationship in StateChangeChances)
 		{
-			if(relationship.Value > 0
-			   && roll <= relationship.Value)
+			if(relationship.Probability > 0
+			   && roll <= relationship.Probability)
 			{
-				_action = relationship.Key;
+				_action = relationship.Action;
 				return;
 			}
 		}
@@ -181,12 +173,6 @@ public class BossGarlan : MonoBehaviour
 	#endregion Behaviors
 	
 	#region Methods
-	
-	private void PlayAnimations()
-	{
-		_sprite.PlaySingleFrame(_currentAnimation, false, AnimationMode.Loop);
-		_hitboxes.PlaySingleFrame(_currentAnimation, false, AnimationMode.Loop);
-	}
 	
 	#endregion Methods
 }
