@@ -71,11 +71,11 @@ public class BossGarlan : BossAI
 		
 		// Setup FSM...
 		_fsm = new StateMachine(new List<State> {
-			new State{ Condition = DefaultCondition,    Behavior = DefaultAction },
-			new State{ Condition = NeedsToChooseAction, Behavior = RollNewAction },
-			new State{ Condition = ChosenToCharge,      Behavior = ChargePlayer },
-			new State{ Condition = ChosenToCast,        Behavior = SummonBarrier },
-			new State{ Condition = CastingSingularity,  Behavior = CastSingularity }
+			new State(DefaultCondition, DefaultAction),
+			new State(NeedsToChooseAction, RollNewAction),
+			new State(ChosenToCharge, ChargePlayer ),
+			new State(ChosenToCast, SummonBarrier),
+			new State(CastingSingularity, CastSingularity)
 		});
 	}
 	

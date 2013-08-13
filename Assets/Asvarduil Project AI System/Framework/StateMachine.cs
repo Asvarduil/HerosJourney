@@ -49,7 +49,7 @@ public class StateMachine
 }
 
 [Serializable]
-public class State
+public struct State
 {
 	#region Variables / Properties
 	
@@ -57,6 +57,16 @@ public class State
 	public Action Behavior;
 	
 	#endregion Variables / Properties
+	
+	#region Constructor
+	
+	public State(Func<bool> condition, Action behavior)
+	{
+		Condition = condition;
+		Behavior = behavior;
+	}
+	
+	#endregion Constructor
 	
 	#region Methods
 	

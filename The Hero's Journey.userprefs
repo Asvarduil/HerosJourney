@@ -1,13 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\Scripts\AI\BossGarlan.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Asvarduil Project AI System\Examples\Wanderer.cs">
     <Files>
-      <File FileName="Assets\Game-Specific Assets\Scripts\AI\BossGarlan.cs" Line="142" Column="1" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\AI\BossAI.cs" Line="3" Column="19" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\AI\BossGarlan.cs" Line="80" Column="3" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\AI\BossAI.cs" Line="6" Column="25" />
       <File FileName="Assets\Game-Specific Assets\Scripts\Combat\AlterThreadOnDeath.cs" Line="1" Column="1" />
       <File FileName="Assets\Game-Specific Assets\Scripts\Combat\ActivateObjectsOnDeath.cs" Line="1" Column="1" />
       <File FileName="Assets\Asvarduil Project RPG Control System\scripts\MeshCombiner.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\AI\FightInitiator.cs" Line="16" Column="28" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\AI\FightInitiator.cs" Line="1" Column="1" />
+      <File FileName="Assets\Asvarduil Project AI System\Examples\Wanderer.cs" Line="111" Column="30" />
+      <File FileName="Assets\Asvarduil Project AI System\Framework\BaseAI.cs" Line="51" Column="29" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
