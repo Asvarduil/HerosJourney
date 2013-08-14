@@ -44,6 +44,8 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Asvarduil Project AI System\Examples\ScaryObjectSense.cs" />
+     <Compile Include="Assets\Asvarduil Project AI System\Examples\SmartWanderer.cs" />
      <Compile Include="Assets\Asvarduil Project AI System\Examples\Wanderer.cs" />
      <Compile Include="Assets\Asvarduil Project AI System\Framework\BaseAI.cs" />
      <Compile Include="Assets\Asvarduil Project AI System\Framework\StateMachine.cs" />
