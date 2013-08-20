@@ -52,10 +52,7 @@ public class Slime : MonoBehaviour
 	
 	public void FixedUpdate()
 	{
-		Action currentAction = _states.EvaluateState();
-		if(currentAction != null)
-			currentAction();
-		
+		_states.EvaluateState();
 		PlayAnimations();
 	}
 	

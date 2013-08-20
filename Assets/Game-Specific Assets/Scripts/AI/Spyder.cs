@@ -54,10 +54,7 @@ public class Spyder : MonoBehaviour
 	// Update is called once per frame
 	protected void Update() 
 	{
-		Action behavior = _behaviorFSM.EvaluateState();
-		if(behavior != null)
-			behavior();
-		
+		_behaviorFSM.EvaluateState();
 		_sprite.PlaySingleFrame(_currentAnimation, false, AnimationMode.Loop);
 	}
 	

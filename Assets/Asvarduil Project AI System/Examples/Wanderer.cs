@@ -46,7 +46,7 @@ public class Wanderer : BaseAI
 		// and a Behavior method name that gets fired if A) the condition holds true,
 		// and B) the condition has priority.  A condition has priority if it's the
 		// last condition to be true during an EvaluateState() call.
-		_fsm = new StateMachine(new List<State> {
+		_states = new StateMachine(new List<State> {
 			new State(DefaultCondition, PrepareNewAction),
 			new State(IsPerformingTask, KeepPerformingTask)
 		});

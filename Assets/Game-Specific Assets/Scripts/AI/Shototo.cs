@@ -56,11 +56,7 @@ public class Shototo : MonoBehaviour
 	void FixedUpdate() 
 	{
 		FacePlayer();
-		
-		Action currentAction = _fsm.EvaluateState();
-		if(currentAction != null)
-			currentAction();
-		
+		_fsm.EvaluateState();
 		PlayAnimations();
 	}
 	

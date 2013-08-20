@@ -68,10 +68,7 @@ public class Steelguard : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		Action behavior = _states.EvaluateState();
-		if(behavior != null)
-			behavior();
-		
+		_states.EvaluateState();
 		_animation.PlaySingleFrame(_currentAnimation, _lockAnimation, _animationType);
 		_hitboxes.PlaySingleFrame(_currentAnimation, _lockAnimation, _animationType);
 	}

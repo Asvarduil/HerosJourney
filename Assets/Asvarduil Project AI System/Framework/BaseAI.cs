@@ -41,7 +41,7 @@ public class BaseAI : MonoBehaviour
 	/// Condition (a function with no arguments that returns a bool),
 	/// and an Action (a void function with no arguments.)
 	/// </summary>
-	protected StateMachine _fsm;
+	protected IEvaluatesState _states;
 	
 	/// <summary>
 	/// The action that will be executed.  This is declared
@@ -58,9 +58,7 @@ public class BaseAI : MonoBehaviour
 	// then to execute the accompanying action.
 	public virtual void Update()
 	{
-		_behavior = _fsm.EvaluateState();
-		if(_behavior != null)
-			_behavior();
+		_states.EvaluateState();
 	}
 	
 	#endregion Engine Hooks

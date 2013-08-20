@@ -22,8 +22,11 @@ public class ActivateObjectsOnDeath : MonoBehaviour
 	
 	public void OnDestroy()
 	{
-		foreach(GameObject current in Objects)
-			current.SetActive(true);
+		if(Objects != null
+		   && Objects.Count > 0)
+			foreach(GameObject current in Objects)
+				if(current != null)
+					current.SetActive(true);
 		
 		if(SpecialEffect != null)
 			Instantiate(SpecialEffect, transform.position, transform.rotation);

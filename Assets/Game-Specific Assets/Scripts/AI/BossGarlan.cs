@@ -11,21 +11,12 @@ public class BossGarlan : BossAI
 	public enum GarlanSequenceActions
 	{
 		None,
+		Seek,
 		Attack,
-		Cast
+		Jump
 	}
 	
 	#endregion Enumerations
-	
-	#region Subclasses / Structures
-	
-	public struct GarlanActionProbability
-	{
-		public GarlanSequenceActions Action;
-		public int Probability;
-	}
-	
-	#endregion Subclasses/ Structures
 	
 	#region Variables / Properties
 	
@@ -34,17 +25,13 @@ public class BossGarlan : BossAI
 	public string attackLeft;
 	public string attackRight;
 	public string cast;
-	public float ChargeHaltRange = 0.9f;
-	public float SingularityCastTime;
-	public GameObject EarthShield;
-	public GameObject Singularity;
-	
-	public List<GarlanActionProbability> StateChangeChances;
+	public float DecisionTime = 1.0f;
+	public float ChargeHaltRange = 0.5f;
 	
 	private bool _isDamaged = false;
+	private bool _isCharging = false;
 	private bool _facingLeft = false;
-	private bool _castingSingularity = false;
-	private float _spellDoneTime;
+	private float _nextDecision = 0.0f;
 	private Vector3 _playerLocation;
 	
 	private GarlanSequenceActions _action = GarlanSequenceActions.None;
@@ -63,19 +50,22 @@ public class BossGarlan : BossAI
 		_sprite = GetComponentInChildren<SpriteSystem>();
 		_hitboxes = GetComponentInChildren<HitboxController>();
 		
-		// Setup probabilities for different action trees...
-		StateChangeChances = new List<GarlanActionProbability> {
-			new GarlanActionProbability{Action = GarlanSequenceActions.Attack, Probability = 65},
-			new GarlanActionProbability{Action = GarlanSequenceActions.Cast, Probability = 100},
-		};
-		
 		// Setup FSM...
-		_fsm = new StateMachine(new List<State> {
+		_states = new StateMachine(new List<State> {
+			// Do nothing by default.
 			new State(DefaultCondition, DefaultAction),
+			
+			// If has no combat action, roll one.
 			new State(NeedsToChooseAction, RollNewAction),
-			new State(ChosenToCharge, ChargePlayer ),
-			new State(ChosenToCast, SummonBarrier),
-			new State(CastingSingularity, CastSingularity)
+			
+			// If can't see player, look for them.
+			new State(SeekingPlayer, SeekPlayer),
+			
+			// ...If decided to charge...
+			new State(ChosenToCharge, ChargePlayer),
+			
+			// Must always be final, as it overrides all other actions.
+			new State(IsDamaged, BeDamaged)
 		});
 	}
 	
@@ -89,21 +79,21 @@ public class BossGarlan : BossAI
 			   && _action == GarlanSequenceActions.None;
 	}
 	
+	private bool SeekingPlayer()
+	{
+		return FightStarted
+			   && _action == GarlanSequenceActions.Seek;
+	}
+	
 	private bool ChosenToCharge()
 	{
 		return FightStarted
 			   && _action == GarlanSequenceActions.Attack;
 	}
 	
-	private bool ChosenToCast()
+	private bool IsDamaged()
 	{
-		return FightStarted
-			   && _action == GarlanSequenceActions.Cast;
-	}
-	
-	private bool CastingSingularity()
-	{
-		return _castingSingularity;
+		return _isDamaged;
 	}
 	
 	#endregion Conditions
@@ -112,67 +102,132 @@ public class BossGarlan : BossAI
 	
 	private void RollNewAction()
 	{
-		_isDamaged = false;
-		
-		int roll = Random.Range(1, 100);
-		foreach(GarlanActionProbability relationship in StateChangeChances)
+		// Are we still thinking about what to do?  If so,
+		// keep thinking, and show off that idle pose.
+		if(Time.time < _nextDecision)
 		{
-			if(relationship.Probability > 0
-			   && roll <= relationship.Probability)
-			{
-				_action = relationship.Action;
-				return;
-			}
+			DetermineDirection("Idle");
+			return;
 		}
+		
+		// When rolling, determine if I can still see the player.
+		// If not, we must find him!
+		if(! _sense.DetectedPlayer)
+		{
+			if(debugMode)
+				Debug.Log("Garlan is seeking the player!");
+			
+			_action = GarlanSequenceActions.Seek;
+			return;
+		}
+			
+		// So, we've thought it over, and can see the player.
+		// Decision time.
+		_isDamaged = false;
+		int roll = Random.Range(1, 100);
+		switch(roll)
+		{
+			default:
+				_action = GarlanSequenceActions.Attack;
+				break;
+		}
+		
+		if(debugMode)
+			Debug.Log("Rolled decision: " + roll);
 	}
 	
-	private void ChargePlayer()
+	private void SeekPlayer()
 	{
-		if(_playerLocation == Vector3.zero)
-		{
-			_playerLocation = _sense.PlayerLocation.position;
-			_facingLeft = _playerLocation.x < transform.position.x;
-			string chargeDirection = _facingLeft ? "Left" : "Right";
-			_currentAnimation = String.Format("Charge-{0}", chargeDirection);
-		}
+		TurnAroundIfFacingWall();	
+		PerformMove();
 		
-		if(_facingLeft)
-			_movement.MoveLeft();
-		else
-			_movement.MoveRight();
-		
-		if(Vector3.Distance(transform.position, _playerLocation) <= ChargeHaltRange)
+		// If we can now see the player, time to decide what
+		// we are going to do to him.
+		if(_sense.DetectedPlayer)
 		{
-			_playerLocation = Vector3.zero;
+			if(debugMode)
+				Debug.Log("Garlan has found the player!");
+			
 			_action = GarlanSequenceActions.None;
 		}
 	}
 	
-	private void SummonBarrier()
-	{
-		Instantiate(EarthShield, transform.position, transform.rotation);
+	private void ChargePlayer()
+	{	
+		if(! _isCharging)
+		{
+			_isCharging = true;
+			FacePlayer();
+			DetermineDirection("Attack");
+		}
 		
-		_spellDoneTime = Time.time + SingularityCastTime;
-		_currentAnimation = cast;
-		_castingSingularity = true;
-		_playerLocation = _sense.PlayerLocation.position;
+		PerformMove();
+		
+		// If close enough to where the player was, decide what to do next.
+		if(Vector3.Distance(transform.position, _playerLocation) <= ChargeHaltRange)
+		{
+			_isCharging = false;
+			_action = GarlanSequenceActions.None;
+			_nextDecision = Time.time + DecisionTime;
+		}
 	}
 	
-	private void CastSingularity()
+	private void BeDamaged()
 	{
-		if(Time.time < _spellDoneTime)
+		if(! _movement.isGrounded)
 			return;
 		
-		Instantiate(Singularity, _playerLocation, Quaternion.Euler(Vector3.zero));
+		if(debugMode)
+			Debug.Log("Garlan is no longer damaged.");
 		
-		_playerLocation = Vector3.zero;
-		_castingSingularity = false;
 		_action = GarlanSequenceActions.None;
+		_isDamaged = false;
+		_nextDecision = Time.time + DecisionTime;
 	}
 	
 	#endregion Behaviors
 	
 	#region Methods
+	
+	private void TurnAroundIfFacingWall()
+	{
+		// If I'm touching a wall, he's not the direction I'm facing.
+		// Turn around and move the other way.
+		if(! _movement.TouchingWall)
+			return;
+		
+		if(debugMode)
+			Debug.Log("I'm facing a wall...guess he's not this way.");
+		
+		_facingLeft = !_facingLeft;
+		DetermineDirection("Attack");
+	}
+	
+	private void FacePlayer()
+	{
+		if(debugMode)
+			Debug.Log("Charging the player!");
+		
+		_playerLocation = _sense.PlayerLocation.position;
+		_facingLeft = _playerLocation.x < transform.position.x;
+	}
+	
+	private void DetermineDirection(string motion)
+	{
+		string chargeDirection = _facingLeft ? "Left" : "Right";
+		_currentAnimation = String.Format("{0}-{1}", motion, chargeDirection);
+		
+		if(debugMode)
+			Debug.Log("Current animation: " + _currentAnimation);
+	}
+	
+	private void PerformMove()
+	{
+		if(_facingLeft)
+			_movement.MoveLeft();
+		else
+			_movement.MoveRight();
+	}
 	
 	#endregion Methods
 }
