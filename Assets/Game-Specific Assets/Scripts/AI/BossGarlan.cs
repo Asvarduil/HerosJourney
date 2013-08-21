@@ -13,10 +13,21 @@ public class BossGarlan : BossAI
 		None,
 		Seek,
 		Attack,
+		Block,
 		Jump
 	}
 	
 	#endregion Enumerations
+	
+	#region Structures
+	
+	public struct GarlanBehaviorRoll
+	{
+		public int probability;
+		public GarlanSequenceActions state;
+	}
+	
+	#endregion Structures
 	
 	#region Variables / Properties
 	
@@ -26,8 +37,16 @@ public class BossGarlan : BossAI
 	public string attackRight;
 	public string cast;
 	public float DecisionTime = 1.0f;
+	public List<GarlanBehaviorRoll> behaviorRolls;
+	
 	public float ChargeHaltRange = 0.5f;
 	
+	// For random block summoning...
+	public GameObject block;
+	public Vector2 topLeftBlockCoordinate;
+	public Vector3 bottomRightBlockCoordinate;
+	
+	// Private flags...
 	private bool _isDamaged = false;
 	private bool _isCharging = false;
 	private bool _facingLeft = false;
@@ -64,6 +83,9 @@ public class BossGarlan : BossAI
 			// ...If decided to charge...
 			new State(ChosenToCharge, ChargePlayer),
 			
+			// ...If decided to summon block...
+			new State(ChosenBlock, SummonBlock),
+			
 			// Must always be final, as it overrides all other actions.
 			new State(IsDamaged, BeDamaged)
 		});
@@ -91,6 +113,12 @@ public class BossGarlan : BossAI
 			   && _action == GarlanSequenceActions.Attack;
 	}
 	
+	private bool ChosenBlock()
+	{
+		return FightStarted
+			   && _action == GarlanSequenceActions.Block;
+	}
+	
 	private bool IsDamaged()
 	{
 		return _isDamaged;
@@ -102,6 +130,8 @@ public class BossGarlan : BossAI
 	
 	private void RollNewAction()
 	{
+		_isDamaged = false;
+		
 		// Are we still thinking about what to do?  If so,
 		// keep thinking, and show off that idle pose.
 		if(Time.time < _nextDecision)
@@ -123,13 +153,15 @@ public class BossGarlan : BossAI
 			
 		// So, we've thought it over, and can see the player.
 		// Decision time.
-		_isDamaged = false;
+		_action = GarlanSequenceActions.Attack;
 		int roll = Random.Range(1, 100);
-		switch(roll)
+		foreach(GarlanBehaviorRoll current in behaviorRolls)
 		{
-			default:
-				_action = GarlanSequenceActions.Attack;
+			if(roll < current.probability)
+			{
+				_action = current.state;
 				break;
+			}
 		}
 		
 		if(debugMode)
@@ -170,6 +202,23 @@ public class BossGarlan : BossAI
 			_action = GarlanSequenceActions.None;
 			_nextDecision = Time.time + DecisionTime;
 		}
+	}
+	
+	private void SummonBlock()
+	{
+		int randomX = Random.Range((int) topLeftBlockCoordinate.x, (int) bottomRightBlockCoordinate.x);
+		int randomY = Random.Range((int) bottomRightBlockCoordinate.x, (int) topLeftBlockCoordinate.y);
+		Vector3 newCoord = new Vector3(randomX, randomY, transform.position.z);
+		
+		if(debugMode)
+			Debug.Log("Summoning new block to " + newCoord);
+		
+		Instantiate(block, newCoord, Quaternion.identity);
+		
+		_action = GarlanSequenceActions.None;
+		_currentAnimation = "Attack-Left";   // TODO: Casting animation...
+		_isDamaged = false;
+		_nextDecision = Time.time + DecisionTime;
 	}
 	
 	private void BeDamaged()

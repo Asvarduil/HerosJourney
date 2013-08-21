@@ -30,7 +30,7 @@ public class BossAI : BaseAI
 	
 	#region Methods
 	
-	void PlayAnimations()
+	protected void PlayAnimations()
 	{
 		_sprite.PlaySingleFrame(_currentAnimation, false, AnimationMode.Loop);
 		_hitboxes.PlaySingleFrame(_currentAnimation, false, AnimationMode.Loop);
