@@ -4,37 +4,32 @@ using System.Collections.Generic;
 
 using Random = UnityEngine.Random;
 
+public enum GarlanSequenceActions
+{
+	None,
+	Seek,
+	Attack,
+	Block,
+	Jump
+}
+
+[Serializable]
+public struct GarlanBehaviorRoll
+{
+	public int probability;
+	public GarlanSequenceActions state;
+}
+
 public class BossGarlan : BossAI
 {
-	#region Enumerations
-	
-	public enum GarlanSequenceActions
-	{
-		None,
-		Seek,
-		Attack,
-		Block,
-		Jump
-	}
-	
-	#endregion Enumerations
-	
-	#region Structures
-	
-	public struct GarlanBehaviorRoll
-	{
-		public int probability;
-		public GarlanSequenceActions state;
-	}
-	
-	#endregion Structures
-	
 	#region Variables / Properties
 	
 	public string idleLeft;
 	public string idleRight;
 	public string attackLeft;
 	public string attackRight;
+	public string risingJump;
+	public string fallingJump;
 	public string cast;
 	public float DecisionTime = 1.0f;
 	public List<GarlanBehaviorRoll> behaviorRolls;
@@ -68,6 +63,13 @@ public class BossGarlan : BossAI
 		_sense = GetComponentInChildren<PlayerSense>();
 		_sprite = GetComponentInChildren<SpriteSystem>();
 		_hitboxes = GetComponentInChildren<HitboxController>();
+		
+		// Setup State Probabilities...
+		behaviorRolls = new List<GarlanBehaviorRoll> {
+			new GarlanBehaviorRoll{ probability = 100, state = GarlanSequenceActions.Attack },
+			new GarlanBehaviorRoll{ probability = 66, state = GarlanSequenceActions.Jump },
+			new GarlanBehaviorRoll{ probability = 33, state = GarlanSequenceActions.Block }
+		};
 		
 		// Setup FSM...
 		_states = new StateMachine(new List<State> {
@@ -255,7 +257,7 @@ public class BossGarlan : BossAI
 	private void FacePlayer()
 	{
 		if(debugMode)
-			Debug.Log("Charging the player!");
+			Debug.Log("Turning to face the player!");
 		
 		_playerLocation = _sense.PlayerLocation.position;
 		_facingLeft = _playerLocation.x < transform.position.x;

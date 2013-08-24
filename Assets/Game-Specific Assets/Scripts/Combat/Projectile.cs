@@ -37,6 +37,21 @@ public class Projectile : MonoBehaviour {
 	
 	public void OnTriggerEnter(Collider collider)
 	{	
+		ProjectileHit(collider);
+	}
+	
+	public void OnCollisionEnter(Collision collision)
+	{
+		Collider who = collision.collider;
+		ProjectileHit(collider);
+	}
+	
+	#endregion Engine Hooks
+	
+	#region Methods
+	
+	private void ProjectileHit(Collider collider)
+	{
 		if(DebugMode)
 			Debug.Log("Affected Entity: " + collider.name + " [Tag: " + collider.tag + "]");
 			
@@ -49,12 +64,11 @@ public class Projectile : MonoBehaviour {
 		Destroy(gameObject);
 	}
 	
-	#endregion Engine Hooks
-	
-	#region Methods
-	
 	private void CheckExpiration()
 	{
+		if(LifeTime == 0)
+			return;
+		
 		if(Time.time < _expireTime)
 			return;
 
