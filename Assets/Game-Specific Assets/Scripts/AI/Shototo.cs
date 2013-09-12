@@ -40,6 +40,7 @@ public class Shototo : MonoBehaviour
 	void Start() 
 	{
 		_snout = GetComponentInChildren<ProjectileProjector>();
+		_sense = GetComponentInChildren<PlayerSense>();
 		_movement = GetComponent<SidescrollingMovement>();
 		_sprite = GetComponentInChildren<SpriteSystem>();
 		

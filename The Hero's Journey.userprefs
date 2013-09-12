@@ -1,16 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\Scripts\Combat\Projectile.cs">
-    <Files>
-      <File FileName="Assets\Game-Specific Assets\Scripts\Combat\Projectile.cs" Line="47" Column="3" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\AI\BossGarlan.cs" Line="194" Column="17" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\AI\FightInitiator.cs" Line="1" Column="1" />
-      <File FileName="Assets\Side-Scrolling Controller\Scripts\SidescrollingMovement.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\AI\PlayerSense.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\AI\Slime.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\AI\BossAI.cs" Line="1" Column="1" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

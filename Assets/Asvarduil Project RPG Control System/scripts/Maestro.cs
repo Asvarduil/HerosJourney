@@ -82,6 +82,16 @@ public class Maestro : MonoBehaviour
 		audio.Play();
 	}
 	
+	public void NewTune(AudioClip newChart)
+	{
+		if(newChart == null)
+			throw new ArgumentNullException("newChart");
+		
+		audio.clip = newChart;
+		audio.time = 0.0f;
+		audio.Play();
+	}
+	
 	public void FadeIn()
 	{
 		audio.volume = 0.0f;

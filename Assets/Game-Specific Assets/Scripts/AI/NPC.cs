@@ -5,54 +5,59 @@ public class NPC : MonoBehaviour
 {
 	#region Variables / Properties
 	
-	public bool SensesPlayer;
-	public List<string> AllowedTags;
-	public string LeftAnimation;
-	public string RightAnimation;
-	public SpriteSystem Sprite;
+	public bool DebugMode = false;
+	public string LeftAnimation = "Left";
+	public string RightAnimation = "Right";
 	
-	public GameObject SensedEntity;
+	private string _animation;
+	private PlayerSense _sense;
+	private SpriteSystem _sprite;
 	
 	#endregion Variables / Properties
 	
 	#region Engine Hooks
 	
+	public void Start()
+	{
+		_sense = GetComponentInChildren<PlayerSense>();
+		_sprite = GetComponentInChildren<SpriteSystem>();
+	}
+	
 	public void FixedUpdate()
 	{
-		UpdateAnimation();
-	}
-	
-	public void OnTriggerEnter(Collider who)
-	{
-		if(! AllowedTags.Contains(who.tag))
+		if(! _sense.DetectedPlayer)
 			return;
 		
-		SensedEntity = who.gameObject;
-		UpdateAnimation();
-	}
-	
-	public void OnTriggerExit(Collider who)
-	{
-		if(! AllowedTags.Contains(who.tag))
-			return;
-		
-		SensedEntity = null;
+		_animation = DetermineFaceDirection();
+		_sprite.PlaySingleFrame(_animation, false, AnimationMode.Loop);
 	}
 	
 	#endregion Engine Hooks
 	
 	#region Methods
 	
-	public void UpdateAnimation()
+	public string DetermineFaceDirection()
 	{
-		if(SensedEntity == null)
-			return;
+		if(_sense.PlayerLocation == null)
+		{
+			if(DebugMode)
+				Debug.LogWarning("Player transform was not assigned by the player sensor!");
+			
+			return _animation;
+		}
 		
-		string animation = (SensedEntity.transform.position.x < transform.position.x)
-			? LeftAnimation
-			: RightAnimation;
+		if(_sense.PlayerLocation.position.x < transform.position.x)
+		{
+			if(DebugMode)
+				Debug.Log("Player is to the left of me!  Facing that way.");
+			
+			return LeftAnimation;
+		}
 		
-		Sprite.Play(animation);
+		if(DebugMode)
+			Debug.Log("Player is to the right of me!  Facing that way.");
+		
+		return RightAnimation;
 	}
 	
 	#endregion Methods

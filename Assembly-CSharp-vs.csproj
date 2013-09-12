@@ -95,8 +95,6 @@
      <Compile Include="Assets\Game-Specific Assets\GUI\Logos\LogoPresenter.cs" />
      <Compile Include="Assets\Game-Specific Assets\GUI\Title\TitleGUI.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\BossAI.cs" />
-     <Compile Include="Assets\Game-Specific Assets\Scripts\AI\BossGarlan.cs" />
-     <Compile Include="Assets\Game-Specific Assets\Scripts\AI\FightInitiator.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\NPC.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\PlayerSense.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\Shototo.cs" />
@@ -124,6 +122,7 @@
      <Compile Include="Assets\Game-Specific Assets\Scripts\Pickups\SkillPickup.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Pickups\SpawnLoot.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\Ambassador.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\System\BossRoomTrigger.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\EntitySpawner.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\HerosJourneyLeaderBoard.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\InitializationScenePass.cs" />

@@ -43,7 +43,7 @@ public class Projectile : MonoBehaviour {
 	public void OnCollisionEnter(Collision collision)
 	{
 		Collider who = collision.collider;
-		ProjectileHit(collider);
+		ProjectileHit(who);
 	}
 	
 	#endregion Engine Hooks

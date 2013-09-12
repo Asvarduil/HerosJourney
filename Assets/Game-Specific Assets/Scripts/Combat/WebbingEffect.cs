@@ -25,14 +25,14 @@ public class WebbingEffect : MonoBehaviour
 	
 	public void Update()
 	{
-		if(Time.time > _expirationTime)
-		{
-			if(DebugMode)
-				Debug.Log("This webbing has faded.  Restoring control to the entity.");
-			
-			_moveSystem.CanMove = true;
-			Destroy(gameObject);
-		}
+		if(Time.time < _expirationTime)
+			return;
+		
+		if(DebugMode)
+			Debug.Log("This webbing has faded.  Restoring control to the entity.");
+		
+		RestoreMovement();
+		Destroy(gameObject);
 	}
 	
 	public void OnTriggerStay(Collider who)
@@ -58,4 +58,14 @@ public class WebbingEffect : MonoBehaviour
 	}
 	
 	#endregion Engine Hooks
+	
+	#region Methods
+	
+	public void RestoreMovement()
+	{
+		if(_moveSystem != null)
+			_moveSystem.CanMove = true;
+	}
+	
+	#endregion Methods
 }
