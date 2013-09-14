@@ -34,6 +34,27 @@ div.wrapper {
 		#header nav li {
 			margin: 0 1em 0 1em;
 		}
+		
+		#header nav li.title  a {
+			margin: 0;
+			padding: 0;
+		
+			border: none;
+			background: none;
+			display: block;
+			
+			-webkit-box-shadow: none;
+			box-shadow: none;
+		}
+		
+			#header nav li.title  a:hover {
+			}	
+			
+			#header nav li.title  a:active {
+			}	
+			
+			#header nav li.title  a:visited {
+			}	
 
 		#header nav li.fork {
 			height: 3em;
@@ -41,7 +62,7 @@ div.wrapper {
 		}
 
 			#header nav li.fork a {
-				min-width: 7em;
+				min-width: 8em;
 				color: white;
 				border: 1px solid #5d910b;
 				background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #93bd20), color-stop(100%, #659e10));
