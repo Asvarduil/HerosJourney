@@ -41,7 +41,7 @@ div.wrapper {
 		}
 
 			#header nav li.fork a {
-				min-width: 8em;
+				min-width: 7em;
 				color: white;
 				border: 1px solid #5d910b;
 				background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #93bd20), color-stop(100%, #659e10));
