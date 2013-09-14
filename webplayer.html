@@ -64,11 +64,88 @@
 		</div>
 		
 		<div class='three-image-pane'>
-			
+			<div id="unityPlayer" class="float-left">
+				<div class="missing">
+					<a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now!">
+						<img alt="Unity Web Player. Install now!" src="http://webplayer.unity3d.com/installation/getunity.png" width="193" height="63" />
+					</a>
+				</div>
+			</div>
+			<div id="versionInfo" class="float-right">
+				<p>
+					<strong>Build Date:</strong> 8/16/2013<br />
+					<strong>Build Type:</strong> Development</br />
+					<strong>Notes:</strong><br />
+					<ul>
+						<li>Added interiors to houses in Manseles.</li>
+						<li>Minor bugfixes.</li>
+					</ul>
+				</p>
+			</div>
+			<div class='clearfix'></div>
 		</div>	
 
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
   </body>
+  
+  <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'></script>
+		<script type="text/javascript">
+		<!--
+		var unityObjectUrl = "http://webplayer.unity3d.com/download_webplayer-3.x/3.0/uo/UnityObject2.js";
+		if (document.location.protocol == 'https:')
+			unityObjectUrl = unityObjectUrl.replace("http://", "https://ssl-");
+		document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/script>');
+		-->
+		</script>
+		<script type="text/javascript">
+		<!--
+			var config = {
+				width: 640, 
+				height: 480,
+				params: { enableDebugging:"0" }
+				
+			};
+			config.params["disableContextMenu"] = true;
+			var u = new UnityObject2(config);
+			
+			jQuery(function() {
+
+				var $missingScreen = jQuery("#unityPlayer").find(".missing");
+				var $brokenScreen = jQuery("#unityPlayer").find(".broken");
+				$missingScreen.hide();
+				$brokenScreen.hide();
+
+				u.observeProgress(function (progress) {
+					switch(progress.pluginStatus) {
+						case "broken":
+							$brokenScreen.find("a").click(function (e) {
+								e.stopPropagation();
+								e.preventDefault();
+								u.installPlugin();
+								return false;
+							});
+							$brokenScreen.show();
+						break;
+						case "missing":
+							$missingScreen.find("a").click(function (e) {
+								e.stopPropagation();
+								e.preventDefault();
+								u.installPlugin();
+								return false;
+							});
+							$missingScreen.show();
+						break;
+						case "installed":
+							$missingScreen.remove();
+						break;
+						case "first":
+						break;
+					}
+				});
+				u.initPlugin(jQuery("#unityPlayer")[0], "./player/Hero's Journey - Web.unity3d");
+			});
+		-->
+		</script>
 </html>

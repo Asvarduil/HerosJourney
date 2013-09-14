@@ -16,6 +16,25 @@ div.wrapper {
 	max-width: 70%;
 }
 
+div#unityPlayer {
+	cursor: default;
+	width: 640px;
+	height: 480px;
+}
+
+div#versionInfo {
+	width: 15em;
+	text-align: left;
+	color: #333;
+	font-size: 1.1em;
+}
+
+	div#versionInfo ul {
+		list-style-image: none;
+		list-style-type: disc;
+		color: #333;
+	}
+
 #header {
 	height: 5.5em;
 	background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #555), color-stop(100%, #222));
