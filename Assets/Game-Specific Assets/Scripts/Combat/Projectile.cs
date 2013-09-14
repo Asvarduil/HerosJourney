@@ -49,6 +49,16 @@ public class Projectile : MonoBehaviour {
 	#endregion Engine Hooks
 	
 	#region Methods
+
+	public void RepelFrom(Vector3 point, float speed)
+	{
+		Vector3 newVelocity = point - transform.position;
+		
+		if(DebugMode)
+			Debug.Log ("Velocity on repel: " + newVelocity);
+		
+		Velocity = newVelocity * speed;
+	}
 	
 	private void ProjectileHit(Collider collider)
 	{

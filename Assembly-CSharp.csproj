@@ -107,6 +107,7 @@
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\CombatSkills.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\DamageSource.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\HealthSystem.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\ParriesBlueMagic.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\Projectile.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\ProjectileProjector.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\RepellingObject.cs" />
