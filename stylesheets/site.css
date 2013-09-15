@@ -9,6 +9,7 @@ h4,
 h5,
 h6 {
 	color: #333;
+	font-weight: bolder;
 }
 
 div.wrapper {
@@ -142,6 +143,28 @@ div#versionInfo {
 	.three-image-pane img {
 		width: 32%;
 	}
+	
+	.three-image-pane a {
+		color: #363;
+	}
+	
+		.three-image-pane a:hover {
+			color: #575;
+		}
+		
+		.three-image-pane a:active,
+		.three-image-pane a:visited {
+			color: #363;
+		}
+	
+	.three-image-pane .blog-entry {
+		color: #333;
+		text-align: left;
+	}
+	
+		.three-image-pane .blog-entry img {
+			width: initial;
+		}
 	
 .float-left {
 	display: inline-block;
