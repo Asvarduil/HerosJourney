@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -24,20 +25,28 @@ public class DamageSource : MonoBehaviour
 		_maestro = Maestro.DetectLastInstance();
 	}
 	
-	public void OnTriggerEnter(Collider collisionEvent)
+	public void OnTriggerEnter(Collider who)
 	{
-		if(! AffectedTags.Contains(collisionEvent.collider.tag))
+		bool willBeAffected = AffectedTags.Contains(who.tag);
+		if(DebugMode)
+		{
+			string debugMessage = String.Format("Game Object {0} with tag {1} {2} be affected.", 
+				                                who.name, who.tag, (willBeAffected ? "will" : "won't"));
+			Debug.Log(debugMessage);
+		}
+		
+		if(! willBeAffected)
 			return;
 		
 		if(DamageSound != null)
 			_maestro.PlaySoundEffect(DamageSound);
 		
 		if(DebugMode)
-			Debug.Log("Game Object: " + collisionEvent.gameObject.name + " was in the hitbox.");
+			Debug.Log("Game Object: " + who.name + " was in the hitbox.");
 		
-		RepelDamagedEntity(collisionEvent.gameObject);
-		collisionEvent.gameObject.SendMessage("TakeDamage", AttackPower, SendMessageOptions.DontRequireReceiver);
-		collisionEvent.gameObject.SendMessage("RepelAttacker", gameObject, SendMessageOptions.DontRequireReceiver);
+		RepelDamagedEntity(who.gameObject);
+		who.SendMessage("TakeDamage", AttackPower, SendMessageOptions.DontRequireReceiver);
+		who.SendMessage("RepelAttacker", gameObject, SendMessageOptions.DontRequireReceiver);
 	}
 	
 	#endregion Engine Hooks

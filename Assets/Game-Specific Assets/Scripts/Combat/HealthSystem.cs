@@ -39,6 +39,9 @@ public class HealthSystem : MonoBehaviour
 	
 	public void TakeDamage(int damage)
 	{
+		if(! enabled)
+			return;
+		
 		if(ShieldTookImpact())
 			return;
 		
@@ -61,6 +64,9 @@ public class HealthSystem : MonoBehaviour
 	
 	public void Heal(int amount)
 	{
+		if(!enabled)
+			return;
+		
 		if(DebugMode)
 			Debug.Log(gameObject.name + " was healed for " + amount);
 		

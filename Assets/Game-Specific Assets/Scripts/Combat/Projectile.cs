@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -37,11 +38,17 @@ public class Projectile : MonoBehaviour {
 	
 	public void OnTriggerEnter(Collider collider)
 	{	
+		if(DebugMode)
+			Debug.Log("Struck a trigger!");
+		
 		ProjectileHit(collider);
 	}
 	
 	public void OnCollisionEnter(Collision collision)
 	{
+		if(DebugMode)
+			Debug.Log("Struck a collider!");
+		
 		Collider who = collision.collider;
 		ProjectileHit(who);
 	}
@@ -63,7 +70,10 @@ public class Projectile : MonoBehaviour {
 	private void ProjectileHit(Collider collider)
 	{
 		if(DebugMode)
-			Debug.Log("Affected Entity: " + collider.name + " [Tag: " + collider.tag + "]");
+		{
+			string debugMessage = String.Format("Affected Entity: {0} [{1}]", collider.name, collider.tag);
+			Debug.Log(debugMessage);
+		}
 			
 		if(! AffectedTags.Contains(collider.tag))
 			return;

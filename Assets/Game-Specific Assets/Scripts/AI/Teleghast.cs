@@ -147,6 +147,8 @@ public class Teleghast : MonoBehaviour
 	
 	public void Disappear()
 	{
+		GameObject.Instantiate(TeleportEffect, transform.position, Quaternion.identity);
+		
 		PresentMe(false);
 		SetupNextActionTime(TeleportTime);
 	}
