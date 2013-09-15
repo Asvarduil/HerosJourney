@@ -166,6 +166,34 @@ div#versionInfo {
 			width: initial;
 		}
 	
+.accordion-header {
+	cursor: pointer;
+	
+	border: 1px solid #336;
+	border-radius: 0.25em;
+	padding: 0.25em;
+	
+	background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #58C), color-stop(100%, #36A));
+	background: -webkit-linear-gradient(#58C, #36A);
+	background: -moz-linear-gradient(#58C, #36A);
+	background: -o-linear-gradient(#58C, #36A);
+	background: -ms-linear-gradient(#58C, #36A);
+	background: linear-gradient(#58C, #36A);
+}
+
+.new-entry {
+	background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #CC5), color-stop(100%, #AA3));
+	background: -webkit-linear-gradient(#CC5, #AA3);
+	background: -moz-linear-gradient(#CC5, #AA3);
+	background: -o-linear-gradient(#CC5, #AA3);
+	background: -ms-linear-gradient(#CC5, #AA3);
+	background: linear-gradient(#CC5, #AA3);
+}
+		
+.hidden {
+	display: none;
+}
+	
 .float-left {
 	display: inline-block;
 	float: left;
