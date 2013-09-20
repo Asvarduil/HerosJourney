@@ -62,10 +62,12 @@ public class AsvarduilButton : TweenableElement, IClickable
 			throw new ArgumentException("Buttons require text to be shown.");
 		}
 		
+		if(! IsInteractable)
+			return false;
+		
 		GUI.depth = Layer;
 		GUI.color = Tint;
-		Rect buttonRect = new Rect(Position.x, Position.y, 
-			                       Dimensions.x, Dimensions.y);
+		Rect buttonRect = GetElementRect(Dimensions);
 		
 		bool result;
 		if(Tooltip != null)

@@ -46,6 +46,9 @@ public class AsvarduilSlider : TweenableElement
 	
 	public float IsMoved()
 	{
+		if(!IsInteractable)
+			return Value;
+		
 		Label.DrawMe();
 		
 		GUI.depth = Layer;

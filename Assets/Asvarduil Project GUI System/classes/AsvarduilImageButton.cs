@@ -59,6 +59,9 @@ public class AsvarduilImageButton : TweenableElement, IClickable
 		if(Image == null)
 			return false;
 		
+		if(! IsInteractable)
+			return false;
+		
 		GUI.depth = Layer;
 		GUI.color = Tint;
 		Rect buttonRect = GetElementRect(Dimensions);

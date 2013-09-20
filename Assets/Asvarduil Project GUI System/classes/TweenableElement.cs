@@ -6,6 +6,12 @@ using System.Collections;
 /// </summary>
 public abstract class TweenableElement : AsvarduilGUICore, ITweenable
 {
+	#region Constants
+	
+	protected float AlphaHiddenThreshold = 0.1f;
+	
+	#endregion Constants
+	
 	#region Variables
 	
 	/// <summary>
@@ -24,6 +30,15 @@ public abstract class TweenableElement : AsvarduilGUICore, ITweenable
 	/// 1 causes the element to instantaneously relocate.
 	/// </summary>
 	public float TweenRate;
+	
+	/// <summary>
+	/// Determines if the control is interactable by checking the alpha;
+	/// a fully faded control is not interactable.
+	/// </summary>
+	/// <value>
+	/// <c>true</c> if this instance is interactable; otherwise, <c>false</c>.
+	/// </value>
+	public bool IsInteractable 	{ get { return TargetTint.a > AlphaHiddenThreshold; } }
 	
 	#endregion Variables
 	

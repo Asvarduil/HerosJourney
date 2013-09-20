@@ -45,6 +45,9 @@ public class AsvarduilCheckbox : TweenableElement
 			throw new ArgumentException("Checkboxes require text to be shown.");
 		}
 		
+		if(! IsInteractable)
+			return false;
+		
 		GUI.depth = Layer;
 		GUI.color = Tint;
 		

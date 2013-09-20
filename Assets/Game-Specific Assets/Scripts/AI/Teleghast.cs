@@ -137,7 +137,7 @@ public class Teleghast : MonoBehaviour
 		float newVelocity = _facingLeft ? absoluteVelocity : -absoluteVelocity;
 		
 		guidance.Velocity.x = newVelocity;
-		guidance.active = true;
+		guidance.enabled = true;
 	}
 	
 	public void WatchTheBolt()
