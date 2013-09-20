@@ -7,6 +7,10 @@ public class TitleGUI : MonoBehaviour
 	#region Variables / Properties
 	
 	public bool DrawElements = true;
+	
+	public string NewGameScene;
+	public Vector3 NewGameTransform;
+	
 	public MainForm MainForm;
 	public LocalSettingsForm SettingsForm;
 	public LoadGameForm LoadGameForm;
@@ -50,6 +54,8 @@ public class TitleGUI : MonoBehaviour
 			
 			case MainForm.Feedback.NewGame:
 				MainForm.SetVisibility(false);
+				_transition.PrepareTransition(NewGameTransform, Vector3.zero, NewGameScene);
+				_transition.ChangeScenes();
 				break;
 			
 			case MainForm.Feedback.LoadGame:
