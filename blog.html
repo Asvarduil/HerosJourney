@@ -66,6 +66,28 @@
 		
 		<div id='blog-accordion' class='three-image-pane'>
 			<div class='blog-entry accordion-header new-entry'>
+				<h3 class='float-left'>Week 25</h3>
+				<h6 class='float-right'>22 September 2013</h6>
+				<div class='clearfix'></div>
+			</div>
+			<div class='blog-entry accordion-content hidden'>
+				<p>This week, some less-glamorous, but totally necessary work was done on the game.</p>
+				
+				<h4>I hereby grant you a title.</h4>
+				<p>I've been working on the startup sequence of the game.  By 'startup sequence', I'm referring to the startup scene, that prepares everything, as well as the Title Screen which is the player's initial access point to the game.</p>
+				
+				<p>One of the lessons learned earlier in my dev cycle is that my GUI needs to scale well to the aspect ratio of the screen the player is playing on; sure, I could attempt to force the player to play my game in 640x480 resolution, but what about people with widescreen?  Sadly, it's a problem I'm still solving; while my buttons, sliders, checkboxes, labels, and various other GUI controls all work as they 'should', images, which form the backdrops for most of these controls are generally just images, and images aren't behaving in my relative setup.</p>
+				
+				<h4>I've been saved!</h4>
+				<p>The other thing I've been working on is the save and load system.  Not glamorous, filled with cool visual effects, but it's a necessity - people have to stop playing my game sometime, even as short as my game is.  Fortunately, my setup allows me to keep track of what the player does and does not have; all I'm working on are good ways to save the file correctly under the correct circumstances; Android devices will require special permissions, PC can save to a specific location, webplayer can't save at all thanks to Unity's security model for webplayer.</p>
+				
+				<p>When development gets significantly closer to completion, I'll be asking for volunteers to test the Save/Load system.  Until then, just realize that I've got it in and am testing it in-house.</p>
+				
+				<h4>Speaking of, player?</h4>
+				<p>No, not this week; I'm working on the back end concerns, and making sure my preview build can show off the title screen without trying to do things that can't be done.</p>
+			</div>
+			
+			<div class='blog-entry accordion-header'>
 				<h3 class='float-left'>Week 24</h3>
 				<h6 class='float-right'>15 September 2013</h6>
 				<div class='clearfix'></div>
