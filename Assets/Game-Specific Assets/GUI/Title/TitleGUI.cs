@@ -18,6 +18,7 @@ public class TitleGUI : MonoBehaviour
 	// Private elements
 	private Maestro _maestro;
 	private Ambassador _ambassador;
+	private SaveFileAccess _saveFileAccess;
 	private TransitionManager _transition;
 	
 	#endregion Variables / Properties
@@ -29,6 +30,7 @@ public class TitleGUI : MonoBehaviour
 		_maestro = Maestro.DetectLastInstance();
 		_ambassador = Ambassador.Instance;
 		_transition = TransitionManager.Instance;
+		_saveFileAccess = _ambassador.gameObject.GetComponent<SaveFileAccess>();
 		
 		MainForm.Initialize(_maestro);
 		SettingsForm.Initialize(_maestro);
@@ -54,8 +56,7 @@ public class TitleGUI : MonoBehaviour
 			
 			case MainForm.Feedback.NewGame:
 				MainForm.SetVisibility(false);
-				_transition.PrepareTransition(NewGameTransform, Vector3.zero, NewGameScene);
-				_transition.ChangeScenes();
+				NewGame();
 				break;
 			
 			case MainForm.Feedback.LoadGame:
@@ -89,7 +90,14 @@ public class TitleGUI : MonoBehaviour
 			
 			case LoadGameForm.Feedback.Load:
 				LoadGameForm.SetVisibility(false);
-				// TODO: Implement.
+				if(_saveFileAccess.LoadFileIntoAmbassador())
+				{
+					_transition.ChangeScenes();
+				}
+				else
+				{
+					NewGame();
+				}
 				break;
 			
 			default:
@@ -107,6 +115,12 @@ public class TitleGUI : MonoBehaviour
 	#endregion Engine Hooks
 	
 	#region Methods
+	
+	private void NewGame()
+	{
+		_transition.PrepareTransition(NewGameTransform, Vector3.zero, NewGameScene);
+		_transition.ChangeScenes();
+	}
 	
 	#endregion Methods
 }
