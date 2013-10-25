@@ -1,7 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
+using System;
 using System.Collections;
 
-public class Door : MonoBehaviour 
+public class SceneTeleporter : MonoBehaviour 
 {
 	#region Variables / Properties
 	
@@ -9,9 +10,10 @@ public class Door : MonoBehaviour
 	public string AffectedTag = "Player";
 	public GUISkin Skin;	
 	public FloatingButton EnterButton;
-	public string SceneName;
 	public Vector3 ScenePosition;
+	public GameObject TeleportEffect;
 	
+	private GameObject _target;
 	private bool _showGUI = false;
 	private TransitionManager _sceneChange;
 	
@@ -49,6 +51,7 @@ public class Door : MonoBehaviour
 		if(who.tag != AffectedTag)
 			return;
 		
+		_target = who.gameObject;
 		_showGUI = true;
 	}
 	
@@ -57,6 +60,7 @@ public class Door : MonoBehaviour
 		if(who.tag != AffectedTag)
 			return;
 		
+		_target = null;
 		_showGUI = false;
 	}
 	
@@ -65,15 +69,14 @@ public class Door : MonoBehaviour
 	#region Methods
 	
 	private void CheckIfTransitionOccurred()
-	{		
-		if(DebugMode)
-		{
-			Debug.Log("Executing scene transition from Door: " + gameObject.name);
-			Debug.Log("Transitioning to: " + SceneName + " at " + ScenePosition);
-		}
+	{	
+		if(_target == null)
+			throw new Exception("No game object to teleport!");
 		
-		_sceneChange.PrepareTransition(ScenePosition, Vector3.zero, SceneName);
-		_sceneChange.ChangeScenes();
+		var fromEffect = GameObject.Instantiate(TeleportEffect, _target.transform.position, Quaternion.identity);
+		var toEffect = GameObject.Instantiate(TeleportEffect, ScenePosition, Quaternion.identity);
+		
+		_target.transform.position = ScenePosition;
 	}
 	
 	#endregion Methods
