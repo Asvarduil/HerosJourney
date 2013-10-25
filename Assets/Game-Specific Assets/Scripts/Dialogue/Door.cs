@@ -13,6 +13,7 @@ public class Door : MonoBehaviour
 	public Vector3 ScenePosition;
 	
 	private bool _showGUI = false;
+	private Fader _fader;
 	private TransitionManager _sceneChange;
 	
 	#endregion Variables / Properties
@@ -21,6 +22,7 @@ public class Door : MonoBehaviour
 	
 	public void Start()
 	{
+		_fader = (Fader) FindObjectOfType(typeof(Fader));
 		_sceneChange = TransitionManager.Instance;
 	}
 	
@@ -35,7 +37,7 @@ public class Door : MonoBehaviour
 			if(DebugMode)
 				Debug.Log("Enter button was clicked for Door: " + gameObject.name);
 			
-			CheckIfTransitionOccurred();
+			StartCoroutine(CheckIfTransitionOccurred());
 		}
 	}
 	
@@ -64,12 +66,18 @@ public class Door : MonoBehaviour
 	
 	#region Methods
 	
-	private void CheckIfTransitionOccurred()
+	private IEnumerator CheckIfTransitionOccurred()
 	{		
 		if(DebugMode)
 		{
 			Debug.Log("Executing scene transition from Door: " + gameObject.name);
 			Debug.Log("Transitioning to: " + SceneName + " at " + ScenePosition);
+		}
+		
+		_fader.FadeOut();
+		while(_fader.ScreenShown)
+		{
+			yield return 0;
 		}
 		
 		_sceneChange.PrepareTransition(ScenePosition, Vector3.zero, SceneName);
