@@ -63,11 +63,11 @@ public class PlayerControl : MonoBehaviour
 		
 		CheckHorizontal();
 		CheckCrouching();
-		CheckOverthrust();
-		CheckUnderthrust();
 		
 		MoveCharacter();
 		PerformJump();
+		CheckOverthrust();
+		CheckUnderthrust();
 		
 		CheckAttack();
 		CheckInjured();
@@ -170,29 +170,35 @@ public class PlayerControl : MonoBehaviour
 	}
 	
 	private void CheckOverthrust()
-	{
-		if(! canOverthrust)
-			return;
-		
-		if(InputIsDead(_verticalInput)
+	{	
+		if(! canOverthrust
+		   || InputIsDead(_verticalInput)
 		   || InputIsNegative(_verticalInput))
 			return;
-		
+				
 		if(isJumping)
+		{
+			if(DebugMode)
+				Debug.Log("Performing Overthrust!");
+			
 			_currentSequence = overCut;
+		}
 	}
 	
 	private void CheckUnderthrust()
 	{
-		if(! canUnderthrust)
-			return;
-		
-		if(InputIsDead(_verticalInput)
+		if(! canUnderthrust
+		   || InputIsDead(_verticalInput)
 		   || InputIsPositive(_verticalInput))
 			return;
 		
 		if(isJumping)
+		{
+			if(DebugMode)
+				Debug.Log("Performing Underthrust!");
+			
 			_currentSequence = underCut;
+		}
 	}
 	
 	private void CheckInjured()
