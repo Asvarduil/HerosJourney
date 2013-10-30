@@ -153,10 +153,12 @@
      <Compile Include="Assets\Sprite System\AnimationBase.cs" />
      <Compile Include="Assets\Sprite System\HitboxController.cs" />
      <Compile Include="Assets\Sprite System\SpriteSystem.cs" />
+     <Compile Include="Assets\WooglieAPI\Plugins\WoogliePiracyProtection.cs" />
      <Compile Include="Assets\dreamlo\LeaderBoardSample.cs" />
      <Compile Include="Assets\dreamlo\dreamloLeaderBoard.cs" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
      <None Include="Assets\dreamlo\README_FIRST.txt" />
+     <None Include="Assets\WooglieAPI\Settings\settings.txt" />
      <None Include="Assets\LitJson\license.txt" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
      <None Include="Assets\Plugins\Android\res\values\strings.xml" />
@@ -165,6 +167,7 @@
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Lighted.shader" />
      <None Include="Assets\Plugins\Android\res\layout\main.xml" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
+     <None Include="Assets\WooglieAPI\README.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass-vs.csproj">
