@@ -8,11 +8,31 @@ public class SidescrollingCamera : MonoBehaviour
 	
 	public bool DebugMode = false;
 	
-	public bool followEntity = true;
-	public GameObject trackedEntity;
+	public bool FollowEntity = true;
+	public GameObject TrackedEntity;
+	public string TrackedTag = "Player";
 	public Vector3 offset;
 	public Vector3 floatSpeed;
 	public Vector3 rotation;
+	
+	public bool PlayerNoLongerExists 
+	{ 
+		get 
+		{ 
+			bool result = false; 
+			
+			try
+			{
+				result = TrackedEntity == null;
+			}
+			catch(MissingReferenceException)
+			{
+				result = true;
+			}
+			
+			return result;	
+		}
+	}
 	
 	#endregion Variables / Properties
 	
@@ -23,9 +43,10 @@ public class SidescrollingCamera : MonoBehaviour
 		if(DebugMode)
 			Debug.Log("Initial Rotation: " + transform.rotation.eulerAngles + Environment.NewLine);
 		
-		float startX = trackedEntity.transform.position.x + offset.x;
-		float startY = trackedEntity.transform.position.y + offset.y;
-		float startZ = trackedEntity.transform.position.z + offset.z;
+		TrackedEntity = GameObject.FindGameObjectWithTag(TrackedTag);
+		float startX = TrackedEntity.transform.position.x + offset.x;
+		float startY = TrackedEntity.transform.position.y + offset.y;
+		float startZ = TrackedEntity.transform.position.z + offset.z;
 		
 		transform.position = new Vector3(startX, startY, startZ);
 		transform.rotation = Quaternion.Euler(rotation);
@@ -39,20 +60,20 @@ public class SidescrollingCamera : MonoBehaviour
 	
 	public void Update()
 	{
-		if(! followEntity)
+		if(! FollowEntity)
 			return;
 		
-		if(trackedEntity == null)
+		if(PlayerNoLongerExists)
 			return;
 		
 		float newX = Mathf.Lerp(transform.position.x, 
-			                    trackedEntity.transform.position.x + offset.x, 
+			                    TrackedEntity.transform.position.x + offset.x, 
 			                    Time.deltaTime * floatSpeed.x);
 		float newY = Mathf.Lerp(transform.position.y, 
-			                    trackedEntity.transform.position.y + offset.y, 
+			                    TrackedEntity.transform.position.y + offset.y, 
 			                    Time.deltaTime * floatSpeed.y);
 		float newZ = Mathf.Lerp(transform.position.z,
-			                    trackedEntity.transform.position.z + offset.z,
+			                    TrackedEntity.transform.position.z + offset.z,
 								Time.deltaTime * floatSpeed.z);
 		Vector3 target = new Vector3(newX, newY, newZ);
 		
@@ -62,7 +83,7 @@ public class SidescrollingCamera : MonoBehaviour
 		{
 			Debug.Log("Rotation: " + transform.rotation.eulerAngles + Environment.NewLine
 				      + "Position: " + transform.position + Environment.NewLine
-				      + "Distance From Player: " + Vector3.Distance(transform.position, trackedEntity.transform.position));
+				      + "Distance From Player: " + Vector3.Distance(transform.position, TrackedEntity.transform.position));
 		}
 	}
 	

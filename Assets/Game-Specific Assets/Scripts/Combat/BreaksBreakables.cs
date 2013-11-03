@@ -25,6 +25,11 @@ public class BreaksBreakables : MonoBehaviour
 	public string ItemName;
 	public List<string> BreakableItemTags;
 	
+	public bool CanBreakBreakables
+	{
+		get { return _ambassador.HasItem(ItemName); }
+	}
+	
 	private DamageSource _damageSource;
 	private Ambassador _ambassador;
 	
@@ -48,7 +53,7 @@ public class BreaksBreakables : MonoBehaviour
 			return;
 		}
 		
-		if(_ambassador.HasItem(ItemName))
+		if(CanBreakBreakables)
 		{
 			if(DebugMode)
 				Debug.Log("This damage trigger can break breakable objects.");

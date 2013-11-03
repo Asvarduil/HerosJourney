@@ -7,11 +7,15 @@ public class ParriesBlueMagic : MonoBehaviour
 	#region Variables / Properties
 	
 	public bool DebugMode = false;
-	public bool DeflectsBlueMagic = false;
 	public AudioClip DeflectSound;
 	public string ItemName = "Hero's Hilt";
 	public string DeflectedTarget = "Enemy";
 	public List<string> DefendableItemTags = new List<string>{"Blue Magic"};
+	
+	public bool DeflectsBlueMagic 
+	{ 
+		get { return _ambassador.HasItem(ItemName); } 
+	}
 	
 	private Ambassador _ambassador;
 	private Maestro _maestro;
@@ -34,10 +38,8 @@ public class ParriesBlueMagic : MonoBehaviour
 			return;
 		}
 		
-		bool hasItem = _ambassador.HasItem(ItemName);
-		DeflectsBlueMagic = hasItem;
 		if(DebugMode)
-			Debug.Log("This weapon " + (hasItem ? "can" : "can't") + " repel Blue Magic.");	
+			Debug.Log("This weapon " + (DeflectsBlueMagic ? "can" : "can't") + " repel Blue Magic.");	
 	}
 	
 	public void OnTriggerEnter(Collider who)

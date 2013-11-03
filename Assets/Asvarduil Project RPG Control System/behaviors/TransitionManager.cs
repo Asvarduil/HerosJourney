@@ -65,14 +65,7 @@ public class TransitionManager : ManagerMonoBehavior
 	}
 	
 	public void ChangeScenes()
-	{
-		// If it's an intra-level transition, skip the App.LoadLevel calls!
-		if(targetSceneID == Application.loadedLevel
-		   || targetSceneName == Application.loadedLevelName)
-		{
-			throw new ApplicationException("Change Scenes should only be used for scene transitions!");
-		}
-		
+	{	
 		if(targetSceneID == -1)
 		{
 			Application.LoadLevel(targetSceneName);

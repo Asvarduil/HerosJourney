@@ -67,7 +67,7 @@ public class SceneSpawner : MonoBehaviour
 		
 		var sideCam = (SidescrollingCamera) GameObject.FindObjectOfType(typeof(SidescrollingCamera));
 		if(sideCam != null)
-			sideCam.trackedEntity = player;
+			sideCam.TrackedEntity = player;
 	}
 	
 	#endregion Methods

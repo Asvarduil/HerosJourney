@@ -26,7 +26,7 @@ public class CameraFreezeTrigger : MonoBehaviour
 		if(debugMode)
 			Debug.Log("A player has entered the cam freeze trigger.");
 		
-		_cam.followEntity = false;
+		_cam.FollowEntity = false;
 	}
 	
 	public void OnTriggerExit(Collider who)
@@ -37,7 +37,7 @@ public class CameraFreezeTrigger : MonoBehaviour
 		if(debugMode)
 			Debug.Log("A player has left the cam freeze trigger.");
 		
-		_cam.followEntity = true;
+		_cam.FollowEntity = true;
 	}
 	
 	#endregion Engine Hooks

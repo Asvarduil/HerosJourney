@@ -109,6 +109,7 @@
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\DamageSource.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\HealthSystem.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\ParriesBlueMagic.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\PlayerDeathLevelReloader.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\Projectile.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\ProjectileProjector.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\RepellingObject.cs" />
@@ -126,6 +127,7 @@
      <Compile Include="Assets\Game-Specific Assets\Scripts\Pickups\SpawnLoot.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\Ambassador.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\BossRoomTrigger.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\System\CloneKiller.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\EntitySpawner.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\HerosJourneyLeaderBoard.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\InitializationScenePass.cs" />
