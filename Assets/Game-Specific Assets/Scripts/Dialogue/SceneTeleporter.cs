@@ -15,16 +15,10 @@ public class SceneTeleporter : MonoBehaviour
 	
 	private GameObject _target;
 	private bool _showGUI = false;
-	private TransitionManager _sceneChange;
 	
 	#endregion Variables / Properties
 	
 	#region Engine Hooks
-	
-	public void Start()
-	{
-		_sceneChange = TransitionManager.Instance;
-	}
 	
 	public void OnGUI()
 	{
@@ -73,8 +67,8 @@ public class SceneTeleporter : MonoBehaviour
 		if(_target == null)
 			throw new Exception("No game object to teleport!");
 		
-		var fromEffect = GameObject.Instantiate(TeleportEffect, _target.transform.position, Quaternion.identity);
-		var toEffect = GameObject.Instantiate(TeleportEffect, ScenePosition, Quaternion.identity);
+		GameObject.Instantiate(TeleportEffect, _target.transform.position, Quaternion.identity);
+		GameObject.Instantiate(TeleportEffect, ScenePosition, Quaternion.identity);
 		
 		_target.transform.position = ScenePosition;
 	}

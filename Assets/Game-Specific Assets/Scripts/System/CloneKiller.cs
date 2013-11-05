@@ -16,17 +16,24 @@ public class CloneKiller : MonoBehaviour
 	
 	public void OnLevelWasLoaded()
 	{
+		TurnOffCloneProduction();
 		RemoveAllClones();
 	}
 	
 	public void OnApplicationQuit()
 	{
+		TurnOffCloneProduction();
 		RemoveAllClones();
 	}
 	
 	#endregion Engine Hooks
 	
 	#region Methods
+	
+	public void TurnOffCloneProduction()
+	{
+		SpawnLoot.StopSpawningLoot();
+	}
 	
 	public void RemoveAllClones()
 	{

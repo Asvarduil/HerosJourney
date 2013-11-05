@@ -8,6 +8,7 @@ public class SpawnLoot : MonoBehaviour
 {
 	#region Variables / Properties
 	
+	public bool CanSpawnItems = true;
 	public List<LootTableItem> PossibleLoots;
 	
 	#endregion Variables / Properties
@@ -16,6 +17,9 @@ public class SpawnLoot : MonoBehaviour
 	
 	public void OnDestroy()
 	{
+		if(! CanSpawnItems)
+			return;
+		
 		GameObject dropLoot = null;
 		foreach(var current in PossibleLoots)
 		{
@@ -31,6 +35,19 @@ public class SpawnLoot : MonoBehaviour
 	}
 	
 	#endregion Engine Hooks
+	
+	#region Methods
+	
+	public static void StopSpawningLoot()
+	{	
+		IEnumerable<SpawnLoot> lootSpawners = (SpawnLoot[]) GameObject.FindObjectsOfType(typeof(SpawnLoot));
+		foreach(var currentSpawner in lootSpawners)
+		{
+			currentSpawner.CanSpawnItems = false;
+		}
+	}
+	
+	#endregion Methods
 }
 
 [Serializable]
