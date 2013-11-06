@@ -26,7 +26,8 @@ public class SwitchDespawner : MonoBehaviour
 		if(DebugMode)
 			Debug.Log(String.Format("{0} was pressed.  Despawning {1}!", Switch.gameObject.name, gameObject.name));
 		
-		Destroy(gameObject);
+		//Destroy(gameObject);
+		gameObject.SetActiveRecursively(false);
 	}
 	
 	#endregion Engine Hooks
