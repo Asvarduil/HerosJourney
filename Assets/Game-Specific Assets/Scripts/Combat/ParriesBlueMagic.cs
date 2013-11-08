@@ -45,6 +45,7 @@ public class ParriesBlueMagic : MonoBehaviour
 	public void OnTriggerEnter(Collider who)
 	{	
 		bool isDeflectableObject = DefendableItemTags.Contains(who.tag);
+		
 		if(! DeflectsBlueMagic
 		   || ! isDeflectableObject)
 		{
