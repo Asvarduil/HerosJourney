@@ -44,9 +44,18 @@ public class ParriesBlueMagic : MonoBehaviour
 	
 	public void OnTriggerEnter(Collider who)
 	{	
+		bool isDeflectableObject = DefendableItemTags.Contains(who.tag);
 		if(! DeflectsBlueMagic
-		   || ! DefendableItemTags.Contains(who.tag))
+		   || ! isDeflectableObject)
+		{
+			if(DebugMode)
+			{
+				Debug.Log("This weapon " + (DeflectsBlueMagic ? "can" : "cannot") + "deflect Blue Magic.");
+				Debug.Log("GameObject " + who.gameObject.name + " " + (isDeflectableObject ? "is" : "is not") + " a deflectable object.");
+			}
+			
 			return;
+		}
 		
 		if(DeflectSound != null)
 			_maestro.PlaySoundEffect(DeflectSound);
