@@ -94,6 +94,7 @@
      <Compile Include="Assets\Game-Specific Assets\GUI\Health\PlayerHealthProvider.cs" />
      <Compile Include="Assets\Game-Specific Assets\GUI\Logos\LogoPresenter.cs" />
      <Compile Include="Assets\Game-Specific Assets\GUI\Title\TitleGUI.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\AI\Barbariccia.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\BossAI.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\NPC.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\PlayerSense.cs" />
