@@ -1,15 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\Scripts\AI\Barbariccia.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Asvarduil Project RPG Control System\scripts\SoundEffectVolumeFromSettings.cs">
     <Files>
-      <File FileName="Assets\Game-Specific Assets\Scripts\AI\Barbariccia.cs" Line="23" Column="2" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\AI\Teleghast.cs" Line="26" Column="1" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\Combat\ParriesBlueMagic.cs" Line="18" Column="3" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\AI\Shototo.cs" Line="1" Column="1" />
+      <File FileName="Assets\Asvarduil Project RPG Control System\scripts\SoundEffectVolumeFromSettings.cs" Line="4" Column="54" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\AI\Barbariccia.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\AI\Teleghast.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\Combat\ParriesBlueMagic.cs" Line="1" Column="1" />
       <File FileName="Assets\Game-Specific Assets\Scripts\System\SwitchDespawner.cs" Line="1" Column="1" />
       <File FileName="Assets\Game-Specific Assets\Scripts\Pickups\SpawnLoot.cs" Line="1" Column="1" />
       <File FileName="Assets\Game-Specific Assets\Scripts\System\CloneKiller.cs" Line="1" Column="1" />
       <File FileName="Assets\Game-Specific Assets\Scripts\System\HerosJourneyLeaderBoard.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\AI\Shototo.cs" Line="1" Column="1" />
+      <File FileName="Assets\Asvarduil Project RPG Control System\classes\Settings.cs" Line="4" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

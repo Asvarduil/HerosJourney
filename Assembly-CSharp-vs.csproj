@@ -81,11 +81,13 @@
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\MapSpeechTrigger.cs" />
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\MasterMaterialAssigner.cs" />
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\MeshCombiner.cs" />
+     <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\MusicVolumeFromSettings.cs" />
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\RPGCamera.cs" />
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\SceneDespawner.cs" />
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\SceneSpawner.cs" />
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\SceneTransition.cs" />
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\SenseEntities.cs" />
+     <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\SoundEffectVolumeFromSettings.cs" />
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\Teleporter.cs" />
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\Waypoint.cs" />
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\WaypointMapAI.cs" />
