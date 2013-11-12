@@ -12,7 +12,7 @@ public class SettingsGUI : MonoBehaviour
 	public GUISkin skin;
 	public AudioClip ButtonSound;
 	
-	public SettingsForm SettingsForm;
+	public OldSettingsForm SettingsForm;
 	
 	private Maestro _Maestro;
 	public Maestro MyMaestro

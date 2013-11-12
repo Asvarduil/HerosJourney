@@ -12,7 +12,7 @@ public class TitleGUI : MonoBehaviour
 	public Vector3 NewGameTransform;
 	
 	public MainForm MainForm;
-	public LocalSettingsForm SettingsForm;
+	public SettingsForm SettingsForm;
 	public LoadGameForm LoadGameForm;
 	
 	// Private elements
@@ -71,7 +71,7 @@ public class TitleGUI : MonoBehaviour
 		SettingsForm.DrawMe();		
 		switch(SettingsForm.FormResult)
 		{
-			case LocalSettingsForm.Feedback.Back:
+			case SettingsForm.Feedback.Back:
 				SettingsForm.SetVisibility(false);
 				MainForm.SetVisibility(true);
 				break;
@@ -222,7 +222,7 @@ public class MainForm : AsvarduilForm
 			_maestro.PlaySoundEffect(ButtonSound);
 	}
 	
-	public override void Tween ()
+	public override void Tween()
 	{
 		SplashBackground.Tween();
 		TitlePane.Tween();
@@ -235,7 +235,7 @@ public class MainForm : AsvarduilForm
 }
 
 [Serializable]
-public class LocalSettingsForm : AsvarduilForm
+public class SettingsForm : AsvarduilForm
 {
 	#region Enumerations
 	
@@ -249,7 +249,7 @@ public class LocalSettingsForm : AsvarduilForm
 	
 	#region Constructor
 	
-	public LocalSettingsForm(AsvarduilImage background, AsvarduilLabel label) 
+	public SettingsForm(AsvarduilImage background, AsvarduilLabel label) 
 		: base(background, label)
 	{
 	}

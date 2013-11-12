@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 
 [Serializable]
-public class SettingsForm : AsvarduilForm
+public class OldSettingsForm : AsvarduilForm
 {
 	#region Variables / Properties
 	
@@ -22,7 +22,7 @@ public class SettingsForm : AsvarduilForm
 	
 	#region Constructor
 	
-	public SettingsForm(AsvarduilImage bg, AsvarduilLabel winName)
+	public OldSettingsForm(AsvarduilImage bg, AsvarduilLabel winName)
 		: base(bg, winName)
 	{
 	}
