@@ -14,5 +14,10 @@ public class SoundEffectVolumeFromSettings : MonoBehaviour
 		audio.volume = Settings.musVolume;
 	}
 	
+	public void Update()
+	{
+		audio.volume = Settings.musVolume;
+	}
+	
 	#endregion Engine Hooks
 }

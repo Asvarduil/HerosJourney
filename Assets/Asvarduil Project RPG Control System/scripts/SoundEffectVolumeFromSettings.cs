@@ -14,5 +14,10 @@ public class MusicVolumeFromSettings : MonoBehaviour
 		audio.volume = Settings.sfxVolume;
 	}
 	
+	public void Update()
+	{
+		audio.volume = Settings.sfxVolume;
+	}
+	
 	#endregion Engine Hooks
 }

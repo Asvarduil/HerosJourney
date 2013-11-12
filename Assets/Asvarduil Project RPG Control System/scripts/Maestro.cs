@@ -28,12 +28,12 @@ public class Maestro : MonoBehaviour
 	
 	#region Engine Hooks
 	
-	void Start()
+	void Awake()
 	{
 		FadeIn();
 	}
 	
-	void FixedUpdate()
+	void Update()
 	{
 		if(IsFading)
 		{			
