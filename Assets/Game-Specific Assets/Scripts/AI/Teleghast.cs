@@ -4,11 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
-public class Teleghast : MonoBehaviour
+public class Teleghast : AIBase
 {
 	#region Variables / Properties
 	
-	public bool DebugMode = false;
 	public float ConjureTime = 1.0f;
 	public float WaitTime = 2.0f;
 	public float TeleportTime = 2.0f;
@@ -35,9 +34,7 @@ public class Teleghast : MonoBehaviour
 	
 	private GameObject _conjureEffect;
 	
-	private PlayerSense _sense;
 	private HealthSystem _health;
-	private SpriteSystem _sprite;
 	private HitboxController _boxController;
 	private List<Action> _states;
 	
@@ -45,11 +42,10 @@ public class Teleghast : MonoBehaviour
 	
 	#region Engine Hooks
 	
-	public void Start()
+	public override void Start()
 	{
+		base.Start();
 		_health = GetComponent<HealthSystem>();
-		_sense = GetComponentInChildren<PlayerSense>();
-		_sprite = GetComponentInChildren<SpriteSystem>();
 		_boxController = GetComponentInChildren<HitboxController>();
 		
 		_states = new List<Action> {
@@ -64,8 +60,11 @@ public class Teleghast : MonoBehaviour
 		_animation = IdleLeft;
 	}
 	
-	public void FixedUpdate()
+	public void Update()
 	{
+		if(_isPaused)
+			return;
+		
 		PlayAnimations();
 		
 		if(Time.time < _nextAction)
@@ -157,7 +156,7 @@ public class Teleghast : MonoBehaviour
 	
 	#region Methods
 	
-	private void PlayAnimations()
+	public override void PlayAnimations()
 	{
 		_sprite.PlaySingleFrame(_animation, true, AnimationMode.Loop);
 		_boxController.PlaySingleFrame(_animation, true, AnimationMode.Loop);

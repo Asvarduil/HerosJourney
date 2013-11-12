@@ -36,7 +36,7 @@ public class PauseGUI : MonoBehaviour
 		switch(PauseHud.FormResult)
 		{
 			case PauseHUD.Feedback.PauseGame:
-			    // TODO: Radiate a 'pause' command to the entire scene...
+				RadiatePauseCommand();
 				PauseHud.SetVisibility(false);
 				PauseForm.SetVisibility(true);
 				break;
@@ -46,6 +46,7 @@ public class PauseGUI : MonoBehaviour
 		switch(PauseForm.FormResult)
 		{
 			case PauseForm.Feedback.Resume:
+				RadiateResumeCommand();
 				PauseForm.SetVisibility(false);
 				PauseHud.SetVisibility(true);
 				break;
@@ -80,6 +81,26 @@ public class PauseGUI : MonoBehaviour
 	#endregion Engine Hooks
 	
 	#region Methods
+	
+	private void RadiatePauseCommand()
+	{
+		GameObject[] allObjects = (GameObject[]) FindObjectsOfType(typeof(GameObject));
+		
+		foreach(var current in allObjects)
+		{
+			current.SendMessage("PauseThisEntity", SendMessageOptions.DontRequireReceiver);
+		}
+	}
+	
+	private void RadiateResumeCommand()
+	{
+		GameObject[] allObjects = (GameObject[]) FindObjectsOfType(typeof(GameObject));
+		
+		foreach(var current in allObjects)
+		{
+			current.SendMessage("ResumeThisEntity", SendMessageOptions.DontRequireReceiver);
+		}
+	}
 	
 	private IEnumerator FadeToTitleScene()
 	{

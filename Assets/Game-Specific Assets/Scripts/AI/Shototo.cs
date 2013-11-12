@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 using Random = UnityEngine.Random;
 
-public class Shototo : MonoBehaviour 
+public class Shototo : AIBase
 {
 	#region Variables / Properties
 	
@@ -28,8 +28,6 @@ public class Shototo : MonoBehaviour
 	private bool _facingLeft = true;
 	
 	private StateMachine _fsm;
-	private PlayerSense _sense;
-	private SpriteSystem _sprite;
 	private ProjectileProjector _snout;
 	private SidescrollingMovement _movement;
 	
@@ -37,12 +35,11 @@ public class Shototo : MonoBehaviour
 	
 	#region Engine Hooks
 
-	void Start() 
+	public override void Start() 
 	{
+		base.Start();
 		_snout = GetComponentInChildren<ProjectileProjector>();
-		_sense = GetComponentInChildren<PlayerSense>();
 		_movement = GetComponent<SidescrollingMovement>();
-		_sprite = GetComponentInChildren<SpriteSystem>();
 		
 		List<State> states = new List<State>
 		{
@@ -54,10 +51,14 @@ public class Shototo : MonoBehaviour
 		_fsm = new StateMachine(states);
 	}
 	
-	void FixedUpdate() 
+	void Update() 
 	{
+		if(_isPaused)
+			return;
+		
 		FacePlayer();
 		_fsm.EvaluateState();
+		
 		PlayAnimations();
 	}
 	
@@ -104,7 +105,7 @@ public class Shototo : MonoBehaviour
 	
 	#region Methods
 	
-	private void FacePlayer ()
+	private void FacePlayer()
 	{
 		if(_movement.isGrounded)
 		{
@@ -121,7 +122,7 @@ public class Shototo : MonoBehaviour
 		}
 	}
 	
-	private void PlayAnimations()
+	public override void PlayAnimations()
 	{
 		_sprite.PlaySingleFrame(_animation, false, AnimationMode.Loop);
 	}

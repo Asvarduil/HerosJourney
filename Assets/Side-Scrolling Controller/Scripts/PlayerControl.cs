@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerControl : MonoBehaviour 
+public class PlayerControl : MonoBehaviour, IPausableEntity 
 {
 	#region Variables / Properties
 	
@@ -221,6 +221,9 @@ public class PlayerControl : MonoBehaviour
 	
 	private void PerformJump()
 	{		
+		if(! allowAction)
+			return;
+		
 		if(isCrouching)
 			return;
 		
@@ -292,4 +295,24 @@ public class PlayerControl : MonoBehaviour
 	}
 	
 	#endregion Methods
+
+	#region Implementation of IPausableEntity
+	
+	public void PauseThisEntity()
+	{
+		if(DebugMode)
+			Debug.Log("Pausing player controls!");
+		
+		allowAction = false;
+	}
+	
+	public void ResumeThisEntity()
+	{
+		if(DebugMode)
+			Debug.Log("Resuming player controls!");
+		
+		allowAction = true;
+	}
+	
+	#endregion Implementation of IPausableEntity
 }

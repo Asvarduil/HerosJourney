@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Door : MonoBehaviour 
+public class Door : MonoBehaviour, IPausableEntity 
 {
 	#region Variables / Properties
 	
@@ -12,7 +12,8 @@ public class Door : MonoBehaviour
 	public string SceneName;
 	public Vector3 ScenePosition;
 	
-	private bool _showGUI = false;
+	private bool _playerInTrigger = false;
+	private bool _doorIsPaused = false;
 	private Fader _fader;
 	private TransitionManager _sceneChange;
 	
@@ -28,7 +29,8 @@ public class Door : MonoBehaviour
 	
 	public void OnGUI()
 	{
-		if(! _showGUI)
+		if(! _playerInTrigger
+		   || _doorIsPaused)
 			return;
 		
 		GUI.skin = Skin;
@@ -51,7 +53,7 @@ public class Door : MonoBehaviour
 		if(who.tag != AffectedTag)
 			return;
 		
-		_showGUI = true;
+		_playerInTrigger = true;
 	}
 	
 	public void OnTriggerExit(Collider who)
@@ -59,7 +61,7 @@ public class Door : MonoBehaviour
 		if(who.tag != AffectedTag)
 			return;
 		
-		_showGUI = false;
+		_playerInTrigger = false;
 	}
 	
 	#endregion Engine Hooks
@@ -85,4 +87,24 @@ public class Door : MonoBehaviour
 	}
 	
 	#endregion Methods
+
+	#region Implementation of IPausableEntity
+	
+	public void PauseThisEntity()
+	{
+		if(DebugMode)
+			Debug.Log("Pausing Door interface!");
+		
+		_doorIsPaused = true;
+	}
+	
+	public void ResumeThisEntity()
+	{
+		if(DebugMode)
+			Debug.Log("Resuming Door interface!");
+		
+		_doorIsPaused = false;
+	}
+	
+	#endregion Implementation of IPausableEntity
 }

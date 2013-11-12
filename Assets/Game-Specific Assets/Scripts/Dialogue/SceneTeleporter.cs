@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 
-public class SceneTeleporter : MonoBehaviour 
+public class SceneTeleporter : MonoBehaviour, IPausableEntity
 {
 	#region Variables / Properties
 	
@@ -13,8 +13,9 @@ public class SceneTeleporter : MonoBehaviour
 	public Vector3 ScenePosition;
 	public GameObject TeleportEffect;
 	
-	private GameObject _target;
 	private bool _showGUI = false;
+	private bool _teleporterIsPaused = false;
+	private GameObject _target;
 	
 	#endregion Variables / Properties
 	
@@ -22,7 +23,8 @@ public class SceneTeleporter : MonoBehaviour
 	
 	public void OnGUI()
 	{
-		if(! _showGUI)
+		if(! _showGUI
+		   || _teleporterIsPaused)
 			return;
 		
 		GUI.skin = Skin;
@@ -74,4 +76,24 @@ public class SceneTeleporter : MonoBehaviour
 	}
 	
 	#endregion Methods
+	
+	#region Implementation of IPausableEntity
+	
+	public void PauseThisEntity()
+	{
+		if(DebugMode)
+			Debug.Log("Pausing Door interface!");
+		
+		_teleporterIsPaused = true;
+	}
+	
+	public void ResumeThisEntity()
+	{
+		if(DebugMode)
+			Debug.Log("Resuming Door interface!");
+		
+		_teleporterIsPaused = false;
+	}
+	
+	#endregion Implementation of IPausableEntity
 }

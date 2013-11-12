@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-public class Projectile : MonoBehaviour {
+public class Projectile : MonoBehaviour, IPausableEntity {
 
 	#region Variables / Properties
 	
@@ -19,6 +19,7 @@ public class Projectile : MonoBehaviour {
 	public Vector3 Velocity;
 	public float LifeTime = 10.0f;
 	
+	private bool _isPaused = false;
 	private float _expireTime;
 	
 	#endregion Variables / Properties
@@ -32,8 +33,9 @@ public class Projectile : MonoBehaviour {
 	
 	public void FixedUpdate()
 	{
+		Vector3 velocity = ApplyPausedStatus();
 		CheckExpiration();
-		transform.Translate(Velocity * Time.deltaTime);
+		transform.Translate(velocity);
 	}
 	
 	public void OnTriggerEnter(Collider collider)
@@ -56,6 +58,17 @@ public class Projectile : MonoBehaviour {
 	#endregion Engine Hooks
 	
 	#region Methods
+	
+	private Vector3 ApplyPausedStatus()
+	{
+		if(_isPaused)
+		{
+			_expireTime += Time.deltaTime;
+			return Vector3.zero;
+		}
+		
+		return Velocity * Time.deltaTime;
+	}
 
 	public void RepelFrom(Vector3 point, float speed)
 	{
@@ -121,4 +134,24 @@ public class Projectile : MonoBehaviour {
 	}
 	
 	#endregion Methods
+	
+	#region Implementation of IPausableEntity
+	
+	public void PauseThisEntity()
+	{
+		if(DebugMode)
+			Debug.Log("Pausing projectile travel!");
+		
+		_isPaused = true;
+	}
+	
+	public void ResumeThisEntity()
+	{
+		if(DebugMode)
+			Debug.Log("Resuming projectile travel!");
+		
+		_isPaused = false;
+	}
+	
+	#endregion Implementation of IPausableEntity
 }

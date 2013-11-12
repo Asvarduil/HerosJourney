@@ -2,11 +2,10 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public class Spyder : MonoBehaviour 
+public class Spyder : AIBase
 {
 	#region Variables / Properties
 	
-	public bool DebugMode = true;
 	public float MoveSpeed = 1;
 	public float AttackSpeed = 2;
 	public float AttackDelay = 0.5f;
@@ -21,8 +20,6 @@ public class Spyder : MonoBehaviour
 	
 	private StateMachine _behaviorFSM;
 	private StateMachine _animationFSM;
-	private PlayerSense _sense;
-	private SpriteSystem _sprite;
 	private ProjectileProjector _projector;
 	private CharacterController _controller;
 	private LineRenderer _webThread;
@@ -34,10 +31,9 @@ public class Spyder : MonoBehaviour
 	#region Engine Hooks
 
 	// Use this for initialization
-	protected void Start()
+	public override void Start()
 	{
-		_sense = GetComponentInChildren<PlayerSense>();
-		_sprite = GetComponentInChildren<SpriteSystem>();
+		base.Start();
 		_projector = GetComponentInChildren<ProjectileProjector>();
 		_webThread = GetComponent<LineRenderer>();
 		
@@ -54,8 +50,11 @@ public class Spyder : MonoBehaviour
 	// Update is called once per frame
 	protected void Update() 
 	{
+		if(_isPaused)
+			return;
+		
 		_behaviorFSM.EvaluateState();
-		_sprite.PlaySingleFrame(_currentAnimation, false, AnimationMode.Loop);
+		PlayAnimations();
 	}
 	
 	#endregion Engine Hooks
@@ -189,6 +188,11 @@ public class Spyder : MonoBehaviour
 	#endregion Behaviors
 	
 	#region Methods
+	
+	public override void PlayAnimations()
+	{
+		_sprite.PlaySingleFrame(_currentAnimation, false, AnimationMode.Loop);
+	}
 	
 	public void MoveWebLine()
 	{

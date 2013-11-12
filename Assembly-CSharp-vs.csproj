@@ -94,8 +94,10 @@
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\WorldMapPlayerControl.cs" />
      <Compile Include="Assets\Game-Specific Assets\GUI\Dialogue\DialogueGUI.cs" />
      <Compile Include="Assets\Game-Specific Assets\GUI\Health\PlayerHealthProvider.cs" />
+     <Compile Include="Assets\Game-Specific Assets\GUI\Pause\IPausableEntity.cs" />
      <Compile Include="Assets\Game-Specific Assets\GUI\Pause\PauseGUI.cs" />
      <Compile Include="Assets\Game-Specific Assets\GUI\Title\TitleGUI.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\AI\AIBase.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\Barbariccia.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\BossAI.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\NPC.cs" />

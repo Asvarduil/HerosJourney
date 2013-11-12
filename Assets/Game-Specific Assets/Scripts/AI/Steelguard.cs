@@ -4,11 +4,10 @@ using System.Collections.Generic;
 
 using Random = System.Random;
 
-public class Steelguard : MonoBehaviour 
+public class Steelguard : AIBase
 {	
 	#region Variables / Properties
 	
-	public bool DebugMode = false;
 	public float SwordDistance = 2f;
 	public float DecisionRate = 1.5f;
 	public float StrikeUnguardedRate = 25;
@@ -35,8 +34,6 @@ public class Steelguard : MonoBehaviour
 	
 	private Vector3 _originalPosition;
 	private StateMachine _states;
-	private PlayerSense _sense;
-	private SpriteSystem _animation;
 	private HitboxController _hitboxes;
 	private SidescrollingMovement _movement;
 	
@@ -47,14 +44,13 @@ public class Steelguard : MonoBehaviour
 	#region Engine Hooks
 
 	// Use this for initialization
-	void Start () 
+	public override void Start()
 	{
 		_originalPosition = transform.position;
 		
+		base.Start();
 		_movement = GetComponent<SidescrollingMovement>();
-		_animation = GetComponentInChildren<SpriteSystem>();
 		_hitboxes = GetComponentInChildren<HitboxController>();
-		_sense = GetComponentInChildren<PlayerSense>();
 		
 		_states = new StateMachine(new List<State> {
 			new State {Condition = DefaultCondition, Behavior = GuardOriginalPosition},
@@ -66,11 +62,13 @@ public class Steelguard : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update () 
+	public void Update() 
 	{
+		if(_isPaused)
+			return;
+		
 		_states.EvaluateState();
-		_animation.PlaySingleFrame(_currentAnimation, _lockAnimation, _animationType);
-		_hitboxes.PlaySingleFrame(_currentAnimation, _lockAnimation, _animationType);
+		PlayAnimations();
 	}
 	
 	#endregion Engine Hooks
@@ -184,6 +182,12 @@ public class Steelguard : MonoBehaviour
 	#endregion Behaviors
 	
 	#region Methods
+	
+	public override void PlayAnimations()
+	{
+		_sprite.PlaySingleFrame(_currentAnimation, _lockAnimation, _animationType);
+		_hitboxes.PlaySingleFrame(_currentAnimation, _lockAnimation, _animationType);
+	}
 	
 	private void StrikeUnguardedArea()
 	{	

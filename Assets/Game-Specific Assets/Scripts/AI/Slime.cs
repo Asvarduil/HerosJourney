@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Random = System.Random;
 
-public class Slime : MonoBehaviour 
+public class Slime : AIBase
 {
 	#region Variables / Properties
 	
@@ -28,18 +28,15 @@ public class Slime : MonoBehaviour
 	private StateMachine _states;
 	private SidescrollingMovement _movement;
 	private HitboxController _hitboxController;
-	private SpriteSystem _sprite;
-	private PlayerSense _sense;
 	
 	#endregion Variables / Properties
 	
 	#region Engine Hooks
 	
-	public void Start()
+	public override void Start()
 	{
+		base.Start();
 		_movement = GetComponent<SidescrollingMovement>();
-		_sprite = GetComponentInChildren<SpriteSystem>();
-		_sense = GetComponentInChildren<PlayerSense>();
 		
 		List<State> machineStates = new List<State>{
 			new State{Condition = () => true, Behavior = Patrol},
@@ -50,8 +47,11 @@ public class Slime : MonoBehaviour
 		_states = new StateMachine(machineStates);
 	}
 	
-	public void FixedUpdate()
+	public void Update()
 	{
+		if(_isPaused)
+			return;
+		
 		_states.EvaluateState();
 		PlayAnimations();
 	}
@@ -157,7 +157,7 @@ public class Slime : MonoBehaviour
 		}
 	}
 	
-	public void PlayAnimations()
+	public override void PlayAnimations()
 	{
 		bool lockAnimation = (_isAttacking == true) 
 			                 || (_isHit == true);
