@@ -1,0 +1,211 @@
+fileFormatVersion: 2
+guid: 89665bcf855ea4a2e9c0fd376455d672
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: three 01
+    100004: three 02
+    100006: three 03
+    100008: three 04
+    100010: three 05
+    100012: three 06
+    100014: three 07
+    100016: three 08
+    100018: arbol grupo 01
+    100020: arbol 02 A.2
+    100022: arbol 02 B.2
+    100024: arbol 02 C.2
+    100026: arbol 02 D.2
+    100028: arbol 02 E
+    100030: arbol 02 F
+    100032: arbol 02 D
+    100034: arbol 02 C
+    100036: arbol 02 B
+    100038: arbol 02 A
+    100040: arbol grupo 02
+    100042: pino 2
+    100044: pino 1
+    100046: pino 3
+    100048: pino 4
+    100050: pino 5
+    100052: pino 6
+    100054: pino 7
+    100056: pino 8
+    100058: pino 9
+    100060: pino 10
+    100062: pino 01.1
+    100064: floor
+    400000: //RootNode
+    400002: three 01
+    400004: three 02
+    400006: three 03
+    400008: three 04
+    400010: three 05
+    400012: three 06
+    400014: three 07
+    400016: three 08
+    400018: arbol grupo 01
+    400020: arbol 02 A.2
+    400022: arbol 02 B.2
+    400024: arbol 02 C.2
+    400026: arbol 02 D.2
+    400028: arbol 02 E
+    400030: arbol 02 F
+    400032: arbol 02 D
+    400034: arbol 02 C
+    400036: arbol 02 B
+    400038: arbol 02 A
+    400040: arbol grupo 02
+    400042: pino 2
+    400044: pino 1
+    400046: pino 3
+    400048: pino 4
+    400050: pino 5
+    400052: pino 6
+    400054: pino 7
+    400056: pino 8
+    400058: pino 9
+    400060: pino 10
+    400062: pino 01.1
+    400064: floor
+    2300000: three 01
+    2300002: three 02
+    2300004: three 03
+    2300006: three 04
+    2300008: three 05
+    2300010: three 06
+    2300012: three 07
+    2300014: three 08
+    2300016: arbol 02 A.2
+    2300018: arbol 02 B.2
+    2300020: arbol 02 C.2
+    2300022: arbol 02 D.2
+    2300024: arbol 02 E
+    2300026: arbol 02 F
+    2300028: arbol 02 D
+    2300030: arbol 02 C
+    2300032: arbol 02 B
+    2300034: arbol 02 A
+    2300036: pino 2
+    2300038: pino 1
+    2300040: pino 3
+    2300042: pino 4
+    2300044: pino 5
+    2300046: pino 6
+    2300048: pino 7
+    2300050: pino 8
+    2300052: pino 9
+    2300054: pino 10
+    2300056: floor
+    3300000: three 01
+    3300002: three 02
+    3300004: three 03
+    3300006: three 04
+    3300008: three 05
+    3300010: three 06
+    3300012: three 07
+    3300014: three 08
+    3300016: arbol 02 A.2
+    3300018: arbol 02 B.2
+    3300020: arbol 02 C.2
+    3300022: arbol 02 D.2
+    3300024: arbol 02 E
+    3300026: arbol 02 F
+    3300028: arbol 02 D
+    3300030: arbol 02 C
+    3300032: arbol 02 B
+    3300034: arbol 02 A
+    3300036: pino 2
+    3300038: pino 1
+    3300040: pino 3
+    3300042: pino 4
+    3300044: pino 5
+    3300046: pino 6
+    3300048: pino 7
+    3300050: pino 8
+    3300052: pino 9
+    3300054: pino 10
+    3300056: floor
+    4300000: floor
+    4300002: pino 10
+    4300004: pino 9
+    4300006: pino 8
+    4300008: pino 7
+    4300010: pino 6
+    4300012: pino 5
+    4300014: pino 4
+    4300016: pino 3
+    4300018: pino 1
+    4300020: pino 2
+    4300022: arbol 02 A
+    4300024: arbol 02 B
+    4300026: arbol 02 C
+    4300028: arbol 02 D
+    4300030: arbol 02 F
+    4300032: arbol 02 E
+    4300034: arbol 02 D.2
+    4300036: arbol 02 C.2
+    4300038: arbol 02 B.2
+    4300040: arbol 02 A.2
+    4300042: three 08
+    4300044: three 07
+    4300046: three 06
+    4300048: three 05
+    4300050: three 04
+    4300052: three 03
+    4300054: three 02
+    4300056: three 01
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .0299999993
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  userData: 

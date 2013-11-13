@@ -33,10 +33,20 @@ public class SidescrollingCamera : MonoBehaviour
 			return result;	
 		}
 	}
+
+	private AudioListener _listener;
 	
 	#endregion Variables / Properties
 	
 	#region Engine Hooks
+
+	public void Awake()
+	{
+		// Enforces Master Volume.
+		AudioListener.volume = Settings.soundEnabled 
+			                       ? Settings.masterVolume
+				                   : 0.0f;
+	}
 	
 	public void Start()
 	{
@@ -60,6 +70,10 @@ public class SidescrollingCamera : MonoBehaviour
 	
 	public void Update()
 	{
+		AudioListener.volume = Settings.soundEnabled 
+							       ? Settings.masterVolume
+				                   : 0.0f;
+
 		if(! FollowEntity)
 			return;
 		

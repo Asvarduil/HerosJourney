@@ -292,6 +292,12 @@ public class SettingsForm : AsvarduilForm
 	public void Initialize(Maestro maestro)
 	{
 		_maestro = maestro;
+
+		AudioEnabledCheckbox.Value = Settings.soundEnabled;
+		MasterVolume.Value = Settings.masterVolume;
+		MusicVolume.Value = Settings.musVolume;
+		EffectsVolume.Value = Settings.sfxVolume;
+		GraphicsQuality.Value = QualitySettings.GetQualityLevel();
 	}
 	
 	public void SetVisibility(bool visible)
