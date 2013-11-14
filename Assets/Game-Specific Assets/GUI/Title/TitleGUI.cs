@@ -294,10 +294,26 @@ public class SettingsForm : AsvarduilForm
 		_maestro = maestro;
 
 		AudioEnabledCheckbox.Value = Settings.soundEnabled;
-		MasterVolume.Value = Settings.masterVolume;
+		MasterVolume.Value = Settings.soundEnabled ? Settings.masterVolume : 0.0f;
 		MusicVolume.Value = Settings.musVolume;
 		EffectsVolume.Value = Settings.sfxVolume;
 		GraphicsQuality.Value = QualitySettings.GetQualityLevel();
+	}
+
+	public void SaveSettings()
+	{
+		Settings.soundEnabled = AudioEnabledCheckbox.Value;
+		Settings.masterVolume = Settings.soundEnabled ? MasterVolume.Value : 0.0f;
+		Settings.musVolume = MusicVolume.Value;
+		Settings.sfxVolume = EffectsVolume.Value;
+	}
+
+	public void LoadSettings()
+	{
+		AudioEnabledCheckbox.Value = Settings.soundEnabled;
+		MasterVolume.Value = Settings.masterVolume;
+		MusicVolume.Value = Settings.musVolume;
+		EffectsVolume.Value = Settings.sfxVolume;
 	}
 	
 	public void SetVisibility(bool visible)
@@ -325,7 +341,9 @@ public class SettingsForm : AsvarduilForm
 		Background.DrawMe();
 		WindowName.DrawMe();
 		Settings.soundEnabled = AudioEnabledCheckbox.IsClicked();
-		Settings.masterVolume = MasterVolume.IsMoved();
+		Settings.masterVolume = Settings.soundEnabled 
+			                    ? MasterVolume.IsMoved()
+				                : 0.0f;
 		Settings.musVolume = MusicVolume.IsMoved();
 		Settings.sfxVolume = EffectsVolume.IsMoved();
 		QualitySettings.SetQualityLevel((int) GraphicsQuality.IsMoved());
@@ -335,7 +353,7 @@ public class SettingsForm : AsvarduilForm
 		if(_backClicked)
 			_maestro.PlaySoundEffect(ButtonSound);
 	}
-	
+
 	public override void Tween()
 	{
 		Background.Tween();

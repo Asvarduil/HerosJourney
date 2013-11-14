@@ -73,7 +73,8 @@ public class Maestro : MonoBehaviour
 	
 	public void ChangeTunes(AudioClip newChart)
 	{	
-		if(newChart == null) throw new ArgumentNullException("newChart");
+		if(newChart == null) 
+			throw new ArgumentNullException("newChart");
 
 		float currentTime = audio.time;
 

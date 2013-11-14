@@ -52,6 +52,7 @@ public class PauseGUI : MonoBehaviour
 				break;
 				
 			case PauseForm.Feedback.Settings:
+				SettingsForm.LoadSettings();
 				SettingsForm.SetVisibility(true);
 				PauseForm.SetVisibility(false);
 				break;
@@ -65,6 +66,7 @@ public class PauseGUI : MonoBehaviour
 		switch(SettingsForm.FormResult)
 		{
 			case SettingsForm.Feedback.Back:
+				SettingsForm.SaveSettings();
 				SettingsForm.SetVisibility(false);
 				PauseForm.SetVisibility(true);
 				break;

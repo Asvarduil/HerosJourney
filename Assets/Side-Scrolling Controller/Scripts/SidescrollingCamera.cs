@@ -70,9 +70,12 @@ public class SidescrollingCamera : MonoBehaviour
 	
 	public void Update()
 	{
-		AudioListener.volume = Settings.soundEnabled 
-							       ? Settings.masterVolume
-				                   : 0.0f;
+		AudioListener.volume = Settings.soundEnabled ? Settings.masterVolume : 0.0f;
+		if(DebugMode)
+		{
+			Debug.Log("Sound " + (Settings.soundEnabled ? "is" : "is not") + " enabled.\r\n"
+			          + "Volume is: " + AudioListener.volume);
+		}
 
 		if(! FollowEntity)
 			return;
