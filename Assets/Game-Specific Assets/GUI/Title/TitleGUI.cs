@@ -306,10 +306,24 @@ public class SettingsForm : AsvarduilForm
 		Settings.masterVolume = Settings.soundEnabled ? MasterVolume.Value : 0.0f;
 		Settings.musVolume = MusicVolume.Value;
 		Settings.sfxVolume = EffectsVolume.Value;
+
+		if(DebugMode)
+			Debug.Log("(Save) State of Settings static object:\r\n"
+		    	      + "Sound Enabled? " + Settings.soundEnabled + "\r\n"
+		        	  + "Master Volume: " + Settings.masterVolume + "\r\n"
+		              + "Music Volume: " + Settings.musVolume + "\r\n"
+			          + "Effects Volume: "  + Settings.sfxVolume);
 	}
 
 	public void LoadSettings()
 	{
+		if(DebugMode)
+			Debug.Log("(Load) State of Settings static object:\r\n"
+		    	      + "Sound Enabled? " + Settings.soundEnabled + "\r\n"
+			          + "Master Volume: " + Settings.masterVolume + "\r\n"
+	                  + "Music Volume: " + Settings.musVolume + "\r\n"
+					  + "Effects Volume: "  + Settings.sfxVolume);
+
 		AudioEnabledCheckbox.Value = Settings.soundEnabled;
 		MasterVolume.Value = Settings.masterVolume;
 		MusicVolume.Value = Settings.musVolume;
@@ -340,7 +354,13 @@ public class SettingsForm : AsvarduilForm
 		
 		Background.DrawMe();
 		WindowName.DrawMe();
-		Settings.soundEnabled = AudioEnabledCheckbox.IsClicked();
+
+		//Settings.soundEnabled = AudioEnabledCheckbox.IsClicked();
+		if(AudioEnabledCheckbox.IsClicked())
+		{
+			Settings.soundEnabled = AudioEnabledCheckbox.Value;
+		}
+
 		Settings.masterVolume = Settings.soundEnabled 
 			                    ? MasterVolume.IsMoved()
 				                : 0.0f;
@@ -383,7 +403,7 @@ public class LoadGameForm : AsvarduilForm
 	
 	#endregion Enumerations
 	
-		#region Constructor
+	#region Constructor
 	
 	public LoadGameForm(AsvarduilImage background, AsvarduilLabel label) 
 		: base(background, label)

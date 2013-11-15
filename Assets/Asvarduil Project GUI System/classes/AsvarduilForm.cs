@@ -8,7 +8,8 @@ using System;
 public class AsvarduilForm : IDrawable, ITweenable
 {
 	#region Variables / Properties
-	
+
+	public bool DebugMode = false;
 	public AsvarduilImage Background;
 	public AsvarduilLabel WindowName;
 	
