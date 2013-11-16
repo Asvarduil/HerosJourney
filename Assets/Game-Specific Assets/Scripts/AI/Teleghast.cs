@@ -146,7 +146,7 @@ public class Teleghast : AIBase
 	
 	public void Disappear()
 	{
-		GameObject.Instantiate(TeleportEffect, transform.position, Quaternion.identity);
+		Instantiate(TeleportEffect, transform.position, Quaternion.identity);
 		
 		PresentMe(false);
 		SetupNextActionTime(TeleportTime);
