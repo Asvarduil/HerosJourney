@@ -66,11 +66,42 @@
 		
 		<div id='blog-accordion' class='three-image-pane'>
 			<div class='blog-entry accordion-header new-entry'>
+				<h3 class='float-left'>Week 33</h3>
+				<h6 class='float-right'>17 November 2013</h6>
+				<div class='clearfix'></div>
+			</div>
+			<div class='blog-entry accordion-content'>
+				<p>At last Evil Castle 2's geometry is done, and the boss in progress!</p>
+				
+				<h4>Taking a Pause</h4>
+				<p>One of the more technical things I did this week was implementing the pause menu.  It lets you pause the game physically, save the game and exit to the title to prevent save-scumming, and alter settings such that the game is more comfortable!</p>
+				
+				<h4>Stumbling Building Blocks</h4>
+				<p>One hazard of working on things is that you can break stuff.  This week, I did that a bit.</p>
+				
+				<p>I had a couple of minor hiccups with switches - yesterday, I broke the relationships of switches to flames <em>twice</em>, trying to address some other issues.  The lesson to learn is to be very careful when working with your Prefabs!  They're helpful and convenient, but you can spring unexpected changes on yourself.  Fortunately, the first thing I do prior to developing is play-testing everything to the current point.</p>
+				
+				<h4>Bossin' Around</h4>
+				<img src='./images/sidescroller-42.png' />
+				
+				<p>All of this is was a run-up to building the final part of Evil Castle 2: Lady Barbariccia.  She's based on the Teleghast AI script, but she has a few key points of difference.</p>
+				
+				<p>First, if she teleports somewhere, and you don't get on-level with her fast enough, she causes a bunch of Large Blue Magic projectiles to fall from the ceiling.  These are difficult to avoid!  Of course, if you play close attention to things before coming into the Evil Castle, you will pick up an ability that, in concert with the dungeon item, will allow you to survive such an onslaught...</p>
+				
+				<p>Also, her projectiles are always Large Blue Magic bolts.  These are not just bigger, rendering high/low posture immaterial (they can be parried from either position due to their size), they deal significant damamge if they connect!  She has fewer animations because of this.</p>
+				
+				<p>Finally, I updated the ActivateObjectOnDeath script to allow it to turn objects off as well.  That comes in handy for that flame wall on the far side of the boss chamber.</p>
+				
+				<h4>Can we try it?</h4>
+				<p><a href='./webplayer.html'><i class='icon-gamepad'></i> Ya</a>.  See build notes for details.</p>
+			</div>
+		
+			<div class='blog-entry accordion-header'>
 				<h3 class='float-left'>Week 32</h3>
 				<h6 class='float-right'>10 November 2013</h6>
 				<div class='clearfix'></div>
 			</div>
-			<div class='blog-entry accordion-content'>
+			<div class='blog-entry accordion-content hidden'>
 				<p>Evil Castle #2 is nearly done, and I've got some details on the final dungeon of this game!</p>
 				
 				<h4>How to Finish an Evil Castle</h4>
@@ -84,8 +115,6 @@
 				<p>Evil Castle 3 will have two odd things going on: a Light World/Dark World mechanic, and the fact that <strong>the entire Evil Castle is the boss arena.</strong>  The Light World causes HP to steadily regenerate; the Dark World periodically spawns a new type of enemy, the Shadowling, which are guaranteed to provide Health Crystals.  Of course, the Dark World also steadily depletes your health!</p>
 				
 				<p>But, it gets <em>better</em> - the Light World/Dark World health mechanics are inverted for Lord Artasandro.  In order to defeat him, destroy the third and final Dark Crystal, and save Aylea once and for all, you have to get him to stay in the Light World, or deal him more damage than the Dark World replenishes.  It will be a fitting final challenge to this short, but hopefully action-packed game.</p>
-				
-				<p></p>
 				
 				<h4>Sounds freaky...can we try it?</h4>
 				<p>Not yet.  I should have a webplayer up later this week with the completed Evil Castle 2, though!</p>
