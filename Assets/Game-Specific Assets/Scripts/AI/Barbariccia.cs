@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
-public class Barbariccia : MonoBehaviour 
+public class Barbariccia : AIBase, IPausableEntity
 {	
 	#region Variables / Properties
-	
-	public bool DebugMode = false;
+
 	public float ConjureTime = 1.0f;
 	public float WaitTime = 2.0f;
 	public float TeleportTime = 2.0f;
@@ -31,10 +31,8 @@ public class Barbariccia : MonoBehaviour
 	private string _animation;
 	
 	private GameObject _conjureEffect;
-	
-	private PlayerSense _sense;
+
 	private HealthSystem _health;
-	private SpriteSystem _sprite;
 	private HitboxController _boxController;
 	private List<Action> _states;
 	
@@ -42,11 +40,11 @@ public class Barbariccia : MonoBehaviour
 	
 	#region Engine Hooks
 	
-	public void Start()
+	public override void Start()
 	{
+		base.Start();
+
 		_health = GetComponent<HealthSystem>();
-		_sense = GetComponentInChildren<PlayerSense>();
-		_sprite = GetComponentInChildren<SpriteSystem>();
 		_boxController = GetComponentInChildren<HitboxController>();
 		
 		_states = new List<Action>{
@@ -61,7 +59,7 @@ public class Barbariccia : MonoBehaviour
 		_animation = IdleLeft;
 	}
 	
-	public void FixedUpdate()
+	public void Update()
 	{
 		PlayAnimations();
 		
@@ -144,7 +142,7 @@ public class Barbariccia : MonoBehaviour
 	
 	#region Methods
 	
-	private void PlayAnimations()
+	public override void PlayAnimations()
 	{
 		_sprite.PlaySingleFrame(_animation, true, AnimationMode.Loop);
 		_boxController.PlaySingleFrame(_animation, true, AnimationMode.Loop);
@@ -178,6 +176,6 @@ public class Barbariccia : MonoBehaviour
 		_health.enabled = isPresented;
 		_sprite.gameObject.SetActive(isPresented);
 	}
-	
+
 	#endregion Methods
 }

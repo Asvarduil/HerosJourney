@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 public class ActivateObjectsOnDeath : MonoBehaviour 
 {
-	#region Variables / Properties
-	
+	#region Variables / Properties 
+
+	public bool WillActivateObjects = true;
 	public List<GameObject> Objects;
 	public GameObject SpecialEffect;
 	public AudioClip SoundEffect;
@@ -26,7 +27,7 @@ public class ActivateObjectsOnDeath : MonoBehaviour
 		   && Objects.Count > 0)
 			foreach(GameObject current in Objects)
 				if(current != null)
-					current.SetActive(true);
+					current.SetActive(WillActivateObjects);
 		
 		if(SpecialEffect != null)
 			Instantiate(SpecialEffect, transform.position, transform.rotation);

@@ -9,7 +9,7 @@ public class BossRoomTrigger : MonoBehaviour
 	public bool debugMode = false;
 	public bool selfDestructOnActivate = false;
 	public List<string> affectedTags = new List<string>{"Player"};
-	public GameObject activateObjectGroup;
+	public List<GameObject> activateObjects;
 	public AudioClip activateObjectSFX;
 	public AudioClip bgmOverride;
 	
@@ -35,8 +35,14 @@ public class BossRoomTrigger : MonoBehaviour
 		if(activateObjectSFX != null)
 			_maestro.PlaySoundEffect(activateObjectSFX);
 		
-		if(activateObjectGroup != null)
-			activateObjectGroup.SetActive(true);
+		if(activateObjects != null
+		   && activateObjects.Count > 0)
+		{
+			foreach(GameObject current in activateObjects)
+			{
+				current.SetActive(true);
+			}
+		}
 		
 		if(bgmOverride != null)
 			_maestro.NewTune(bgmOverride);
