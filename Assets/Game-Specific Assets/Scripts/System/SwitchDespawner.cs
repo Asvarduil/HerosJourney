@@ -20,6 +20,9 @@ public class SwitchDespawner : MonoBehaviour
 	
 	public void FixedUpdate()
 	{
+		if(Switch == null)
+			return;
+
 		if(! Switch.IsPressed)
 			return;
 		

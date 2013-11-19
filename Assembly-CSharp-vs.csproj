@@ -79,7 +79,6 @@
      <Compile Include="Assets\Asvarduil Project RPG Control System\classes\Settings.cs" />
      <Compile Include="Assets\Asvarduil Project RPG Control System\gui\Fader.cs" />
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\CameraTrigger.cs" />
-     <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\FindMissingScriptsRecursively.cs" />
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\Maestro.cs" />
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\MapSpeechTrigger.cs" />
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\MasterMaterialAssigner.cs" />
