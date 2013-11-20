@@ -8,6 +8,7 @@ public class Barbariccia : AIBase, IPausableEntity
 {	
 	#region Variables / Properties
 
+	public float ProjectileSpeed = 5.0f;
 	public float ConjureTime = 1.0f;
 	public float WaitTime = 2.0f;
 	public float TeleportTime = 2.0f;
@@ -50,7 +51,7 @@ public class Barbariccia : AIBase, IPausableEntity
 		_states = new List<Action>{
 			AppearAtAnAnchor,
 			ConjureProjectile,
-			LaunchProjectile,
+			LaunchProjectileAtPlayer,
 			WatchTheBolt,
 			Disappear
 		};
@@ -61,6 +62,9 @@ public class Barbariccia : AIBase, IPausableEntity
 	
 	public void Update()
 	{
+		if(_isPaused)
+			return;
+
 		PlayAnimations();
 		
 		if(Time.time < _nextAction)
@@ -90,16 +94,26 @@ public class Barbariccia : AIBase, IPausableEntity
 		int index = Random.Range(0, AnchorPoints.Count);
 		Vector3 anchor = AnchorPoints[index];
 		transform.position = anchor;
-		
-		if(_sense.DetectedPlayer)
+
+		try
 		{
-			float playerX = _sense.PlayerLocation.position.x;
-			_facingLeft = playerX < transform.position.x;
+			if(_sense.DetectedPlayer)
+			{
+				float playerX = _sense.PlayerLocation.position.x;
+				_facingLeft = playerX < transform.position.x;
+			}
+		}
+		catch
+		{
+			if(DebugMode)
+				Debug.LogWarning("The player no longer exists.  Hibernating this game object.");
+
+			gameObject.SetActive(false);
 		}
 		
 		_animation = _facingLeft ? IdleLeft : IdleRight;
 	}
-	
+
 	public void ConjureProjectile() 
 	{
 		Vector3 muzzlePoint = Muzzle.transform.position;
@@ -110,7 +124,7 @@ public class Barbariccia : AIBase, IPausableEntity
 		SetupNextActionTime(ConjureTime);
 	}
 	
-	public void LaunchProjectile()
+	public void LaunchProjectileAtPlayer()
 	{
 		Vector3 muzzlePoint = Muzzle.transform.position;
 		
@@ -119,9 +133,12 @@ public class Barbariccia : AIBase, IPausableEntity
 		Projectile guidance = bolt.GetComponent<Projectile>();
 		
 		float absoluteVelocity = guidance.Velocity.x;
-		float newVelocity = _facingLeft ? absoluteVelocity : -absoluteVelocity;
+		Vector3 newVelocity = Vector3.Normalize(_sense.PlayerLocation.position - transform.position) * ProjectileSpeed;
+
+		if(DebugMode)
+			Debug.Log("Firing Big Blue Magic bolt at a velocity: " + newVelocity.ToString());
 		
-		guidance.Velocity.x = newVelocity;
+		guidance.Velocity = newVelocity;
 		guidance.enabled = true;
 	}
 	

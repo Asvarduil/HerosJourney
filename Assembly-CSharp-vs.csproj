@@ -115,7 +115,6 @@
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\DamageSource.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\HealthSystem.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\ParriesBlueMagic.cs" />
-     <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\PlayerDeathLevelReloader.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\Projectile.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\ProjectileProjector.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Combat\RepellingObject.cs" />
@@ -137,6 +136,7 @@
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\EntitySpawner.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\HerosJourneyLeaderBoard.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\InitializationScenePass.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\System\PlayerDeathReloader.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\PressureSwitch.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\SaveFileAccess.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\SwitchDespawner.cs" />
