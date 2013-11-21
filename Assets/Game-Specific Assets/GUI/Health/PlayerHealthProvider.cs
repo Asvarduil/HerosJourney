@@ -13,10 +13,7 @@ public class PlayerHealthProvider : MonoBehaviour
 	public Texture2D NoHeart;
 	
 	public AsvarduilImage UiWidget;
-	
-	private HealthSystem _playerHealthSystem;
 	public Texture2D _fullUiWidget;
-	private int _lastHP;
 	
 	#endregion Variables / Properties
 	
@@ -24,10 +21,8 @@ public class PlayerHealthProvider : MonoBehaviour
 	
 	public void Start()
 	{
-		_playerHealthSystem = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthSystem>();
-		_lastHP = _playerHealthSystem.HP;
-		
-		CalculateWidget();
+		HealthSystem playerHealthSystem = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthSystem>();
+		CalculateWidget(playerHealthSystem.HP, playerHealthSystem.MaxHP);
 	}
 	
 	public void OnGUI()
@@ -37,26 +32,28 @@ public class PlayerHealthProvider : MonoBehaviour
 	
 	public void FixedUpdate()
 	{
-		if(_lastHP != _playerHealthSystem.HP)
-		{
-			CalculateWidget();
-			_lastHP = _playerHealthSystem.HP;
-		}
-		
 		UiWidget.Tween();
 	}
 	
 	#endregion Engine Hooks
 	
 	#region Methods
+
+	public void OnHealthChanged(int[] hpArgs)
+	{
+		int hp = hpArgs[0];
+		int maxhp = hpArgs[1];
+
+		CalculateWidget(hp, maxhp);
+	}
 	
-	public void CalculateWidget()
+	public void CalculateWidget(int hp, int maxhp)
 	{
 		// Calcluate width and values for the heart system...
-		int canvasWidth = FullHeart.width * (_playerHealthSystem.MaxHP / 2);
-		int fullHearts = _playerHealthSystem.HP / 2;
-		int halfHearts = _playerHealthSystem.HP % 2;
-		int deadHearts = (_playerHealthSystem.MaxHP / 2) - (_playerHealthSystem.HP / 2);
+		int canvasWidth = FullHeart.width * (maxhp / 2);
+		int fullHearts = hp / 2;
+		int halfHearts = hp % 2;
+		int deadHearts = (maxhp / 2) - (hp / 2);
 		
 		if(DebugMode)
 		{

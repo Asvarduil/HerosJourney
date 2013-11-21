@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class PlayerDeathReloader : MonoBehaviour 
@@ -6,8 +7,6 @@ public class PlayerDeathReloader : MonoBehaviour
 	#region Variables / Properties
 	
 	public bool DebugMode = false;
-	public GameObject Player;
-	public int LastHP;
 
 	private Fader _fader;
 	private HealthSystem _health;
@@ -21,59 +20,44 @@ public class PlayerDeathReloader : MonoBehaviour
 	{
 		_sceneChange = TransitionManager.Instance;
 		_fader = (Fader) FindObjectOfType(typeof(Fader));
-
-		AcquirePlayer();
-	}
-	
-	public void Update()
-	{
-		if(_health.HP == LastHP)
-			return;
-
-		if(DebugMode)
-			Debug.Log("The player's HP has changed from " + LastHP + " to " + _health.HP);
-
-		LastHP = _health.HP;
-		if(_health.HP > 0)
-			return;
-
-		if(DebugMode)
-			Debug.Log("The player has died!");
-
-		StartCoroutine(ReloadLevelSequence());
-	}
-
-	public void OnLevelWasLoaded()
-	{
-		AcquirePlayer();
 	}
 
 	#endregion Engine Hooks
 	
 	#region Methods
 
-	private void AcquirePlayer()
+	public void OnHealthChanged(int[] hpArgs)
 	{
-		Player = GameObject.FindWithTag("Player");
-		_health = Player.GetComponent<HealthSystem>();
-		LastHP = _health.HP;
+		int hp = hpArgs[0];
+		StandardDebugMessage("HP has changed!");
+
+		if(hp > 0)
+			return;
+
+		StartCoroutine(ReloadLevelSequence());
 	}
-	
+
 	private IEnumerator ReloadLevelSequence()
 	{
-		if(DebugMode)
-			Debug.Log("Performing level reload...");
+		StandardDebugMessage("Reloading level...");
 		
 		_fader.FadeOut();
 		while(_fader.ScreenShown)
 		{
-			if(DebugMode)
-				Debug.Log("Fading the screen out...");
-
+			StandardDebugMessage("Fading screen out...");
 			yield return 0;
 		}
 		
 		_sceneChange.ChangeScenes();
+		yield return null;
+	}
+
+	private void StandardDebugMessage(string message)
+	{
+		if(! DebugMode)
+			return;
+
+		Debug.Log(string.Format("({0}) {1}", DateTime.Now.ToString("HH:mm:ss"), message));
 	}
 	
 	#endregion Methods

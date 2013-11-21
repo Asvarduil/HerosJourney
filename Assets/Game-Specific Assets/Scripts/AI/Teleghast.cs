@@ -81,6 +81,7 @@ public class Teleghast : AIBase
 	public void OnDestroy()
 	{
 		CleanupConjureEffect();
+		enabled = false;
 	}
 	
 	#endregion Engine Hooks

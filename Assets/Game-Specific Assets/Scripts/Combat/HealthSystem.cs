@@ -4,14 +4,24 @@ using System.Collections;
 
 public class HealthSystem : MonoBehaviour 
 {
+	#region Constants
+
+	private const string _changeEvent = "OnHealthChanged";
+
+	#endregion Constants
+
 	#region Variables / Properties
 	
 	public bool DebugMode = false;
+	public bool CanSpawnDeathEffects = true;
+
 	public int HP;
 	public int MaxHP;
 	public GameObject DeathEffect;
 	
 	private Shield _shield;
+	private Ambassador _ambassador;
+	private PlayerHealthProvider _healthProvider;
 	
 	#endregion Variables / Properties
 	
@@ -20,6 +30,13 @@ public class HealthSystem : MonoBehaviour
 	public void Start()
 	{
 		_shield = GetComponentInChildren<Shield>();
+		_ambassador = Ambassador.Instance;
+		_healthProvider = (PlayerHealthProvider) FindObjectOfType(typeof(PlayerHealthProvider));
+	}
+
+	public void OnDestroy()
+	{
+		CanSpawnDeathEffects = false;
 	}
 	
 	#endregion Engine Hooks
@@ -48,6 +65,8 @@ public class HealthSystem : MonoBehaviour
 		HP -= (damage > HP)
 			? HP
 			: damage;
+
+		NotifyOtherObjects();
 		
 		if(DebugMode)
 			Debug.Log(String.Format("{0} took {1} damage.\r\n{0} has {2} HP left.", gameObject.name, damage, HP));
@@ -56,8 +75,10 @@ public class HealthSystem : MonoBehaviour
 		{
 			if(DebugMode)
 				Debug.Log(gameObject.name + " died.");
-			
-			GameObject.Instantiate(DeathEffect, transform.position, transform.rotation);
+
+			if(CanSpawnDeathEffects)
+				GameObject.Instantiate(DeathEffect, transform.position, transform.rotation);
+
 			Destroy(gameObject);
 		}
 	}
@@ -73,6 +94,18 @@ public class HealthSystem : MonoBehaviour
 		HP += (HP + amount > MaxHP)
 			? (MaxHP - HP)
 			: amount;
+
+		NotifyOtherObjects();
+	}
+
+	private void NotifyOtherObjects()
+	{
+		if(DebugMode)
+			Debug.Log("Notifying other objects about an HP change!");
+
+		int[] args = new int[]{ HP, MaxHP };
+		_ambassador.SendMessage(_changeEvent, args, SendMessageOptions.DontRequireReceiver);
+		_healthProvider.SendMessage(_changeEvent, args, SendMessageOptions.DontRequireReceiver);
 	}
 	
 	#endregion Methods

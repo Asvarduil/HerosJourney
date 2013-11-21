@@ -131,8 +131,7 @@ public class Barbariccia : AIBase, IPausableEntity
 		CleanupConjureEffect();
 		GameObject bolt = (GameObject) GameObject.Instantiate(Projectile, muzzlePoint, Quaternion.identity);
 		Projectile guidance = bolt.GetComponent<Projectile>();
-		
-		float absoluteVelocity = guidance.Velocity.x;
+
 		Vector3 newVelocity = Vector3.Normalize(_sense.PlayerLocation.position - transform.position) * ProjectileSpeed;
 
 		if(DebugMode)

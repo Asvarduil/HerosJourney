@@ -8,6 +8,8 @@ public class Projectile : MonoBehaviour, IPausableEntity {
 	#region Variables / Properties
 	
 	public bool DebugMode = false;
+	public bool CanSpawnSecondaryEffect = true;
+
 	public string MessageOnHit;
 	public GameObject SpawnOnHit;
 	
@@ -53,6 +55,11 @@ public class Projectile : MonoBehaviour, IPausableEntity {
 		
 		Collider who = collision.collider;
 		ProjectileHit(who);
+	}
+
+	public void OnDestroy()
+	{
+		CanSpawnSecondaryEffect = false;
 	}
 	
 	#endregion Engine Hooks
@@ -124,7 +131,8 @@ public class Projectile : MonoBehaviour, IPausableEntity {
 	
 	private void SpawnSecondaryObject()
 	{
-		if(SpawnOnHit == null)
+		if(SpawnOnHit == null
+		   || ! CanSpawnSecondaryEffect)
 			return;
 		
 		if(DebugMode)
