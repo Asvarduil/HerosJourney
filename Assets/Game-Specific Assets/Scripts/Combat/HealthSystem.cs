@@ -103,10 +103,24 @@ public class HealthSystem : MonoBehaviour
 		if(DebugMode)
 			Debug.Log("Notifying other objects about an HP change!");
 
-		int[] args = new int[]{ HP, MaxHP };
+		HealthEventArgs args = new HealthEventArgs(HP, MaxHP, gameObject.tag);
 		_ambassador.SendMessage(_changeEvent, args, SendMessageOptions.DontRequireReceiver);
 		_healthProvider.SendMessage(_changeEvent, args, SendMessageOptions.DontRequireReceiver);
 	}
 	
 	#endregion Methods
+}
+
+public class HealthEventArgs
+{
+	public int HP;
+	public int MaxHP;
+	public string Tag;
+
+	public HealthEventArgs(int hp, int maxhp, string tag)
+	{
+		HP = hp;
+		MaxHP = maxhp;
+		Tag = tag;
+	}
 }

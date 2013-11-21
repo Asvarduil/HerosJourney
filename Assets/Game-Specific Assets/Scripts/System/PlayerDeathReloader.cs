@@ -7,6 +7,7 @@ public class PlayerDeathReloader : MonoBehaviour
 	#region Variables / Properties
 	
 	public bool DebugMode = false;
+	public string observedTag = "Player";
 
 	private Fader _fader;
 	private HealthSystem _health;
@@ -22,16 +23,24 @@ public class PlayerDeathReloader : MonoBehaviour
 		_fader = (Fader) FindObjectOfType(typeof(Fader));
 	}
 
+	public void OnLevelWasLoaded()
+	{
+		StandardDebugMessage("Level was successfully reloaded.");
+		_fader = (Fader) FindObjectOfType(typeof(Fader));
+	}
+
 	#endregion Engine Hooks
 	
 	#region Methods
 
-	public void OnHealthChanged(int[] hpArgs)
+	public void OnHealthChanged(HealthEventArgs args)
 	{
-		int hp = hpArgs[0];
+		if(args.Tag != observedTag)
+			return;
+
 		StandardDebugMessage("HP has changed!");
 
-		if(hp > 0)
+		if(args.HP > 0)
 			return;
 
 		StartCoroutine(ReloadLevelSequence());

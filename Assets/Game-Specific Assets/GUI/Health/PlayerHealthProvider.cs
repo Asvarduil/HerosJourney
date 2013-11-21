@@ -8,6 +8,7 @@ public class PlayerHealthProvider : MonoBehaviour
 	#region Variables / Properties
 	
 	public bool DebugMode = false;
+	public string observedTag = "Player";
 	public Texture2D FullHeart;
 	public Texture2D HalfHeart;
 	public Texture2D NoHeart;
@@ -39,12 +40,12 @@ public class PlayerHealthProvider : MonoBehaviour
 	
 	#region Methods
 
-	public void OnHealthChanged(int[] hpArgs)
+	public void OnHealthChanged(HealthEventArgs args)
 	{
-		int hp = hpArgs[0];
-		int maxhp = hpArgs[1];
+		if(args.Tag != observedTag)
+			return;
 
-		CalculateWidget(hp, maxhp);
+		CalculateWidget(args.HP, args.MaxHP);
 	}
 	
 	public void CalculateWidget(int hp, int maxhp)
