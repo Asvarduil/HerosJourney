@@ -13,10 +13,11 @@ public class HealthSystem : MonoBehaviour
 	#region Variables / Properties
 	
 	public bool DebugMode = false;
-	public bool CanSpawnDeathEffects = true;
+	public bool CanSpawnEffects = true;
 
 	public int HP;
 	public int MaxHP;
+	public GameObject DamageEffect;
 	public GameObject DeathEffect;
 	
 	private Shield _shield;
@@ -36,7 +37,7 @@ public class HealthSystem : MonoBehaviour
 
 	public void OnDestroy()
 	{
-		CanSpawnDeathEffects = false;
+		CanSpawnEffects = false;
 	}
 	
 	#endregion Engine Hooks
@@ -61,7 +62,8 @@ public class HealthSystem : MonoBehaviour
 		
 		if(ShieldTookImpact())
 			return;
-		
+
+		ShowDamageEffect();
 		HP -= (damage > HP)
 			? HP
 			: damage;
@@ -71,16 +73,7 @@ public class HealthSystem : MonoBehaviour
 		if(DebugMode)
 			Debug.Log(String.Format("{0} took {1} damage.\r\n{0} has {2} HP left.", gameObject.name, damage, HP));
 		
-		if(HP == 0)
-		{
-			if(DebugMode)
-				Debug.Log(gameObject.name + " died.");
-
-			if(CanSpawnDeathEffects)
-				GameObject.Instantiate(DeathEffect, transform.position, transform.rotation);
-
-			Destroy(gameObject);
-		}
+		CheckForDeath();
 	}
 	
 	public void Heal(int amount)
@@ -96,6 +89,34 @@ public class HealthSystem : MonoBehaviour
 			: amount;
 
 		NotifyOtherObjects();
+	}
+
+	private void ShowDamageEffect()
+	{
+		if(! CanSpawnEffects)
+			return;
+
+		GameObject.Instantiate(DamageEffect, transform.position, transform.rotation);
+	}
+
+	private void ShowDeathEffect()
+	{
+		if(! CanSpawnEffects)
+			return;
+
+		GameObject.Instantiate(DeathEffect, transform.position, transform.rotation);
+	}
+
+	private void CheckForDeath()
+	{
+		if(HP > 0)
+			return;
+
+		if(DebugMode)
+			Debug.Log(gameObject.name + " died.");
+		
+		ShowDeathEffect();
+		Destroy(gameObject);
 	}
 
 	private void NotifyOtherObjects()
