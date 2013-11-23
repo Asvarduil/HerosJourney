@@ -23,11 +23,7 @@ public class HeartContainer : MonoBehaviour
 			Debug.Log(who.gameObject.name + " picked up a Heart Container!");
 		
 		HealthSystem health = who.gameObject.GetComponent<HealthSystem>();
-		health.MaxHP += HealthIncrease;
-		health.HP += HealthIncrease;
-		
-		Ambassador ambassador = Ambassador.Instance;
-		ambassador.MaxHP += HealthIncrease;
+		health.IncreaseCapacity(HealthIncrease);
 		
 		Destroy(gameObject);
 	}

@@ -54,6 +54,18 @@ public class HealthSystem : MonoBehaviour
 		
 		return _shield.AbsorbedImpact;
 	}
+
+	public void IncreaseCapacity(int amount)
+	{
+		if(! enabled)
+			return;
+
+		HP += amount;
+		MaxHP += amount;
+		_ambassador.MaxHP += amount;
+
+		NotifyOtherObjects();
+	}
 	
 	public void TakeDamage(int damage)
 	{
