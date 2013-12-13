@@ -6,6 +6,7 @@ public class Door : MonoBehaviour, IPausableEntity
 	#region Variables / Properties
 	
 	public bool DebugMode = true;
+	public bool TransitOnTriggerEntry = false;
 	public string AffectedTag = "Player";
 	public GUISkin Skin;	
 	public FloatingButton EnterButton;
@@ -32,14 +33,23 @@ public class Door : MonoBehaviour, IPausableEntity
 		if(! _playerInTrigger
 		   || _doorIsPaused)
 			return;
-		
+
 		GUI.skin = Skin;
+		if(TransitOnTriggerEntry)
+		{
+			if(DebugMode)
+				Debug.Log("Due to Transit on Trigger Entry flag, transiting from door " + gameObject.name);
+
+			StartCoroutine(BeginTransition());
+			return;
+		}
+
 		if(EnterButton.IsClicked())
 		{
 			if(DebugMode)
 				Debug.Log("Enter button was clicked for Door: " + gameObject.name);
 			
-			StartCoroutine(CheckIfTransitionOccurred());
+			StartCoroutine(BeginTransition());
 		}
 	}
 	
@@ -68,7 +78,7 @@ public class Door : MonoBehaviour, IPausableEntity
 	
 	#region Methods
 	
-	private IEnumerator CheckIfTransitionOccurred()
+	private IEnumerator BeginTransition()
 	{		
 		if(DebugMode)
 		{
