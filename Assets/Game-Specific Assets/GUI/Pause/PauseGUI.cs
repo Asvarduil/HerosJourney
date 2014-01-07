@@ -15,6 +15,7 @@ public class PauseGUI : MonoBehaviour
 	private Fader _fader;
 	private Maestro _maestro;
 	private Ambassador _ambassador;
+	private SaveFileAccess _saveFileAccess;
 	
 	#endregion Variables / Properties
 	
@@ -22,8 +23,10 @@ public class PauseGUI : MonoBehaviour
 	
 	public void Start()
 	{
-		_fader = (Fader) FindObjectOfType(typeof(Fader));
+		_ambassador = Ambassador.Instance;
 		_maestro = Maestro.DetectLastInstance();
+		_fader = (Fader) FindObjectOfType(typeof(Fader));
+		_saveFileAccess = _ambassador.gameObject.GetComponent<SaveFileAccess>();
 		
 		PauseHud.Initialize(_maestro);
 		PauseForm.Initialize(_maestro);
@@ -58,6 +61,7 @@ public class PauseGUI : MonoBehaviour
 				break;
 				
 			case PauseForm.Feedback.SaveToTitle:
+				_saveFileAccess.SaveGameState();
 				StartCoroutine(FadeToTitleScene());
 				break;
 		}

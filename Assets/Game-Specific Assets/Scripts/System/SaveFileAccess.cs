@@ -21,11 +21,97 @@ public class SaveFileAccess : MonoBehaviour
 	{
 		_ambassador = GetComponent<Ambassador>();
 		_transition = GetComponent<TransitionManager>();
-	}
+	}	
 	
 	#endregion Engine Hooks
 	
 	#region Access Methods
+
+	public void SaveGameState()
+	{
+		switch(Application.platform)
+		{
+			case RuntimePlatform.WindowsEditor:
+			case RuntimePlatform.OSXEditor:
+			case RuntimePlatform.WindowsWebPlayer:
+			case RuntimePlatform.OSXWebPlayer:
+				SaveAmbassadorIntoPlayerConfig();
+				break;
+
+			case RuntimePlatform.WindowsPlayer:
+			case RuntimePlatform.LinuxPlayer:
+			case RuntimePlatform.OSXPlayer:
+				SaveAmbassadorIntoFile();
+				break;
+
+			default:
+				throw new Exception("(Save) Unexpected platform: " + Application.platform.ToString());
+		}
+	}
+
+	public bool LoadGameState()
+	{
+		bool result = false;
+		switch(Application.platform)
+		{
+			case RuntimePlatform.WindowsEditor:
+			case RuntimePlatform.OSXEditor:
+			case RuntimePlatform.WindowsWebPlayer:
+			case RuntimePlatform.OSXWebPlayer:
+				result = LoadAmbassadorFromPlayerConfig();
+				break;
+
+			case RuntimePlatform.WindowsPlayer:
+			case RuntimePlatform.LinuxPlayer:
+			case RuntimePlatform.OSXPlayer:
+				result = LoadFileIntoAmbassador();
+				break;
+
+			default:
+				throw new Exception("(Load) Unexpected platform: " + Application.platform.ToString());
+		}
+
+		return result;
+	}
+
+	public void SaveAmbassadorIntoPlayerConfig()
+	{
+		PlayerPrefs.SetString("Scene", FormatSceneLine());
+		PlayerPrefs.SetString("Health", FormatHealthLine());
+		PlayerPrefs.SetString("Damage", FormatDamageLine());
+		PlayerPrefs.SetString("Items", FormatItemLine());
+		PlayerPrefs.SetString("Phase", FormatPhaseLine());
+	}
+
+	public bool LoadAmbassadorFromPlayerConfig()
+	{
+		bool result = true;
+		try
+		{
+			string sceneLine = PlayerPrefs.GetString("Scene");
+			string healthLine = PlayerPrefs.GetString("Health");
+			string damageLine = PlayerPrefs.GetString("Damage");
+			string itemLine = PlayerPrefs.GetString("Items");
+			string phaseLine = PlayerPrefs.GetString("PhaseLine");
+
+			result = SetupSceneLoad(sceneLine)
+					 && SetupHealth(healthLine)
+					 && SetupDamage(damageLine)
+					 && SetupObtainedItems(itemLine)
+					 && SetupQuestPhases(phaseLine);
+		}
+		catch (Exception e)
+		{
+			Debug.LogWarning("Unhandled Exception Occurred!"
+			                 + Environment.NewLine 
+			                 + "Message:" + e.Message
+			                 + Environment.NewLine 
+			                 + "Stack Trace:" + e.StackTrace);
+			result = false;
+		}
+
+		return result;
+	}
 	
 	public void SaveAmbassadorIntoFile()
 	{

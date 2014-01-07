@@ -90,7 +90,7 @@ public class TitleGUI : MonoBehaviour
 			
 			case LoadGameForm.Feedback.Load:
 				LoadGameForm.SetVisibility(false);
-				if(_saveFileAccess.LoadFileIntoAmbassador())
+				if(_saveFileAccess.LoadGameState())
 				{
 					_transition.ChangeScenes();
 				}

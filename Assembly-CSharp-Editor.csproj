@@ -47,15 +47,10 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Editor\FindMissingScriptsRecursively.cs" />
-     <Compile Include="Assets\Ouya\SDK\Editor\OuyaMenuAdmin.cs" />
-     <Compile Include="Assets\Ouya\SDK\Editor\OuyaPanel.cs" />
-     <Compile Include="Assets\Ouya\SDK\Editor\OuyaPostProcessor.cs" />
      <Compile Include="Assets\WooglieAPI\Editor\WTextSettings.cs" />
      <Compile Include="Assets\WooglieAPI\Editor\WooglieEditor.cs" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
-     <None Include="Assets\dreamlo\README_FIRST.txt" />
      <None Include="Assets\WooglieAPI\Settings\settings.txt" />
-     <None Include="Assets\LitJson\license.txt" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
      <None Include="Assets\Plugins\Android\res\values\strings.xml" />
      <None Include="Assets\Standard Assets\Water (Basic)\Sources\Shaders\FX-Water Simple.shader" />
