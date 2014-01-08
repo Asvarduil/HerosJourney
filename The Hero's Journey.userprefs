@@ -1,10 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\GUI\Title\TitleGUI.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\Scripts\Dialogue\SceneChangeConversationEffect.cs">
     <Files>
-      <File FileName="Assets\Game-Specific Assets\Scripts\System\SaveFileAccess.cs" Line="53" Column="3" />
-      <File FileName="Assets\Game-Specific Assets\GUI\Title\TitleGUI.cs" Line="91" Column="33" />
-      <File FileName="Assets\Game-Specific Assets\GUI\Pause\PauseGUI.cs" Line="29" Column="1" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\Dialogue\SceneChangeConversationEffect.cs" Line="45" Column="3" />
+      <File FileName="Assets\Asvarduil Project RPG Control System\behaviors\TransitionManager.cs" Line="67" Column="2" />
+      <File FileName="Assets\Asvarduil Project RPG Control System\gui\Fader.cs" Line="48" Column="2" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\Dialogue\Door.cs" Line="79" Column="17" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

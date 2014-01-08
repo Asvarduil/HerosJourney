@@ -123,6 +123,7 @@
      <Compile Include="Assets\Game-Specific Assets\Scripts\Dialogue\ActivateConversationObjects.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Dialogue\Door.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Dialogue\EntityText.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\Dialogue\SceneChangeConversationEffect.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Dialogue\SceneTeleporter.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Dialogue\TeleportConversationEffect.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Pickups\AlterWeapon.cs" />
