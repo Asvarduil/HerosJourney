@@ -93,11 +93,6 @@
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\Waypoint.cs" />
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\WaypointMapAI.cs" />
      <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\WorldMapPlayerControl.cs" />
-     <Compile Include="Assets\Game-Specific Assets\GUI\Dialogue\DialogueGUI.cs" />
-     <Compile Include="Assets\Game-Specific Assets\GUI\Health\PlayerHealthProvider.cs" />
-     <Compile Include="Assets\Game-Specific Assets\GUI\Pause\IPausableEntity.cs" />
-     <Compile Include="Assets\Game-Specific Assets\GUI\Pause\PauseGUI.cs" />
-     <Compile Include="Assets\Game-Specific Assets\GUI\Title\TitleGUI.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\AIBase.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\Barbariccia.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\BossAI.cs" />
@@ -126,6 +121,11 @@
      <Compile Include="Assets\Game-Specific Assets\Scripts\Dialogue\SceneChangeConversationEffect.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Dialogue\SceneTeleporter.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Dialogue\TeleportConversationEffect.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\GUI\DialogueGUI.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\GUI\GameOverGUI.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\GUI\PauseGUI.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\GUI\PlayerHealthProvider.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\GUI\TitleGUI.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Pickups\AlterWeapon.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Pickups\HealthPickup.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Pickups\HeartContainer.cs" />
@@ -135,6 +135,7 @@
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\BossRoomTrigger.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\CloneKiller.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\EntitySpawner.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\System\IPausableEntity.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\InitializationScenePass.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\PlayerDeathReloader.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\PressureSwitch.cs" />
