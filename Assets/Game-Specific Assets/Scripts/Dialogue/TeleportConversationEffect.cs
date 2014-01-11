@@ -28,7 +28,9 @@ public class TeleportConversationEffect : MonoBehaviour
 	
 	public void TeleportCharacter(GameObject character)
 	{
-		Instantiate(TeleportEffect, character.transform.position, character.transform.rotation);
+		if(TeleportEffect != null)
+			Instantiate(TeleportEffect, character.transform.position, character.transform.rotation);
+
 		character.transform.position = TeleportTarget;
 	}
 	
