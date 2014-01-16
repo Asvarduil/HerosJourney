@@ -1,7 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\Scripts\AI\Artasandro.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\Scripts\System\ProjectileGroup.cs">
     <Files>
+      <File FileName="Assets\Game-Specific Assets\Scripts\System\ProjectileGroup.cs" Line="8" Column="32" />
       <File FileName="Assets\Game-Specific Assets\Scripts\AI\Artasandro.cs" Line="12" Column="22" />
       <File FileName="Assets\Game-Specific Assets\Scripts\Dialogue\ActivateConversationObjects.cs" Line="1" Column="1" />
       <File FileName="Assets\Game-Specific Assets\Scripts\Dialogue\TeleportConversationEffect.cs" Line="1" Column="1" />
@@ -9,7 +10,7 @@
       <File FileName="Assets\Asvarduil Project RPG Control System\behaviors\TransitionManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Asvarduil Project RPG Control System\gui\Fader.cs" Line="1" Column="1" />
       <File FileName="Assets\Game-Specific Assets\Scripts\Dialogue\Door.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\AI\AIBase.cs" Line="4" Column="1" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\AI\AIBase.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
