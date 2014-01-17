@@ -28,6 +28,14 @@ public abstract class AIBase : MonoBehaviour, IPausableEntity
 	public virtual void PlayAnimations() 
 	{	
 	}
+
+	protected void LogMessage(string message)
+	{
+		if(!DebugMode)
+			return;
+
+		Debug.Log(message);
+	}
 		
 	#endregion Methods
 	
