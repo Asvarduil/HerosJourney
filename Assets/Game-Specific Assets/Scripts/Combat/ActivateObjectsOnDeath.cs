@@ -5,6 +5,8 @@ public class ActivateObjectsOnDeath : MonoBehaviour
 {
 	#region Variables / Properties 
 
+	public bool DebugMode = false;
+
 	public bool WillActivateObjects = true;
 	public List<GameObject> Objects;
 	public GameObject SpecialEffect;
@@ -23,6 +25,9 @@ public class ActivateObjectsOnDeath : MonoBehaviour
 	
 	public void OnDestroy()
 	{
+		if(DebugMode)
+			Debug.Log("Will " + (WillActivateObjects ? "" : "not ") + "destroy child objects...");
+
 		if(Objects != null
 		   && Objects.Count > 0)
 			foreach(GameObject current in Objects)

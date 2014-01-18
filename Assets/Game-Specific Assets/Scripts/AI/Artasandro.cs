@@ -24,12 +24,14 @@ public class Artasandro : AIBase
 	public float AttackDistance = 0.95f;
 	public GameObject TeleportEffect;
 
-	private Vector3 _moveDirection;
-	private Vector3 _middleCoordinates;
+	private AnimationMode _animationType;
+	private Vector3 _originalPosition;
 	private Vector3 _spamEulerAngles;
+	private Vector3 _moveDirection;
 	private string _currentAnimation;
 	private float _nextCastTime;
 	private float _stopSpamTime;
+	private bool _isFacingLeft;
 	private int _aiPhase = 0;
 	private List<Action> _actions;
 
@@ -58,8 +60,9 @@ public class Artasandro : AIBase
 			TeleportBehindPlayer,
 		};
 
-		_middleCoordinates = transform.position;
+		_originalPosition = transform.position;
 		_currentAnimation = IdleLeft;
+		_isFacingLeft = true;
 	}
 
 	public void FixedUpdate()
@@ -84,37 +87,42 @@ public class Artasandro : AIBase
 
 	private void MoveToPlayer()
 	{
-		LogMessage("Moving towards the player...");
+		MoveTowardPlayer();
 
-		/*
-		if(Vector3.Distance(_sense.PlayerLocation.position, transform.position) < AttackDistance)
+		if(InRange())
 		{
 			LogMessage("Within striking distance of player!");
 			AdvanceToNextAiPhase();
 		}
-		*/
-
-		AdvanceToNextAiPhase();
 	}
 
 	private void AttackPlayer()
 	{
-		AdvanceToNextAiPhase();
+		_currentAnimation = _isFacingLeft
+							? AttackLeft
+							: AttackRight;
+
+		if(_sprite.AnimationIsComplete())
+		{
+			LogMessage("Player has been attacked!");
+			AdvanceToNextAiPhase();
+		}
 	}
 
 	private void TeleportBehindPlayer()
 	{
+		Vector3 target = _sense.PlayerLocation.position;
+		target.x += _sense.PlayerState.isFacingRight 
+					? -TeleportDistance 
+					: TeleportDistance;
+
+		TeleportToPoint(target);
 		AdvanceToNextAiPhase();
 	}
 
 	private void TeleportToCenter()
 	{
-		LogMessage("Teleporting to " + _middleCoordinates + ", and spamming magic!");
-
-		GameObject.Instantiate(TeleportEffect, transform.position, Quaternion.identity);
-		GameObject.Instantiate(TeleportEffect, _middleCoordinates, Quaternion.identity);
-
-		transform.position = _middleCoordinates;
+		TeleportToPoint(_originalPosition);
 
 		_stopSpamTime = Time.time + MagicSpamTime;
 		_spamEulerAngles = Vector3.zero;
@@ -124,6 +132,8 @@ public class Artasandro : AIBase
 
 	private void SpamMagic()
 	{
+		_movement.ClearMovement();
+
 		float currentTime = Time.time;
 		if(currentTime >= _stopSpamTime)
 		{
@@ -143,6 +153,80 @@ public class Artasandro : AIBase
 	#endregion Behaviors
 
 	#region Methods
+
+	private void TeleportToPoint(Vector3 position)
+	{
+		LogMessage("Teleporting to " + position);
+
+		GameObject.Instantiate(TeleportEffect, transform.position, Quaternion.identity);
+		GameObject.Instantiate(TeleportEffect, _originalPosition, Quaternion.identity);
+		
+		transform.position = position;
+	}
+
+	private bool InRange()
+	{
+		if(_sense.PlayerLocation == null)
+		{
+			LogMessage("Did not detect any nearby players.");
+			return false;
+		}
+		
+		bool result = Mathf.Abs(_sense.PlayerLocation.position.x - transform.position.x) < AttackDistance;
+		LogMessage("The enemy " + (result ? "is" : "is not") + " in range for me to attack!");
+		
+		return result;
+	}
+
+	public void MoveTowardPlayer()
+	{
+		Vector3 target = _originalPosition;
+		if(_sense.PlayerLocation != null)
+		{
+			LogMessage("Found a player!");
+			target = _sense.PlayerLocation.position;
+		}
+		else
+		{
+			LogMessage("Could not find a player!  Moving to original position instead.");
+		}
+		
+		MoveTowardLocation(target);
+	}
+
+	private void MoveTowardLocation(Vector3 location)
+	{
+		_animationType = AnimationMode.Loop;
+		
+		if(Mathf.Abs(location.x - transform.position.x) < AttackDistance)
+		{
+			LogMessage("Close enough, not moving.");
+			return;
+		}
+		
+		LogMessage("Moving towards " + location);
+		
+		if(location.x < transform.position.x)
+		{
+			if(DebugMode)
+				Debug.Log("Moving left...");
+			
+			_currentAnimation = MoveLeft;
+			_isFacingLeft = true;
+			_movement.MoveLeft();
+			return;
+		}
+		else if(location.x > transform.position.x)
+		{
+			if(DebugMode)
+				Debug.Log("Moving right...");
+			
+			_currentAnimation = MoveRight;
+			_isFacingLeft = false;
+			_movement.MoveRight();
+			return;
+		}
+	}
 
 	private void AdvanceToNextAiPhase()
 	{

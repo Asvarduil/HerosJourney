@@ -24,7 +24,7 @@ public abstract class AnimationSystemBase<T> : MonoBehaviour
 	protected bool _autoPlay = true;
 	protected bool _isLocked = false;
 	protected float _nextFrame;
-	
+
 	#endregion Variables / Properties
 	
 	#region Engine Hooks
@@ -50,6 +50,11 @@ public abstract class AnimationSystemBase<T> : MonoBehaviour
 	#endregion Engine Hooks
 	
 	#region Methods
+
+	public bool AnimationIsComplete()
+	{
+		return CurrentAnimation.IsAnimationCycleDone;
+	}
 	
 	protected abstract void AdvanceAnimation();
 	
@@ -85,7 +90,7 @@ public abstract class AnimationSystemBase<T> : MonoBehaviour
 		EvaluateAnimationMode();
 		
 		// if the animation is complete, release the animation lock.
-		if(! CurrentAnimation.IsAnimationCycleDone)
+		if(CurrentAnimation.IsAnimationCycleDone)
 			_isLocked = false;
 	}
 	
@@ -177,7 +182,7 @@ public class AnimationBase<T>
 	
 	public bool IsAnimationCycleDone
 	{
-		get { return Current < Frames.Count - 1; }
+		get { return Current >= Frames.Count - 1; }
 	}
 	
 	public T CurrentFrame

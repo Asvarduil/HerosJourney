@@ -31,7 +31,7 @@ public class SpriteSystem : AnimationSystemBase<Texture2D>
 	#endregion Engine Hooks
 	
 	#region Methods
-	
+
 	protected override void AdvanceAnimation()
 	{
 		renderer.material.SetTexture("_MainTex", CurrentAnimation.CurrentFrame);

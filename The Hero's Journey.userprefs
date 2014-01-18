@@ -1,9 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\Scripts\AI\Artasandro.cs">
     <Files>
-      <File FileName="Assets\Game-Specific Assets\Scripts\AI\Artasandro.cs" Line="95" Column="5" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\AI\AIBase.cs" Line="37" Column="22" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\AI\Artasandro.cs" Line="105" Column="6" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\AI\AIBase.cs" Line="12" Column="19" />
+      <File FileName="Assets\Side-Scrolling Controller\Scripts\SidescrollingMovement.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\AI\Steelguard.cs" Line="235" Column="24" />
+      <File FileName="Assets\Side-Scrolling Controller\Scripts\PlayerControl.cs" Line="18" Column="8" />
+      <File FileName="Assets\Sprite System\SpriteSystem.cs" Line="6" Column="38" />
+      <File FileName="Assets\Sprite System\AnimationBase.cs" Line="57" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -11,6 +16,7 @@
       <Breakpoint file="C:\Users\Andrew\Desktop\Unity Productions\The Hero's Journey\Assets\Game-Specific Assets\GUI\Title\TitleGUI.cs" line="63" />
       <Breakpoint file="C:\Users\Andrew\Desktop\Unity Productions\The Hero's Journey\Assets\Game-Specific Assets\Scripts\System\SaveFileAccess.cs" line="54" />
       <Breakpoint file="C:\Users\Andrew\Desktop\Unity Productions\The Hero's Journey\Assets\Game-Specific Assets\GUI\Title\TitleGUI.cs" line="457" />
+      <Breakpoint file="C:\Users\Andrew\Desktop\Unity Productions\The Hero's Journey\Assets\Game-Specific Assets\Scripts\Combat\ActivateObjectsOnDeath.cs" line="34" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

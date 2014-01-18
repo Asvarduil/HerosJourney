@@ -15,6 +15,7 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 	public bool isCrouching = false;
 	public bool isJumping = false;
 	public bool isAttacking = false;
+	public bool isFacingRight = true;
 	
 	public string idleLeft;
 	public string idleRight;
@@ -42,7 +43,6 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 	private float _horizontalInput;
 	private bool _isMoving = false;
 	private bool _isFalling = false;
-	private bool _facingRight = true;	
 	private string _currentSequence;
 	private SpriteSystem _animation;
 	
@@ -88,7 +88,7 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 		_verticalInput = 0;
 		_horizontalInput = 0;
 		
-		_currentSequence = _facingRight ? idleRight : idleLeft;
+		_currentSequence = isFacingRight ? idleRight : idleLeft;
 	}
 	
 	public void Resume()
@@ -139,18 +139,18 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 			Debug.Log("The player released the attack button, so attacking!");
 		
 		_currentSequence = (isCrouching || isJumping)
-						   ? _facingRight ? crouchAttackRight : crouchAttackLeft
-				           : _facingRight ? attackRight : attackLeft;
+						   ? isFacingRight ? crouchAttackRight : crouchAttackLeft
+				           : isFacingRight ? attackRight : attackLeft;
 	}
 	
 	private void CheckHorizontal()
 	{
 		if(! InputIsDead(_horizontalInput))
-			_facingRight = InputIsPositive(_horizontalInput);
+			isFacingRight = InputIsPositive(_horizontalInput);
 		
 		_currentSequence = (InputIsDead(_horizontalInput))
-						   ? _facingRight ? idleRight : idleLeft
-						   : _facingRight ? walkRight : walkLeft;
+						   ? isFacingRight ? idleRight : idleLeft
+						   : isFacingRight ? walkRight : walkLeft;
 		_isMoving = (! InputIsDead(_horizontalInput));
 	}
 	
@@ -165,7 +165,7 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 		}
 		
 		isCrouching = true;
-		_currentSequence = _facingRight ? crouchRight : crouchLeft;
+		_currentSequence = isFacingRight ? crouchRight : crouchLeft;
 		_isMoving = false;
 	}
 	
@@ -216,7 +216,7 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 		isCrouching = false;
 		isJumping = false;
 		
-		_currentSequence = _facingRight ? hitRight : hitLeft;
+		_currentSequence = isFacingRight ? hitRight : hitLeft;
 	}
 	
 	private void PerformJump()
@@ -255,7 +255,7 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 		isJumping = ! _movement.isGrounded;
 		
 		if(! _movement.isGrounded)
-			_currentSequence = _facingRight ? crouchRight : crouchLeft;
+			_currentSequence = isFacingRight ? crouchRight : crouchLeft;
 	}
 	
 	private void MoveCharacter()
@@ -266,7 +266,7 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 			return;
 		}
 		
-		if(_facingRight)
+		if(isFacingRight)
 			_movement.MoveRight();
 		else
 			_movement.MoveLeft();
