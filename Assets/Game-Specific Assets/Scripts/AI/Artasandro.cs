@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Artasandro : AIBase
 {
-	#region Variables / Properties
+	#region Variables / Properties 
 
 	public string IdleLeft;
 	public string IdleRight;

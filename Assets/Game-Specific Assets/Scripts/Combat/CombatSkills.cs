@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 
-// Programmer's Notes:
+// Programmer's Notes: 
 // ----------------------------------------------
 // Combat skills are somewhat specific in this
 // case.  Because this system draws on the
