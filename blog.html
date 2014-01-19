@@ -66,11 +66,55 @@
 		
 		<div id='blog-accordion' class='three-image-pane'>
 			<div class='blog-entry accordion-header new-entry'>
+				<h3 class='float-left'>Week 42</h3>
+				<h6 class='float-right'>19 Jan 2014</h6>
+				<div class='clearfix'></div>	
+			</div>
+			<div class='blog-entry accordion-content'>
+				<p>This week I worked on building Lord Artasandro, the final boss of the game, and putting some polish on the game.</p>
+				
+				<h4>A Final Boss</h4>
+				<p>Lord Artasandro is an interesting case, that has led to my rethinking my early boss AI, which built off of existing enemy AI scripts.  I've created a pretty formidable boss sequence for Lord Artasandro, though it can be broken.  I now need to down-tune Artasandro so he's not quite so nasty.</p>
+				
+				<p>Artasandro himself is a pretty nefarious boss.  He uses teleportation, <em>strong</em> physical attacks, and magic spam to bring his enemies down.  By this point, you should have the tools to handle him, but I promise with his massive health pool, it won't be easy.  And, may God have mercy on you if you try it with default health.</p>
+				
+				<h4>Spit-Shine!</h4>
+				<p>I also was able to do some polishing on existing game elements this week.  For one thing, I made the breakable blocks, and bedrock, <em>way</em> prettier.  Here's the breakable blocks before...</p>
+				
+				<img src='./images/sidescroller-17.png' alt='Breakable block looks ugly...' />
+				
+				<p>...but, here it is with <em>a bit</em> of polish applied...</p>
+				
+				<img src='./images/sidescroller-46.png' alt='Breakable block looks better.' />
+				
+				<p>I was also able to add a floor version of the bedrock for the Evil Castle lead-up maps!</p>
+				
+				<img src='./images/sidescroller-49.png' alt='Pretty bedrock' />
+				
+				<p>The good news is, with Artasandro's AI in a shippable state, I have about 13 days to take what I have in the game, and polish it so that it's ready for you, the gamer!  Stay tuned going forward.</p>
+				
+				<h4>What's next?</h4>
+				<p>Well, polish.  I'm looking at going back to some old bosses and improving their AI scripts with some of the things I've done on Lord Artasandro to make the boss fights more interesting - Garlan could really use Artasandro's teleport mechanic, while Barbariccia would do well to acquaint the player with the Magic Spam.</p>
+				
+				<p>I tried improving the crap forest trees, but it didn't go so well.  If I can find a better alternative I will, but it's looking increasingly like I'll have to patch the ugly out of those trees.  It's not ideal...but I'm not blowing anymore deadlines on this game.</p>
+				
+				<p>I'm also working on NPC text again.  It seems my first attempts at cleaning up NPC dialogue to be more helpful to the player weren't quite enough, and really NPC text is the guiding light for both player objectives <em>and</em> story, <em>and</em> indications about game mechanics.  Needless to say, it's pretty darn important.</p>
+				
+				<p>Finally, I'm planning to create a webplayer with a new mechanic - Ambush Events.  As it stands right now, I have static enemies on a map.  Every time you enter a map, the enemies are there, and you beat them.  And, that's it.  What an ambush event provides is for a dynamic event that locks screen movement and spawns a number of waves of enemies.  As I abandoned the capability for pacifist runs a while back - because I'm leaning on the swordfighting mechanics to make this game worthwhile - I could only see this change <em>helping</em> the game be the best possible experience.</p>
+				
+				<h4>When's the next webplayer?</h4>
+				<p>Release Candidate builds will be available when I've completed a particular bit of polish.  There is no strict schedule, they could come out <em>any time.</em>  When I release a Candidate, please, play it critically and give me as much feedback as you can, so I can make the best possible game!
+				
+				<h4>Another Note</h4>
+				<p>It's probably long overdue, but I've been forgetting to say something very important on these weekly updates - thank you for sticking with this project!  42 weeks is a long time; if you remember when I didn't even have a GitHub IO site up for this, you're already a veteran of this project alongside me.  This hasn't been the easiest project to build or follow, and the fact that you've all followed with me is really humbling.  Thank you very much.  I don't know any names, but this project is dedicated to <em>each and every one of you.</em>  Your interest makes this possible.</p>
+			</div>
+		
+			<div class='blog-entry accordion-header'>
 				<h3 class='float-left'>Week 41</h3>
 				<h6 class='float-right'>12 Jan 2014</h6>
 				<div class='clearfix'></div>	
 			</div>
-			<div class='blog-entry accordion-content'>
+			<div class='blog-entry accordion-content hidden'>
 				<p>This week, I focused on planning, and implementing parts of the ending sequence of the game.</p>
 				
 				<h4>The Evil Plan</h4>
