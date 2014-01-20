@@ -39,6 +39,11 @@ public class SequenceCounter
 {
 	public string Name;
 	public int Phase;
+
+	public override string ToString()
+	{
+		return Name + " " + Phase;
+	}
 }
 
 public class Ambassador : ManagerMonoBehavior

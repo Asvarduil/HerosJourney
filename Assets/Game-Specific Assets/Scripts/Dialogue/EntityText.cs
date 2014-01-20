@@ -25,7 +25,8 @@ using System.Collections.Generic;
 public class EntityText : MonoBehaviour 
 {
 	#region Variables / Properties
-	
+
+	public bool DebugMode = false;
 	public string AffectedTag = "Player";
 	public bool CanTalk = false;
 	public bool TriggeredOnEntry = false;
@@ -48,6 +49,9 @@ public class EntityText : MonoBehaviour
 		GUI.skin = Skin;
 		if(TalkButton.IsClicked())
 		{
+			if(DebugMode)
+				Debug.Log("Entity flagged as being able to talk...");
+
 			_showButton = false;
 			CanTalk = true;
 		}
@@ -106,14 +110,30 @@ public class EntityText : MonoBehaviour
 		{
 			DialogueThread thread = NPCText.FirstOrDefault(t => t.EligibleForUse(phase));
 			if(thread == default(DialogueThread))
+			{
+				if(DebugMode)
+					Debug.Log("Phase " + phase + " will not be used...");
+
 				continue;
-			
+			}
+
+			if(DebugMode)
+				Debug.Log("Found an eligible thread for dialogue phase " + phase);
 			relevant = thread;
 			break;
 		}
 		
 		if(relevant == default(DialogueThread))
+		{
+			if(DebugMode)
+				Debug.Log("Was unable to find a matching phase.  Using default dialogue instead...");
 			relevant = NPCText.FirstOrDefault(x => x.IsDefaultText == true);
+		}
+
+		if(relevant == default(DialogueThread))
+		{
+			Debug.LogError("Was unable to find default dialogue.  Revise this immediately!");
+		}
 		
 		relevant.CallingGameObject = gameObject;
 		return relevant;

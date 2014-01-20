@@ -100,12 +100,21 @@ public class DialogueGUI : MonoBehaviour
 			_ambassador.UpdateThread(text.QuestThreadName, text.ResultingQuestThreadPhase);
 		
 		if(text.CausesSelfDestruct)
+		{
+			if(DebugMode)
+				Debug.Log("Destroying current object, reverting flags, and re-acquiring list of text sources.");
+
 			Destroy(_currentThread.CallingGameObject);
+			DialogueAvailable = false;
+			_textProviders = (EntityText[]) FindObjectsOfType(typeof(EntityText));
+		}
 	}
 	
 	private void AcquireTextFromAvailableEntities()
 	{
 		EntityText availableEntity = _textProviders.FirstOrDefault(t => t.CanTalk == true);
+		if(DebugMode)
+			Debug.Log("There is " + (availableEntity == default(EntityText) ? "no" : "an") + " NPC that can talk.");
 		
 		// Code Case: We no longer have an entity, but we still show there being dialogue.
 		// User Case: Player has left a trigger with text still shown.
@@ -113,6 +122,9 @@ public class DialogueGUI : MonoBehaviour
 		if(availableEntity == default(EntityText)
 		   && DialogueAvailable)
 		{
+			if(DebugMode)
+				Debug.Log("User has left a text trigger, so hide text.");
+
 			_currentThread.ResetIndex();
 			DialogueAvailable = false;
 			HideElements();
@@ -124,6 +136,9 @@ public class DialogueGUI : MonoBehaviour
 		else if(availableEntity != default(EntityText)
 			    && (! DialogueAvailable))
 		{
+			if(DebugMode)
+				Debug.Log("Player has initiated a conversation.");
+
 			_currentThread = availableEntity.CurrentThread(_ambassador.SequenceCounters);
 			_currentThread.ResetIndex();
 			
@@ -159,7 +174,7 @@ public class DialogueGUI : MonoBehaviour
 		}
 		
 		if(DebugMode)
-			Debug.Log("Player controls " + (canControl ? "won't" : "will") + " be locked.");
+			Debug.Log("Player controls will " + (canControl ? "not" : string.Empty) + " be locked.");
 			
 		if(canControl)
 			controls.Resume();
