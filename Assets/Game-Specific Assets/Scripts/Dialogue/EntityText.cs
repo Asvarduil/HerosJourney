@@ -228,5 +228,7 @@ public class DialogueText
 	public bool AltersProgression = false;
 	public string QuestThreadName;
 	public int ResultingQuestThreadPhase;
+	public string ThreadQuestTitle;
+	public string ThreadQuestDetails;
 	public bool CausesSelfDestruct = false;
 }

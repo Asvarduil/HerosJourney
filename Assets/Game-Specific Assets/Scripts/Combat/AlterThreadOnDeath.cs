@@ -6,6 +6,8 @@ public class AlterThreadOnDeath : MonoBehaviour
 	
 	public string ThreadName;
 	public int NewPhase;
+	public string QuestTitle;
+	public string QuestDetails;
 	
 	private Ambassador _ambassador;
 	
@@ -20,7 +22,7 @@ public class AlterThreadOnDeath : MonoBehaviour
 	
 	void OnDestroy()
 	{
-		_ambassador.UpdateThread(ThreadName, NewPhase);
+		_ambassador.UpdateThread(ThreadName, NewPhase, QuestTitle, QuestDetails);
 	}
 	
 	#endregion Engine Hooks

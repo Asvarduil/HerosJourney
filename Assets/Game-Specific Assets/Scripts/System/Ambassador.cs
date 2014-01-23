@@ -39,6 +39,8 @@ public class SequenceCounter
 {
 	public string Name;
 	public int Phase;
+	public string QuestTitle;
+	public string QuestDetails;
 
 	public override string ToString()
 	{
@@ -122,7 +124,7 @@ public class Ambassador : ManagerMonoBehavior
 		return oldest;
 	}
 	
-	public void UpdateThread(string name, int progress)
+	public void UpdateThread(string name, int progress, string questName = "", string questDetail = "")
 	{
 		SequenceCounter counter = SequenceCounters.FirstOrDefault(c => c.Name == name);
 		if(counter == default(SequenceCounter))
@@ -137,6 +139,8 @@ public class Ambassador : ManagerMonoBehavior
 			Debug.Log("Updating Quest Thread " + name + " to progress Lv." + progress);
 		
 		counter.Phase = progress;
+		counter.QuestTitle = questName;
+		counter.QuestDetails = questDetail;
 	}
 	
 	public bool CheckThreadProgress(string name, int progress)

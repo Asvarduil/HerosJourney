@@ -128,6 +128,7 @@
      <Compile Include="Assets\Game-Specific Assets\Scripts\GUI\GameOverGUI.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\GUI\PauseGUI.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\GUI\PlayerHealthProvider.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\GUI\QuestGUI.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\GUI\TitleGUI.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Pickups\AlterWeapon.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\Pickups\HealthPickup.cs" />

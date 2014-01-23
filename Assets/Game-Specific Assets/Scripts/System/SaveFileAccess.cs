@@ -259,6 +259,10 @@ public class SaveFileAccess : MonoBehaviour
 			builder.Append(current.Name);
 			builder.Append(">");
 			builder.Append(current.Phase);
+			builder.Append(",");
+			builder.Append(current.QuestTitle);
+			builder.Append(">");
+			builder.Append(current.QuestDetails);
 			
 			if(i < _ambassador.SequenceCounters.Count - 1)
 				builder.Append("|");
@@ -356,10 +360,13 @@ public class SaveFileAccess : MonoBehaviour
 		string[] itemParts = mainParts[1].Split('|');
 		foreach(string current in itemParts)
 		{
-			string[] phaseParts = current.Split('>');
+			string[] sequenceParts = current.Split(',');
+
+			string[] phaseParts = sequenceParts[0].Split('>');
 			int phaseProgress = Convert.ToInt32(phaseParts[1]);
-			
-			_ambassador.UpdateThread(phaseParts[0], phaseProgress);
+
+			string[] detailParts = sequenceParts[1].Split('>');
+			_ambassador.UpdateThread(phaseParts[0], phaseProgress, detailParts[0], detailParts[1]);
 		}
 		
 		return true;

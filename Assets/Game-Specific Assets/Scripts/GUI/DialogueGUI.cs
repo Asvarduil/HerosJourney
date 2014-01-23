@@ -97,7 +97,16 @@ public class DialogueGUI : MonoBehaviour
 			_ambassador.GainItem(text.ConversationGift);
 		
 		if(text.AltersProgression)
-			_ambassador.UpdateThread(text.QuestThreadName, text.ResultingQuestThreadPhase);
+		{
+			_ambassador.UpdateThread(
+				text.QuestThreadName, 
+				text.ResultingQuestThreadPhase, 
+				text.ThreadQuestTitle, 
+				text.ThreadQuestDetails
+			);
+
+			gameObject.SendMessage("RefreshQuestDetails", SendMessageOptions.DontRequireReceiver);
+		}
 		
 		if(text.CausesSelfDestruct)
 		{

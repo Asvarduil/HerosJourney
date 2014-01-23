@@ -16,6 +16,7 @@ public class PauseGUI : MonoBehaviour
 	private Maestro _maestro;
 	private Ambassador _ambassador;
 	private SaveFileAccess _saveFileAccess;
+	private QuestGUI _questGUI;
 	
 	#endregion Variables / Properties
 	
@@ -24,6 +25,7 @@ public class PauseGUI : MonoBehaviour
 	public void Start()
 	{
 		_ambassador = Ambassador.Instance;
+		_questGUI = GetComponent<QuestGUI>();
 		_maestro = Maestro.DetectLastInstance();
 		_fader = (Fader) FindObjectOfType(typeof(Fader));
 		_saveFileAccess = _ambassador.gameObject.GetComponent<SaveFileAccess>();
@@ -42,6 +44,7 @@ public class PauseGUI : MonoBehaviour
 				RadiatePauseCommand();
 				PauseHud.SetVisibility(false);
 				PauseForm.SetVisibility(true);
+				_questGUI.SetVisibility(true);
 				break;
 		}
 		
@@ -52,12 +55,14 @@ public class PauseGUI : MonoBehaviour
 				RadiateResumeCommand();
 				PauseForm.SetVisibility(false);
 				PauseHud.SetVisibility(true);
+				_questGUI.SetVisibility(false);
 				break;
 				
 			case PauseForm.Feedback.Settings:
 				SettingsForm.LoadSettings();
 				SettingsForm.SetVisibility(true);
 				PauseForm.SetVisibility(false);
+				_questGUI.SetVisibility(false);
 				break;
 				
 			case PauseForm.Feedback.SaveToTitle:
@@ -73,6 +78,7 @@ public class PauseGUI : MonoBehaviour
 				SettingsForm.SaveSettings();
 				SettingsForm.SetVisibility(false);
 				PauseForm.SetVisibility(true);
+				_questGUI.SetVisibility(true);
 				break;
 		}
 	}
