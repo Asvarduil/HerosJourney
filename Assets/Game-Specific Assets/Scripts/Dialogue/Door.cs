@@ -44,7 +44,8 @@ public class Door : MonoBehaviour, IPausableEntity
 			return;
 		}
 
-		if(EnterButton.IsClicked())
+		if(EnterButton.IsClicked()
+		   || Input.GetButtonDown("Fire1"))
 		{
 			if(DebugMode)
 				Debug.Log("Enter button was clicked for Door: " + gameObject.name);

@@ -47,7 +47,8 @@ public class EntityText : MonoBehaviour
 			return;
 		
 		GUI.skin = Skin;
-		if(TalkButton.IsClicked())
+		if(TalkButton.IsClicked()
+		   || Input.GetButtonDown("Fire1"))
 		{
 			if(DebugMode)
 				Debug.Log("Entity flagged as being able to talk...");
@@ -69,6 +70,8 @@ public class EntityText : MonoBehaviour
 		
 		if(TriggeredOnEntry)
 		{
+			ActivateAttacks(who, false);
+
 			CanTalk = true;
 			_showButton = false;
 			return;
@@ -81,6 +84,8 @@ public class EntityText : MonoBehaviour
 	{
 		if(who.tag != AffectedTag)
 			return;
+
+		ActivateAttacks(who, true);
 		
 		CanTalk = false;
 		_showButton = false;
@@ -137,6 +142,12 @@ public class EntityText : MonoBehaviour
 		
 		relevant.CallingGameObject = gameObject;
 		return relevant;
+	}
+
+	private void ActivateAttacks(Collider who, bool canAttack)
+	{
+		PlayerControl controls = who.gameObject.GetComponent<PlayerControl>();
+		controls.canAttack = canAttack;
 	}
 	
 	#endregion Methods

@@ -181,7 +181,8 @@ public class PauseHUD
 	{
 		GUI.skin = Skin;
 		
-		_pauseClicked = PauseButton.IsClicked();
+		_pauseClicked = PauseButton.IsClicked()
+						|| Input.GetButtonDown("Pause");
 		
 		if(_pauseClicked)
 			_maestro.PlaySoundEffect(ButtonSound);
@@ -276,7 +277,8 @@ public class PauseForm : AsvarduilForm
 		GUI.skin = Skin;
 		Background.DrawMe();
 		
-		_resumeClicked = ResumeButton.IsClicked();
+		_resumeClicked = ResumeButton.IsClicked()
+			             || Input.GetButtonDown("Pause");
 		_settingsClicked = SettingsButton.IsClicked();
 		_saveToTitleClicked = SaveToTitleButton.IsClicked();
 		

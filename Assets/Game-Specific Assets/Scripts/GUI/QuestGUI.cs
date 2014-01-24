@@ -43,6 +43,10 @@ public class QuestGUI : MonoBehaviour
 		int i = 0;
 		foreach(QuestInfoWindow current in QuestInfoWindows)
 		{
+			if(DebugMode)
+				Debug.Log("Current quest being mapped: " + i + Environment.NewLine
+				          + "The Ambassador has " + _ambassador.SequenceCounters.Count + " sequence counters available.");
+
 			string questTitle = _ambassador.SequenceCounters[i].QuestTitle;
 			string questDetails = _ambassador.SequenceCounters[i].QuestDetails;
 			current.UpdateDetails(questTitle, questDetails);

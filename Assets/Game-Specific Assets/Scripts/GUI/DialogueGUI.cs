@@ -18,12 +18,16 @@ public class DialogueGUI : MonoBehaviour
 	
 	public bool DebugMode = false;
 	public GUISkin skin;
+	public bool GUIShowing = false;
 	public bool DialogueAvailable = false;
+	public float AdvanceDialogLockout = 2.0f;
+
 	public AsvarduilImage Background;
 	public AsvarduilLabel SpeakerName;
 	public AsvarduilLabel SpeakerText;
 	public AsvarduilButton NextButton;
-	
+
+	private float _nextAdvance;
 	private string _speakerName;
 	private DialogueThread _currentThread;
 	private EntityText[] _textProviders;
@@ -51,15 +55,24 @@ public class DialogueGUI : MonoBehaviour
 		Background.DrawMe();
 		SpeakerName.DrawMe();
 		SpeakerText.DrawMe();
-		
-		if(NextButton.IsClicked())
+
+		bool userWantsToAdvance = NextButton.IsClicked() 
+			                      || Input.GetButtonUp("Fire1");
+
+		if(Time.time >= _nextAdvance
+		   && userWantsToAdvance)
 		{
 			DialogueText text = _currentThread.AdvanceSpeakerText();
 			if(text != default(DialogueText))
+			{
 				PresentLine(text);
+			}
 			
 			if(_currentThread.TextExhausted)
 			{
+				if(DebugMode)
+					Debug.Log("Dialog text is exhausted.");
+
 				PlayerHasControl(true);
 				HideElements();
 			}
@@ -69,6 +82,7 @@ public class DialogueGUI : MonoBehaviour
 	public void FixedUpdate()
 	{
 		AcquireTextFromAvailableEntities();
+		PresentAdvanceDialogButton();
 		TweenElements();
 	}
 	
@@ -78,6 +92,8 @@ public class DialogueGUI : MonoBehaviour
 	
 	private void PresentLine(DialogueText text)
 	{
+		UpdateAdvanceLockout();
+
 		SpeakerName.Text = text.SpeakerName;
 		SpeakerText.Text = text.SpeakerText;
 		
@@ -89,7 +105,9 @@ public class DialogueGUI : MonoBehaviour
 		
 		if(!string.IsNullOrEmpty(text.ConversationEvent))
 		{
-			Debug.Log("Sending message " + text.ConversationEvent + " to own scripts...");
+			if(DebugMode)
+				Debug.Log("Sending message " + text.ConversationEvent + " to own scripts...");
+
 			gameObject.SendMessage(text.ConversationEvent, SendMessageOptions.RequireReceiver);
 		}
 		
@@ -115,12 +133,35 @@ public class DialogueGUI : MonoBehaviour
 
 			Destroy(_currentThread.CallingGameObject);
 			DialogueAvailable = false;
+			GUIShowing = false;
+
 			_textProviders = (EntityText[]) FindObjectsOfType(typeof(EntityText));
 		}
+	}
+
+	private void UpdateAdvanceLockout()
+	{
+		_nextAdvance = Time.time + AdvanceDialogLockout;
+		NextButton.TargetTint.a = 0;
+	}
+
+	private void PresentAdvanceDialogButton()
+	{
+		if(!GUIShowing)
+			return;
+
+		if(Time.time <= _nextAdvance)
+			return;
+
+		NextButton.TargetTint.a = 1;
 	}
 	
 	private void AcquireTextFromAvailableEntities()
 	{
+		if(_textProviders == null
+		   || _textProviders.Length == 0)
+			return;
+
 		EntityText availableEntity = _textProviders.FirstOrDefault(t => t.CanTalk == true);
 		if(DebugMode)
 			Debug.Log("There is " + (availableEntity == default(EntityText) ? "no" : "an") + " NPC that can talk.");
@@ -193,6 +234,8 @@ public class DialogueGUI : MonoBehaviour
 	
 	private void HideElements()
 	{
+		GUIShowing = false;
+
 		Background.TargetTint.a = 0;
 		SpeakerName.TargetTint.a = 0;
 		SpeakerText.TargetTint.a = 0;
@@ -201,6 +244,8 @@ public class DialogueGUI : MonoBehaviour
 	
 	private void ShowElements()
 	{
+		GUIShowing = true;
+
 		Background.TargetTint.a = 1;
 		SpeakerName.TargetTint.a = 1;
 		SpeakerText.TargetTint.a = 1;

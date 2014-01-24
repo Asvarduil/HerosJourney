@@ -9,6 +9,7 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 	
 	public bool DebugMode = false;
 	public float DeadZoneRange = 0.2f;
+	public bool canAttack = true;
 	public bool canOverthrust = false;
 	public bool canUnderthrust = false;
 	public bool allowAction = true;
@@ -108,8 +109,12 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 			_horizontalInput = 0;
 			return;
 		}
-		
-		isAttacking = Input.GetButtonUp("Fire1");
+
+		if(canAttack)
+			isAttacking = Input.GetButtonUp("Fire1");
+		else
+			isAttacking = false;
+
 		_verticalInput = Input.GetAxisRaw("Vertical");
 		_horizontalInput = Input.GetAxisRaw("Horizontal");
 	}

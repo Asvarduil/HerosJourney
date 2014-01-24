@@ -28,10 +28,11 @@ public class SceneTeleporter : MonoBehaviour, IPausableEntity
 			return;
 		
 		GUI.skin = Skin;
-		if(EnterButton.IsClicked())
+		if(EnterButton.IsClicked()
+		   || Input.GetButtonDown("Fire1"))
 		{
 			if(DebugMode)
-				Debug.Log("Enter button was clicked for Door: " + gameObject.name);
+				Debug.Log("Enter button was clicked for Teleporter: " + gameObject.name);
 			
 			CheckIfTransitionOccurred();
 		}
