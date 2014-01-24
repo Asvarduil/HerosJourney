@@ -8,7 +8,9 @@ using System.Collections.Generic;
 public class SaveFileAccess : MonoBehaviour 
 {
 	#region Variables / Properties
-	
+
+	public bool DebugMode = false;
+
 	private GameObject _player;
 	private Ambassador _ambassador;
 	private TransitionManager _transition;
@@ -81,10 +83,22 @@ public class SaveFileAccess : MonoBehaviour
 		PlayerPrefs.SetString("Damage", FormatDamageLine());
 		PlayerPrefs.SetString("Items", FormatItemLine());
 		PlayerPrefs.SetString("Phase", FormatPhaseLine());
+
+		if(DebugMode)
+		{
+			Debug.Log("PlayerConfig save complete.");
+			DumpPlayerConfigToLog();
+		}
 	}
 
 	public bool LoadAmbassadorFromPlayerConfig()
 	{
+		if(DebugMode)
+		{
+			Debug.Log("Loading from PlayerConfig...");
+			DumpPlayerConfigToLog();
+		}
+
 		bool result = true;
 		try
 		{
@@ -92,7 +106,7 @@ public class SaveFileAccess : MonoBehaviour
 			string healthLine = PlayerPrefs.GetString("Health");
 			string damageLine = PlayerPrefs.GetString("Damage");
 			string itemLine = PlayerPrefs.GetString("Items");
-			string phaseLine = PlayerPrefs.GetString("PhaseLine");
+			string phaseLine = PlayerPrefs.GetString("Phase");
 
 			result = SetupSceneLoad(sceneLine)
 					 && SetupHealth(healthLine)
@@ -211,7 +225,6 @@ public class SaveFileAccess : MonoBehaviour
 		builder.Append(playerEulerAngles.y.ToString());
 		builder.Append(">");
 		builder.Append(playerEulerAngles.z.ToString());
-		builder.Append(">");
 		
 		return builder.ToString();
 	}
@@ -251,10 +264,13 @@ public class SaveFileAccess : MonoBehaviour
 		StringBuilder builder = new StringBuilder("Quests:");
 		
 		// Format of line:
-		// Quests:A>n|B>n|C>n
+		// Quests:A>n,T>d|B>n,T>d|C>n,T>d
 		for(int i = 0; i < _ambassador.SequenceCounters.Count; i++)
 		{
 			SequenceCounter current = _ambassador.SequenceCounters[i];
+			if(DebugMode)
+				Debug.Log("Serializing Sequence Counter #" + i + Environment.NewLine
+				          + current.ToString());
 			
 			builder.Append(current.Name);
 			builder.Append(">");
@@ -267,6 +283,9 @@ public class SaveFileAccess : MonoBehaviour
 			if(i < _ambassador.SequenceCounters.Count - 1)
 				builder.Append("|");
 		}
+
+		if(DebugMode)
+			Debug.Log("Resulting phsae line:" + builder.ToString());
 		
 		return builder.ToString();
 	}
@@ -366,7 +385,15 @@ public class SaveFileAccess : MonoBehaviour
 			int phaseProgress = Convert.ToInt32(phaseParts[1]);
 
 			string[] detailParts = sequenceParts[1].Split('>');
-			_ambassador.UpdateThread(phaseParts[0], phaseProgress, detailParts[0], detailParts[1]);
+
+			SequenceCounter newCounter = new SequenceCounter{
+				Name = phaseParts[0],
+				Phase = phaseProgress,
+				QuestTitle = detailParts[0],
+				QuestDetails = detailParts[1]
+			};
+
+			_ambassador.SequenceCounters.Add(newCounter);
 		}
 		
 		return true;
@@ -375,6 +402,25 @@ public class SaveFileAccess : MonoBehaviour
 	#endregion Interpretation Methods
 	
 	#region Helper Methods
+
+	private void DumpPlayerConfigToLog()
+	{
+		StringBuilder builder = new StringBuilder("Contents of the Player Config file:" + Environment.NewLine);
+
+		string sceneLine = PlayerPrefs.GetString("Scene");
+		string healthLine = PlayerPrefs.GetString("Health");
+		string damageLine = PlayerPrefs.GetString("Damage");
+		string itemLine = PlayerPrefs.GetString("Items");
+		string phaseLine = PlayerPrefs.GetString("Phase");
+
+		builder.Append("Scene line: " + sceneLine + Environment.NewLine);
+		builder.Append("Health line: " + healthLine + Environment.NewLine);
+		builder.Append("Damage line: " + damageLine + Environment.NewLine);
+		builder.Append("Item line: " + itemLine + Environment.NewLine);
+		builder.Append("Phase line: " + phaseLine + Environment.NewLine);
+
+		Debug.Log(builder.ToString());
+	}
 	
 	private Vector3 ParseSequenceToVector3(string sequence, char separator)
 	{

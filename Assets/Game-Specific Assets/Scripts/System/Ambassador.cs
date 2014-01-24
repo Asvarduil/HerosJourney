@@ -44,7 +44,8 @@ public class SequenceCounter
 
 	public override string ToString()
 	{
-		return Name + " " + Phase;
+		return Name + " " + Phase 
+			   + " (" + QuestTitle + ": " + QuestDetails + ")";
 	}
 }
 

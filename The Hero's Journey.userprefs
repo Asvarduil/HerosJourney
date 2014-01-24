@@ -1,21 +1,17 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\Scripts\GUI\PauseGUI.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\Scripts\Dialogue\TeleportConversationEffect.cs">
     <Files>
-      <File FileName="Assets\Game-Specific Assets\Scripts\GUI\DialogueGUI.cs" Line="95" Column="17" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\Dialogue\EntityText.cs" Line="52" Column="4" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\GUI\QuestGUI.cs" Line="50" Column="1" />
-      <File FileName="Assets\Side-Scrolling Controller\Scripts\PlayerControl.cs" Line="95" Column="2" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\System\Ambassador.cs" Line="144" Column="1" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\Dialogue\Door.cs" Line="48" Column="38" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\Dialogue\SceneTeleporter.cs" Line="32" Column="38" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\GUI\PauseGUI.cs" Line="289" Column="3" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\GUI\TitleGUI.cs" Line="63" Column="6" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\System\SaveFileAccess.cs" Line="393" Column="34" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\System\Ambassador.cs" Line="48" Column="55" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\Dialogue\TeleportConversationEffect.cs" Line="34" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="C:\Users\Andrew\Desktop\Unity Productions\The Hero's Journey\Assets\Game-Specific Assets\GUI\Title\TitleGUI.cs" line="63" />
-      <Breakpoint file="C:\Users\Andrew\Desktop\Unity Productions\The Hero's Journey\Assets\Game-Specific Assets\Scripts\System\SaveFileAccess.cs" line="54" />
+      <Breakpoint file="C:\Users\Andrew\Desktop\Unity Productions\The Hero's Journey\Assets\Game-Specific Assets\Scripts\System\SaveFileAccess.cs" line="56" />
       <Breakpoint file="C:\Users\Andrew\Desktop\Unity Productions\The Hero's Journey\Assets\Game-Specific Assets\GUI\Title\TitleGUI.cs" line="457" />
       <Breakpoint file="C:\Users\Andrew\Desktop\Unity Productions\The Hero's Journey\Assets\Game-Specific Assets\Scripts\Combat\ActivateObjectsOnDeath.cs" line="34" />
       <Breakpoint file="C:\Users\Andrew\Desktop\Unity Productions\The Hero's Journey\Assets\Game-Specific Assets\Scripts\GUI\DialogueGUI.cs" line="76" />

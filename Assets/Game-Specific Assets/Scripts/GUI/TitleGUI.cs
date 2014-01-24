@@ -5,7 +5,8 @@ using System.Collections;
 public class TitleGUI : MonoBehaviour 
 {
 	#region Variables / Properties
-	
+
+	public bool DebugMode = false;
 	public bool DrawElements = true;
 	
 	public string NewGameScene;
@@ -13,7 +14,6 @@ public class TitleGUI : MonoBehaviour
 	
 	public MainForm MainForm;
 	public SettingsForm SettingsForm;
-	public LoadGameForm LoadGameForm;
 	
 	// Private elements
 	private Maestro _maestro;
@@ -34,11 +34,9 @@ public class TitleGUI : MonoBehaviour
 		
 		MainForm.Initialize(_maestro);
 		SettingsForm.Initialize(_maestro);
-		LoadGameForm.Initialize(_maestro);
 		
 		MainForm.SetVisibility(true);
 		SettingsForm.SetVisibility(false);
-		LoadGameForm.SetVisibility(false);
 	}
 	
 	public void OnGUI()
@@ -61,7 +59,20 @@ public class TitleGUI : MonoBehaviour
 			
 			case MainForm.Feedback.LoadGame:
 				MainForm.SetVisibility(false);
-				LoadGameForm.SetVisibility(true);
+				if(_saveFileAccess.LoadGameState())
+				{
+					if(DebugMode)
+						Debug.Log("Game state loaded.  Transitioning to scene...");
+
+					_transition.ChangeScenes();
+				}
+				else
+				{
+					if(DebugMode)
+						Debug.LogWarning("Unable to load game state!  Starting a new game.");
+
+					NewGame();
+				}
 				break;
 			
 			default:
@@ -79,37 +90,12 @@ public class TitleGUI : MonoBehaviour
 			default:
 				break;
 		}
-		
-		LoadGameForm.DrawMe();
-		switch(LoadGameForm.FormResult)
-		{
-			case LoadGameForm.Feedback.Back:
-				LoadGameForm.SetVisibility(false);
-				MainForm.SetVisibility(true);
-				break;
-			
-			case LoadGameForm.Feedback.Load:
-				LoadGameForm.SetVisibility(false);
-				if(_saveFileAccess.LoadGameState())
-				{
-					_transition.ChangeScenes();
-				}
-				else
-				{
-					NewGame();
-				}
-				break;
-			
-			default:
-				break;
-		}
 	}
 	
 	public void FixedUpdate()
 	{
 		MainForm.Tween();
 		SettingsForm.Tween();
-		LoadGameForm.Tween();
 	}
 	
 	#endregion Engine Hooks
@@ -384,92 +370,6 @@ public class SettingsForm : AsvarduilForm
 		MusicVolume.Tween();
 		EffectsVolume.Tween();
 		GraphicsQuality.Tween();
-	}
-	
-	#endregion Methods
-}
-	
-[Serializable]
-public class LoadGameForm : AsvarduilForm
-{
-	#region Enumeration
-	
-	public enum Feedback
-	{
-		None,
-		Load,
-		Back
-	}
-	
-	#endregion Enumerations
-	
-	#region Constructor
-	
-	public LoadGameForm(AsvarduilImage background, AsvarduilLabel label) 
-		: base(background, label)
-	{
-	}
-	
-	#endregion Constructor
-	
-	#region Variables / Properties
-	
-	public GUISkin Skin;
-	public AudioClip ButtonSound;
-	
-	public AsvarduilButton BackButton;
-	public AsvarduilButton LoadButton;
-	
-	public Feedback FormResult
-	{
-		get
-		{
-			Feedback result = Feedback.None;
-			if(_backClicked)
-				result = Feedback.Back;
-			
-			return result;
-		}
-	}
-	
-	private bool _loadClicked = false;
-	private bool _backClicked = false;
-	private Maestro _maestro;
-	
-	#endregion Variables / Properties
-	
-	#region Methods
-	
-	public void Initialize(Maestro maestro)
-	{
-		_maestro = maestro;
-	}
-	
-	public void SetVisibility(bool visible)
-	{
-		BackButton.TargetTint.a = visible ? 1.0f : 0.0f;
-		LoadButton.TargetTint.a = visible ? 1.0f : 0.0f;
-		Background.TargetTint.a = visible ? 1.0f : 0.0f;
-	}
-	
-	public override void DrawMe()
-	{	
-		GUI.skin = Skin;
-		Background.DrawMe();
-		
-		_backClicked = BackButton.IsClicked();
-		_loadClicked = LoadButton.IsClicked();
-		
-		if(_backClicked
-		   || _loadClicked)
-			_maestro.PlaySoundEffect(ButtonSound);
-	}
-	
-	public override void Tween()
-	{
-		Background.Tween();
-		BackButton.Tween();
-		LoadButton.Tween();
 	}
 	
 	#endregion Methods
