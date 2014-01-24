@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TitleGUI : MonoBehaviour 
 {
@@ -104,8 +105,45 @@ public class TitleGUI : MonoBehaviour
 	
 	private void NewGame()
 	{
+		ResetStats();
+		ResetItems();
+		ResetPhases();
+
 		_transition.PrepareTransition(NewGameTransform, Vector3.zero, NewGameScene);
 		_transition.ChangeScenes();
+	}
+
+	private void ResetStats()
+	{
+		_ambassador.MaxHP = 8;
+		_ambassador.Damage = 1;
+	}
+
+	private void ResetItems()
+	{
+		_ambassador.ItemList = new List<ObtainableItem>();
+	}
+
+	private void ResetPhases()
+	{
+		_ambassador.SequenceCounters = new List<SequenceCounter>();
+
+		SequenceCounter main = new SequenceCounter {
+			Name = "Main",
+			Phase = 0,
+			QuestTitle = "Main Quest",
+			QuestDetails = "Talk to King Aylea XXXIII"
+		};
+
+		SequenceCounter side = new SequenceCounter {
+			Name = "Goldensage",
+			Phase = 0,
+			QuestTitle = "Side Quest",
+			QuestDetails = "Talk to everyone to find the side quest."
+		};
+
+		_ambassador.SequenceCounters.Add(main);
+		_ambassador.SequenceCounters.Add(side);
 	}
 	
 	#endregion Methods
