@@ -83,6 +83,7 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 	
 	public void Halt()
 	{
+		canAttack = false;
 		allowAction = false;
 		isAttacking = false;
 		isCrouching = false;
@@ -94,6 +95,7 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 	
 	public void Resume()
 	{
+		canAttack = true;
 		allowAction = true;
 	}
 	

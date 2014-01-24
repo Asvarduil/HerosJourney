@@ -6,6 +6,7 @@ public class SkillPickup : MonoBehaviour
 	#region Variables / Properties
 	
 	public bool DebugMode = false;
+	public bool ShouldSelfDestruct = false;
 	public string SkillName;
 	public string AffectedTag = "Player";
 	
@@ -62,6 +63,9 @@ public class SkillPickup : MonoBehaviour
 	
 	private void RemoveItemFromScene()
 	{
+		if(! ShouldSelfDestruct)
+			return;
+
 		if(DebugMode)
 			Debug.Log("Removing " + gameObject.name + " from the scene.");
 		
