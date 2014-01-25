@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-public class WorldMapControl : MonoBehaviour 
+public class WorldMapControl : MonoBehaviour, IPausableEntity 
 {
 	#region Constants
 	
@@ -24,7 +24,8 @@ public class WorldMapControl : MonoBehaviour
 	public string LeftPart = "Left";
 	public string DownPart = "Down";
 	public string RightPart = "Right";
-	
+
+	private bool _isPaused = false;
 	private string _lastDirection;
 	private string _animation;
 	private SpriteSystem _sprite;
@@ -44,6 +45,9 @@ public class WorldMapControl : MonoBehaviour
 	
 	public void Update()
 	{
+		if(_isPaused)
+			return;
+
 		DirectionalBehavior behavior = CheckInput();
 		PerformMovement(behavior);
 		Animate(behavior);
@@ -109,6 +113,16 @@ public class WorldMapControl : MonoBehaviour
 	private void Animate(DirectionalBehavior behavior)
 	{
 		_sprite.PlaySingleFrame(behavior.ActionAnimation, false, AnimationMode.Loop);
+	}
+
+	public void PauseThisEntity()
+	{
+		_isPaused = true;
+	}
+
+	public void ResumeThisEntity()
+	{
+		_isPaused = false;
 	}
 	
 	#endregion Methods
