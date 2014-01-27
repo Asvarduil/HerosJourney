@@ -78,11 +78,19 @@ public class SaveFileAccess : MonoBehaviour
 
 	public void SaveAmbassadorIntoPlayerConfig()
 	{
-		PlayerPrefs.SetString("Scene", FormatSceneLine());
-		PlayerPrefs.SetString("Health", FormatHealthLine());
-		PlayerPrefs.SetString("Damage", FormatDamageLine());
-		PlayerPrefs.SetString("Items", FormatItemLine());
-		PlayerPrefs.SetString("Phase", FormatPhaseLine());
+		try
+		{
+			PlayerPrefs.SetString("Scene", FormatSceneLine());
+			PlayerPrefs.SetString("Health", FormatHealthLine());
+			PlayerPrefs.SetString("Damage", FormatDamageLine());
+			PlayerPrefs.SetString("Items", FormatItemLine());
+			PlayerPrefs.SetString("Phase", FormatPhaseLine());
+		}
+		catch (PlayerPrefsException ppEx)
+		{
+			Debug.LogError("Cannot save > 1MB data to the Player Prefs!" + Environment.NewLine
+			               + "Information:" + ppEx.Message);
+		}
 
 		if(DebugMode)
 		{
@@ -212,19 +220,19 @@ public class SaveFileAccess : MonoBehaviour
 		// Detect the player on the spot.
 		_player = GameObject.FindGameObjectWithTag("Player");
 		
-		builder.Append(_player.transform.position.x.ToString());
+		builder.Append(_player.transform.position.x.ToString("F2"));
 		builder.Append(">");
-		builder.Append(_player.transform.position.y.ToString());
+		builder.Append(_player.transform.position.y.ToString("F2"));
 		builder.Append(">");
-		builder.Append(_player.transform.position.z.ToString());
+		builder.Append(_player.transform.position.z.ToString("F2"));
 		builder.Append("|");
 		
 	    Vector3 playerEulerAngles = _player.transform.rotation.eulerAngles;
-		builder.Append(playerEulerAngles.x.ToString());
+		builder.Append(playerEulerAngles.x.ToString("F2"));
 		builder.Append(">");
-		builder.Append(playerEulerAngles.y.ToString());
+		builder.Append(playerEulerAngles.y.ToString("F2"));
 		builder.Append(">");
-		builder.Append(playerEulerAngles.z.ToString());
+		builder.Append(playerEulerAngles.z.ToString("F2"));
 		
 		return builder.ToString();
 	}

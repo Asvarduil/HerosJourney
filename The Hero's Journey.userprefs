@@ -1,9 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\Scripts\System\WorldMapControl.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\Scripts\System\SaveFileAccess.cs">
     <Files>
-      <File FileName="Assets\Game-Specific Assets\Scripts\System\WorldMapControl.cs" Line="50" Column="3" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\System\IPausableEntity.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\System\SaveFileAccess.cs" Line="235" Column="54" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
