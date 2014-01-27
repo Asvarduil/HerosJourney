@@ -85,6 +85,8 @@ public class SaveFileAccess : MonoBehaviour
 			PlayerPrefs.SetString("Damage", FormatDamageLine());
 			PlayerPrefs.SetString("Items", FormatItemLine());
 			PlayerPrefs.SetString("Phase", FormatPhaseLine());
+
+			PlayerPrefs.Save();
 		}
 		catch (PlayerPrefsException ppEx)
 		{
@@ -101,12 +103,24 @@ public class SaveFileAccess : MonoBehaviour
 
 	public bool LoadAmbassadorFromPlayerConfig()
 	{
+		if(! PlayerPrefs.HasKey("Scene")
+		   || !PlayerPrefs.HasKey("Health")
+		   || !PlayerPrefs.HasKey("Damage")
+		   || !PlayerPrefs.HasKey("Items")
+		   || !PlayerPrefs.HasKey("Phase"))
+		{
+			if(DebugMode)
+				Debug.LogWarning("A data key does not exist!  This is probably a first-run scenario.");
+
+			return false;
+		}
+
 		if(DebugMode)
 		{
 			Debug.Log("Loading from PlayerConfig...");
 			DumpPlayerConfigToLog();
 		}
-
+		
 		bool result = true;
 		try
 		{
