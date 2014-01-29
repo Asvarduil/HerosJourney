@@ -22,7 +22,7 @@ public class TitleGUI : MonoBehaviour
 	private Ambassador _ambassador;
 	private SaveFileAccess _saveFileAccess;
 	private TransitionManager _transition;
-	
+
 	#endregion Variables / Properties
 	
 	#region Engine Hooks

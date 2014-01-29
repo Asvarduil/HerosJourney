@@ -17,7 +17,7 @@ public class PauseGUI : MonoBehaviour
 	private Ambassador _ambassador;
 	private SaveFileAccess _saveFileAccess;
 	private QuestGUI _questGUI;
-	
+
 	#endregion Variables / Properties
 	
 	#region Engine Hooks
@@ -146,6 +146,9 @@ public class PauseHUD
 	public AudioClip ButtonSound;
 	
 	public AsvarduilImageButton PauseButton;
+
+	private float _pauseCommandLockout = 0.5f;
+	private float _lastPauseCommand;
 	
 	public Feedback FormResult
 	{
@@ -175,17 +178,25 @@ public class PauseHUD
 		float visibility = visible ? 1.0f : 0.0f;
 		
 		PauseButton.TargetTint.a = visibility;
+
+		if(visible)
+		{
+			_lastPauseCommand = Time.time;
+		}
 	}
 	
 	public void DrawMe()
 	{
 		GUI.skin = Skin;
 		
-		_pauseClicked = PauseButton.IsClicked()
-						|| Input.GetButtonDown("Pause");
+		_pauseClicked = (PauseButton.IsClicked() || Input.GetButtonDown("Pause"))
+			            && Time.time > _lastPauseCommand + _pauseCommandLockout;
 		
 		if(_pauseClicked)
+		{
+			_lastPauseCommand = Time.time;
 			_maestro.PlaySoundEffect(ButtonSound);
+		}
 	}
 	
 	public void Tween()
@@ -241,6 +252,8 @@ public class PauseForm : AsvarduilForm
 	private bool _resumeClicked;
 	private bool _settingsClicked;
 	private bool _saveToTitleClicked;
+	private float _lastPauseCommand;
+	private float _pauseCommandLockout = 0.5f;
 	
 	private Maestro _maestro;
 	
@@ -270,6 +283,11 @@ public class PauseForm : AsvarduilForm
 		ResumeButton.TargetTint.a = visibility;
 		SaveToTitleButton.TargetTint.a = visibility;
 		SettingsButton.TargetTint.a = visibility;
+
+		if(visible)
+		{
+			_lastPauseCommand = Time.time;
+		}
 	}
 	
 	public override void DrawMe()
@@ -277,10 +295,13 @@ public class PauseForm : AsvarduilForm
 		GUI.skin = Skin;
 		Background.DrawMe();
 		
-		_resumeClicked = ResumeButton.IsClicked()
-			             || Input.GetButtonDown("Pause");
+		_resumeClicked = (ResumeButton.IsClicked() || Input.GetButtonDown("Pause"))
+			             && Time.time > _lastPauseCommand + _pauseCommandLockout;
 		_settingsClicked = SettingsButton.IsClicked();
 		_saveToTitleClicked = SaveToTitleButton.IsClicked();
+
+		if(_resumeClicked)
+			_lastPauseCommand = Time.time;
 		
 		if(_settingsClicked
 		   || _resumeClicked
