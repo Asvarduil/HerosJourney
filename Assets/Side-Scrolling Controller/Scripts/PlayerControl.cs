@@ -6,6 +6,7 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 	#region Variables / Properties
 	
 	public AudioClip attackSound;
+	public AudioClip jumpSound;
 	
 	public bool DebugMode = false;
 	public float DeadZoneRange = 0.2f;
@@ -46,6 +47,7 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 	private bool _isFalling = false;
 	private string _currentSequence;
 	private SpriteSystem _animation;
+	private Maestro _maestro;
 	
 	#endregion Variables / Properties
 	
@@ -53,6 +55,7 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 	
 	public void Start() 
 	{
+		_maestro = (Maestro) FindObjectOfType(typeof(Maestro));
 		_movement = gameObject.GetComponent<SidescrollingMovement>();
 		_animation = gameObject.GetComponentInChildren<SpriteSystem>();
 		_hitboxController = gameObject.GetComponentInChildren<HitboxController>();
@@ -144,7 +147,10 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 		
 		if(DebugMode)
 			Debug.Log("The player released the attack button, so attacking!");
-		
+
+		if(attackSound != null)
+			_maestro.PlaySoundEffect(attackSound);
+
 		_currentSequence = (isCrouching || isJumping)
 						   ? isFacingRight ? crouchAttackRight : crouchAttackLeft
 				           : isFacingRight ? attackRight : attackLeft;
@@ -240,7 +246,12 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 		if(jumpPressed
 		   && _movement.isGrounded
 		   && ! _isFalling)
+		{
+			if(jumpSound != null)
+				_maestro.PlaySoundEffect(jumpSound);
+
 			_movement.PartialJump();
+		}
 		
 		if(jumpReleased
 		   && ! _isFalling)
