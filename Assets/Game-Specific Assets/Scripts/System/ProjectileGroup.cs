@@ -35,11 +35,7 @@ public class ProjectileGroup : MonoBehaviour
 
 	private void CheckProjectileCount()
 	{
-		ProjectileCount = 0;
-		foreach(Transform child in transform) 
-		{
-			ProjectileCount++;
-		}
+		ProjectileCount = transform.childCount;
 	}
 
 	#endregion Methods

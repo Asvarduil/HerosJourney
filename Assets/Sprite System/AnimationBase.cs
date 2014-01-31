@@ -53,6 +53,10 @@ public abstract class AnimationSystemBase<T> : MonoBehaviour
 
 	public bool AnimationIsComplete()
 	{
+		if(DebugMode)
+			Debug.Log("(" + gameObject.name + ") Animation " + CurrentAnimation.Name + " is " 
+			          + (CurrentAnimation.IsAnimationCycleDone ? "" : "not") + " done.");
+
 		return CurrentAnimation.IsAnimationCycleDone;
 	}
 	

@@ -41,7 +41,7 @@ public class RepellingObject : MonoBehaviour
 		repelForce.Scale(Constraints);
 		
 		if(DebugMode)
-			Debug.Log("Repelling " + root.name + " with force: " + repelForce);
+			Debug.Log(gameObject.name + " is repelling " + root.name + " with force: " + repelForce);
 		
 		movement.AddForce(repelForce);
 	}

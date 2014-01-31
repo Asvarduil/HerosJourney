@@ -32,9 +32,11 @@ public class Barbariccia : AIBase, IPausableEntity
 	private string _animation;
 	
 	private GameObject _conjureEffect;
-
-	private HealthSystem _health;
+	
+	private Teleportation _teleportation;
 	private HitboxController _boxController;
+	private SpiralProjectileSpam _spiralProjectileSpam;
+
 	private List<Action> _states;
 	
 	#endregion Variables / Properties
@@ -45,15 +47,19 @@ public class Barbariccia : AIBase, IPausableEntity
 	{
 		base.Start();
 
-		_health = GetComponent<HealthSystem>();
+		_teleportation = GetComponent<Teleportation>();
 		_boxController = GetComponentInChildren<HitboxController>();
+		_spiralProjectileSpam = GetComponent<SpiralProjectileSpam>();
 		
 		_states = new List<Action>{
-			AppearAtAnAnchor,
+			TeleportToAnchor,
 			ConjureProjectile,
 			LaunchProjectileAtPlayer,
 			WatchTheBolt,
-			Disappear
+			TeleportToAnchor,
+			ConjureProjectile,
+			SpamMagic,
+			WatchTheBolt,
 		};
 		
 		_facingLeft = true;
@@ -73,9 +79,6 @@ public class Barbariccia : AIBase, IPausableEntity
 		// Get the current behavior and run it.
 		Action behavior = _states[_currentAction];
 		behavior();
-		
-		// Increment state; if beyond end, go back to first state.
-		_currentAction = (_currentAction + 1) % _states.Count;
 	}
 	
 	public void OnDestroy()
@@ -87,13 +90,13 @@ public class Barbariccia : AIBase, IPausableEntity
 	
 	#region Behaviors
 	
-	public void AppearAtAnAnchor()
+	public void TeleportToAnchor()
 	{
-		PresentMe(true);
-		
 		int index = Random.Range(0, AnchorPoints.Count);
 		Vector3 anchor = AnchorPoints[index];
-		transform.position = anchor;
+
+		anchor = _teleportation.ConstraintPointToRectangle(anchor);
+		_teleportation.TeleportToPoint(anchor);
 
 		try
 		{
@@ -112,6 +115,7 @@ public class Barbariccia : AIBase, IPausableEntity
 		}
 		
 		_animation = _facingLeft ? IdleLeft : IdleRight;
+		AdvanceState();
 	}
 
 	public void ConjureProjectile() 
@@ -122,6 +126,7 @@ public class Barbariccia : AIBase, IPausableEntity
 		_conjureEffect = (GameObject) GameObject.Instantiate(ConjureEffect, muzzlePoint, Quaternion.identity);
 		
 		SetupNextActionTime(ConjureTime);
+		_spiralProjectileSpam.ResetSpam();
 	}
 	
 	public void LaunchProjectileAtPlayer()
@@ -132,26 +137,36 @@ public class Barbariccia : AIBase, IPausableEntity
 		GameObject bolt = (GameObject) GameObject.Instantiate(Projectile, muzzlePoint, Quaternion.identity);
 		Projectile guidance = bolt.GetComponent<Projectile>();
 
-		Vector3 newVelocity = Vector3.Normalize(_sense.PlayerLocation.position - transform.position) * ProjectileSpeed;
+		try
+		{
+			Vector3 newVelocity = Vector3.Normalize(_sense.PlayerLocation.position - transform.position) * ProjectileSpeed;
 
-		if(DebugMode)
-			Debug.Log("Firing Big Blue Magic bolt at a velocity: " + newVelocity.ToString());
+			if(DebugMode)
+				Debug.Log("Firing Big Blue Magic bolt at a velocity: " + newVelocity.ToString());
 		
-		guidance.Velocity = newVelocity;
-		guidance.enabled = true;
+			guidance.Velocity = newVelocity;
+			guidance.enabled = true;
+		}
+		catch(Exception ex)
+		{
+			if(DebugMode)
+				Debug.LogException(ex);
+		}
+
+		AdvanceState();
+	}
+
+	public void SpamMagic()
+	{
+		_spiralProjectileSpam.FireSomeSpam();
+
+		if(_spiralProjectileSpam.IsDoneSpamming)
+			AdvanceState();
 	}
 	
 	public void WatchTheBolt()
 	{
 		SetupNextActionTime(WaitTime);
-	}
-	
-	public void Disappear()
-	{
-		GameObject.Instantiate(TeleportEffect, transform.position, Quaternion.identity);
-		
-		PresentMe(false);
-		SetupNextActionTime(TeleportTime);
 	}
 	
 	#endregion Behaviors
@@ -167,6 +182,7 @@ public class Barbariccia : AIBase, IPausableEntity
 	private void SetupNextActionTime(float timeOffset)
 	{
 		_nextAction = Time.time + timeOffset;
+		AdvanceState();
 		
 		if(DebugMode)
 			Debug.Log("Next action at: " + _nextAction);
@@ -183,14 +199,11 @@ public class Barbariccia : AIBase, IPausableEntity
 		Destroy(_conjureEffect);
 		_conjureEffect = null;
 	}
-	
-	private void PresentMe(bool isPresented)
+
+	private void AdvanceState()
 	{
-		if(DebugMode)
-			Debug.Log((isPresented ? "Showing" : "Hiding") + " " + gameObject.name);
-		
-		_health.enabled = isPresented;
-		_sprite.gameObject.SetActive(isPresented);
+		// Increment state; if beyond end, go back to first state.
+		_currentAction = (_currentAction + 1) % _states.Count;
 	}
 
 	#endregion Methods

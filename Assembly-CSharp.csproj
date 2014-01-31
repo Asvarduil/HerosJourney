@@ -96,12 +96,12 @@
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\AIBase.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\Artasandro.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\Barbariccia.cs" />
-     <Compile Include="Assets\Game-Specific Assets\Scripts\AI\Garlan.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\NPC.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\PedestrianMovement.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\PlayerSense.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\Shototo.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\Slime.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\AI\SpiralProjectileSpam.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\Spyder.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\Steelguard.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\Teleghast.cs" />

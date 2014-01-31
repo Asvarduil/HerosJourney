@@ -13,12 +13,8 @@ public class Artasandro : AIBase
 	public string AttackLeft;
 	public string AttackRight;
 	public string ChainCasting;
-
-	public float MagicSpamTime = 10f;
-	public float MagicSpamInterval = 0.75f;
-	public float SpamRotateAngle = 30f;
+	
 	public GameObject BlueMagicShot;
-	public GameObject QuadraMagicShot;
 
 	public float TeleportDistance = 3f;
 	public float AttackDistance = 0.95f;
@@ -35,7 +31,9 @@ public class Artasandro : AIBase
 	private int _aiPhase = 0;
 	private List<Action> _actions;
 
+	private Teleportation _teleportation;
 	private SidescrollingMovement _movement;
+	private SpiralProjectileSpam _spiralProjectileSpam;
 	private HitboxController _hitboxes;
 
 	#endregion Variables / Properties
@@ -43,10 +41,13 @@ public class Artasandro : AIBase
 	#region Engine Hooks
 
 	public override void Start()
-	{
+	{ 
 		base.Start();
+
+		_teleportation = GetComponent<Teleportation>();
 		_movement = GetComponent<SidescrollingMovement>();
 		_hitboxes = GetComponentInChildren<HitboxController>();
+		_spiralProjectileSpam = GetComponent<SpiralProjectileSpam>();
 
 		_actions = new List<Action>
 		{
@@ -77,8 +78,8 @@ public class Artasandro : AIBase
 
 	public override void PlayAnimations()
 	{
-		_sprite.PlaySingleFrame(_currentAnimation);
-		_hitboxes.PlaySingleFrame(_currentAnimation);
+		_sprite.PlaySingleFrame(_currentAnimation, true, _animationType);
+		_hitboxes.PlaySingleFrame(_currentAnimation, true, _animationType);
 	}
 
 	#endregion Engine Hooks
@@ -116,17 +117,17 @@ public class Artasandro : AIBase
 					? -TeleportDistance 
 					: TeleportDistance;
 
-		TeleportToPoint(target);
+		target = _teleportation.ConstraintPointToRectangle(target);
+		_teleportation.TeleportToPoint(target);
 		AdvanceToNextAiPhase();
 	}
 
 	private void TeleportToCenter()
 	{
-		TeleportToPoint(_originalPosition);
+		_teleportation.TeleportToPoint(_originalPosition);
 
-		_stopSpamTime = Time.time + MagicSpamTime;
-		_spamEulerAngles = Vector3.zero;
-		//_currentAnimation = ChainCasting
+		_spiralProjectileSpam.ResetSpam();
+		_currentAnimation = ChainCasting;
 		AdvanceToNextAiPhase();
 	}
 
@@ -134,35 +135,19 @@ public class Artasandro : AIBase
 	{
 		_movement.ClearMovement();
 
-		float currentTime = Time.time;
-		if(currentTime >= _stopSpamTime)
+		if(_spiralProjectileSpam.IsDoneSpamming)
 		{
 			LogMessage("Done spamming magic!  Time to attack.");
 			AdvanceToNextAiPhase();
 			return;
 		}
 
-		if(currentTime >= _nextCastTime)
-		{
-			GameObject.Instantiate(QuadraMagicShot, transform.position, Quaternion.Euler(_spamEulerAngles));
-			_spamEulerAngles.z += SpamRotateAngle;
-			_nextCastTime = currentTime + MagicSpamInterval;
-		}
+		_spiralProjectileSpam.FireSomeSpam();
 	}
 
 	#endregion Behaviors
 
 	#region Methods
-
-	private void TeleportToPoint(Vector3 position)
-	{
-		LogMessage("Teleporting to " + position);
-
-		GameObject.Instantiate(TeleportEffect, transform.position, Quaternion.identity);
-		GameObject.Instantiate(TeleportEffect, _originalPosition, Quaternion.identity);
-		
-		transform.position = position;
-	}
 
 	private bool InRange()
 	{
