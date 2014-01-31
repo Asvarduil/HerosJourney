@@ -1,15 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\Scripts\AI\Artasandro.cs">
     <Files>
-      <File FileName="Assets\Game-Specific Assets\Scripts\AI\Artasandro.cs" Line="82" Column="70" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\AI\PedestrianMovement.cs" Line="1" Column="1" />
-      <File FileName="Assets\Side-Scrolling Controller\Scripts\SidescrollingMovement.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\AI\Steelguard.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\Combat\RepellingObject.cs" Line="1" Column="1" />
-      <File FileName="Assets\Sprite System\AnimationBase.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\AI\Barbariccia.cs" Line="154" Column="4" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\System\ProjectileGroup.cs" Line="38" Column="42" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\AI\Artasandro.cs" Line="49" Column="58" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
