@@ -66,9 +66,13 @@ public class Maestro : MonoBehaviour
 		return (Maestro) FindObjectOfType(typeof(Maestro));
 	}
 	
-	public void PlaySoundEffect(AudioClip effect)
+	public void PlaySoundEffect(AudioClip effect, float fxVolume = 0.0f)
 	{
-		audio.PlayOneShot(effect, Settings.sfxVolume);
+		// A given FX volume overrides the SFX volume specified in the settings.
+		if(fxVolume == 0.0f)
+			fxVolume = Settings.sfxVolume;
+
+		audio.PlayOneShot(effect, fxVolume);
 	}
 	
 	public void ChangeTunes(AudioClip newChart)

@@ -101,7 +101,7 @@ public class DialogueGUI : MonoBehaviour
 			_maestro.ChangeTunes(text.BGMOverride);
 		
 		if(text.OneShotClip != null)
-			_maestro.PlaySoundEffect(text.OneShotClip);
+			_maestro.PlaySoundEffect(text.OneShotClip, 1.0f);
 		
 		if(!string.IsNullOrEmpty(text.ConversationEvent))
 		{
