@@ -1,1 +1,1 @@
-<settings></settings>
+<settings><promoImagesIcon>Assets/Game-Specific Assets/Textures/game-icon.png</promoImagesIcon></settings>

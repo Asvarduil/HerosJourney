@@ -1,9 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\Scripts\GUI\TitleGUI.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\WooglieAPI\README.txt">
     <Files>
+      <File FileName="Assets\Game-Specific Assets\Scripts\GUI\DialogueGUI.cs" Line="104" Column="24" />
       <File FileName="Assets\Game-Specific Assets\Scripts\System\SaveFileAccess.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\GUI\TitleGUI.cs" Line="457" Column="1" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\GUI\TitleGUI.cs" Line="1" Column="1" />
+      <File FileName="Assets\Asvarduil Project RPG Control System\scripts\Maestro.cs" Line="75" Column="17" />
+      <File FileName="Assets\WooglieAPI\README.txt" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
