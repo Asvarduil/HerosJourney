@@ -48,7 +48,7 @@ public class EntityText : MonoBehaviour
 		
 		GUI.skin = Skin;
 		if(TalkButton.IsClicked()
-		   || Input.GetButtonDown("Fire1"))
+		   || Input.GetButtonUp("Interact"))
 		{
 			if(DebugMode)
 				Debug.Log("Entity flagged as being able to talk...");

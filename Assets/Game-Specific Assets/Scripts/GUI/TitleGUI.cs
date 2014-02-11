@@ -16,6 +16,7 @@ public class TitleGUI : MonoBehaviour
 	public MainForm MainForm;
 	public SettingsForm SettingsForm;
 	public CreditsForm CreditsForm;
+	public InstructionsForm InstructionsForm;
 	
 	// Private elements
 	private Maestro _maestro;
@@ -54,6 +55,11 @@ public class TitleGUI : MonoBehaviour
 			case MainForm.Feedback.Settings:
 				MainForm.SetVisibility(false);
 				SettingsForm.SetVisibility(true);
+				break;
+
+			case MainForm.Feedback.Instructions:
+				MainForm.SetVisibility(false);
+				InstructionsForm.SetVisibility(true);
 				break;
 
 			case MainForm.Feedback.Credits:
@@ -115,6 +121,18 @@ public class TitleGUI : MonoBehaviour
 			default:
 				break;
 		}
+
+		InstructionsForm.DrawMe();
+		switch(InstructionsForm.FormResult)
+		{
+			case InstructionsForm.Feedback.Back:
+				InstructionsForm.SetVisibility(false);
+				MainForm.SetVisibility(true);
+				break;
+
+			default:
+				break;
+		}
 	}
 	
 	public void FixedUpdate()
@@ -122,6 +140,7 @@ public class TitleGUI : MonoBehaviour
 		MainForm.Tween();
 		SettingsForm.Tween();
 		CreditsForm.Tween();
+		InstructionsForm.Tween();
 	}
 	
 	#endregion Engine Hooks
@@ -186,6 +205,7 @@ public class MainForm : AsvarduilForm
 		NewGame,
 		LoadGame,
 		Credits,
+		Instructions,
 		Support
 	}
 			
@@ -211,7 +231,8 @@ public class MainForm : AsvarduilForm
 	public AsvarduilButton NewGameButton;
 	public AsvarduilButton LoadGameButton;
 	public AsvarduilButton SupportThisGameButton;
-	public AsvarduilButton CreditsButton;
+	public AsvarduilImageButton InstructionButton;
+	public AsvarduilImageButton CreditsButton;
 	
 	public Feedback FormResult
 	{
@@ -231,6 +252,9 @@ public class MainForm : AsvarduilForm
 			if(_creditsClicked)
 				result = Feedback.Credits;
 
+			if(_instructionsClicked)
+				result = Feedback.Instructions;
+
 			if(_supportGameClicked)
 				result = Feedback.Support;
 			
@@ -242,6 +266,7 @@ public class MainForm : AsvarduilForm
 	private bool _newGameClicked = false;
 	private bool _loadGameClicked = false;
 	private bool _creditsClicked = false;
+	private bool _instructionsClicked = false;
 	private bool _supportGameClicked = false;
 	
 	private Maestro _maestro;
@@ -265,6 +290,7 @@ public class MainForm : AsvarduilForm
 		NewGameButton.TargetTint.a = opacity;
 		LoadGameButton.TargetTint.a = opacity;
 		SupportThisGameButton.TargetTint.a = opacity;
+		InstructionButton.TargetTint.a = opacity;
 		CreditsButton.TargetTint.a = opacity;
 	}
 	
@@ -279,8 +305,8 @@ public class MainForm : AsvarduilForm
 		_loadGameClicked = LoadGameButton.IsClicked();
 		_newGameClicked = NewGameButton.IsClicked();
 		_creditsClicked = CreditsButton.IsClicked();
+		_instructionsClicked = InstructionButton.IsClicked();
 		_supportGameClicked = SupportThisGameButton.IsClicked();
-
 		
 		if(_settingsClicked
 		   || _loadGameClicked
@@ -298,6 +324,7 @@ public class MainForm : AsvarduilForm
 		NewGameButton.Tween();
 		LoadGameButton.Tween();
 		CreditsButton.Tween();
+		InstructionButton.Tween();
 		SupportThisGameButton.Tween();
 	}
 	
@@ -457,6 +484,97 @@ public class SettingsForm : AsvarduilForm
 	}
 	
 	#endregion Methods
+}
+
+[Serializable]
+public class InstructionsForm : AsvarduilForm
+{
+	#region Enumerations
+
+	public enum Feedback
+	{
+		None,
+		Back
+	}
+
+	#endregion Enumerations
+
+	#region Variables / Properties
+
+	public GUISkin Skin;
+	public AudioClip ButtonSound;
+
+	public AsvarduilImage WorldMapPane;
+	public AsvarduilImage SidescrollingPane;
+	public AsvarduilButton BackButton;
+
+	private Maestro _maestro;
+	private bool _backClicked;
+
+	public Feedback FormResult
+	{
+		get
+		{
+			if(_backClicked)
+				return Feedback.Back;
+
+			return Feedback.None;
+		}
+	}
+
+	#endregion Variables / Properties
+
+	#region Constructors
+
+	public InstructionsForm(AsvarduilImage bg, AsvarduilLabel header)
+		: base(bg, header)
+	{
+	}
+
+	#endregion Constructors
+
+	#region Overrides
+
+	public void Initialize(Maestro maestro)
+	{
+		_maestro = maestro;
+	}
+
+	public void SetVisibility(bool isVisible)
+	{
+		float opacity = isVisible ? 1.0f : 0.0f;
+
+		Background.TargetTint.a = opacity;
+		WorldMapPane.TargetTint.a = opacity;
+		SidescrollingPane.TargetTint.a = opacity;
+		BackButton.TargetTint.a = opacity;
+	}
+
+	public override void Tween ()
+	{
+		Background.Tween();
+		WorldMapPane.Tween();
+		SidescrollingPane.Tween();
+		BackButton.Tween();
+	}
+
+	public override void DrawMe()
+	{
+		GUI.skin = Skin;
+
+		Background.DrawMe();
+		WorldMapPane.DrawMe();
+		SidescrollingPane.DrawMe();
+
+		_backClicked = BackButton.IsClicked();
+
+		if(_backClicked)
+		{
+			_maestro.PlaySoundEffect(ButtonSound);
+		}
+	}
+
+	#endregion Overrides
 }
 
 [Serializable]

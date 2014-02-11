@@ -57,7 +57,7 @@ public class DialogueGUI : MonoBehaviour
 		SpeakerText.DrawMe();
 
 		bool userWantsToAdvance = NextButton.IsClicked() 
-			                      || Input.GetButtonUp("Fire1");
+			                      || Input.GetButtonUp("Interact");
 
 		if(Time.time >= _nextAdvance
 		   && userWantsToAdvance)
