@@ -38,10 +38,12 @@ public class TitleGUI : MonoBehaviour
 		MainForm.Initialize(_maestro);
 		SettingsForm.Initialize(_maestro);
 		CreditsForm.Initialize(_maestro);
+		InstructionsForm.Initialize(_maestro);
 		
 		MainForm.SetVisibility(true);
 		SettingsForm.SetVisibility(false);
 		CreditsForm.SetVisibility(false);
+		InstructionsForm.SetVisibility(false);
 	}
 	
 	public void OnGUI()
