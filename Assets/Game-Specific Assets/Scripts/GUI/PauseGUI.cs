@@ -189,8 +189,9 @@ public class PauseHUD
 	{
 		GUI.skin = Skin;
 		
-		_pauseClicked = (PauseButton.IsClicked() || Input.GetButtonDown("Pause"))
-			            && Time.time > _lastPauseCommand + _pauseCommandLockout;
+		_pauseClicked = (PauseButton.IsClicked() || Input.GetButtonUp("Pause"))
+			            && Time.time > _lastPauseCommand + _pauseCommandLockout
+						&& PauseButton.IsInteractable;
 		
 		if(_pauseClicked)
 		{
@@ -295,8 +296,9 @@ public class PauseForm : AsvarduilForm
 		GUI.skin = Skin;
 		Background.DrawMe();
 		
-		_resumeClicked = (ResumeButton.IsClicked() || Input.GetButtonDown("Pause"))
-			             && Time.time > _lastPauseCommand + _pauseCommandLockout;
+		_resumeClicked = (ResumeButton.IsClicked() || Input.GetButtonUp("Pause"))
+			             && Time.time > _lastPauseCommand + _pauseCommandLockout
+						 && ResumeButton.IsInteractable;
 		_settingsClicked = SettingsButton.IsClicked();
 		_saveToTitleClicked = SaveToTitleButton.IsClicked();
 

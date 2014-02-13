@@ -569,7 +569,6 @@ public class InstructionsForm : AsvarduilForm
 		SidescrollingPane.DrawMe();
 
 		_backClicked = BackButton.IsClicked();
-
 		if(_backClicked)
 		{
 			_maestro.PlaySoundEffect(ButtonSound);

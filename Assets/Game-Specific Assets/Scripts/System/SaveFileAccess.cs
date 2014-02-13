@@ -80,6 +80,7 @@ public class SaveFileAccess : MonoBehaviour
 	{
 		try
 		{
+			PlayerPrefs.SetString("Settings", FormatSettingsLine());
 			PlayerPrefs.SetString("Scene", FormatSceneLine());
 			PlayerPrefs.SetString("Health", FormatHealthLine());
 			PlayerPrefs.SetString("Damage", FormatDamageLine());
@@ -103,7 +104,8 @@ public class SaveFileAccess : MonoBehaviour
 
 	public bool LoadAmbassadorFromPlayerConfig()
 	{
-		if(! PlayerPrefs.HasKey("Scene")
+		if(! PlayerPrefs.HasKey("Settings")
+		   || !PlayerPrefs.HasKey("Scene")
 		   || !PlayerPrefs.HasKey("Health")
 		   || !PlayerPrefs.HasKey("Damage")
 		   || !PlayerPrefs.HasKey("Items")
@@ -124,13 +126,15 @@ public class SaveFileAccess : MonoBehaviour
 		bool result = true;
 		try
 		{
+			string settingsLine = PlayerPrefs.GetString("Settings");
 			string sceneLine = PlayerPrefs.GetString("Scene");
 			string healthLine = PlayerPrefs.GetString("Health");
 			string damageLine = PlayerPrefs.GetString("Damage");
 			string itemLine = PlayerPrefs.GetString("Items");
 			string phaseLine = PlayerPrefs.GetString("Phase");
 
-			result = SetupSceneLoad(sceneLine)
+			result = SetupSettings(settingsLine)
+				     && SetupSceneLoad(sceneLine)
 					 && SetupHealth(healthLine)
 					 && SetupDamage(damageLine)
 					 && SetupObtainedItems(itemLine)
@@ -151,6 +155,7 @@ public class SaveFileAccess : MonoBehaviour
 	
 	public void SaveAmbassadorIntoFile()
 	{
+		string settingsLine = FormatSettingsLine();
 		string sceneLine = FormatSceneLine();
 		string healthLine = FormatHealthLine();
 		string damageLine = FormatDamageLine();
@@ -162,6 +167,7 @@ public class SaveFileAccess : MonoBehaviour
 			try
 			{
 				writer.WriteLine("File:Hero's Journey Save File");
+				writer.WriteLine(settingsLine);
 				writer.WriteLine(sceneLine);
 				writer.WriteLine(healthLine);
 				writer.WriteLine(damageLine);
@@ -187,6 +193,7 @@ public class SaveFileAccess : MonoBehaviour
 			try
 			{
 				string fileType = reader.ReadLine();
+				string settingsLine = reader.ReadLine();
 				string sceneLine = reader.ReadLine();
 				string healthLine = reader.ReadLine();
 				string damageLine = reader.ReadLine();				
@@ -194,6 +201,7 @@ public class SaveFileAccess : MonoBehaviour
 				string phaseLine = reader.ReadLine();
 				
 				result = ValidateSaveFileHeader(fileType)
+						 && SetupSettings(settingsLine)
 					     && SetupSceneLoad(sceneLine)
 						 && SetupHealth(healthLine)
 					     && SetupDamage(damageLine)
@@ -221,6 +229,23 @@ public class SaveFileAccess : MonoBehaviour
 	#endregion Access Methods
 	
 	#region Data Formatting Methods
+
+	private string FormatSettingsLine()
+	{
+		StringBuilder builder = new StringBuilder("Settings:");
+
+		builder.Append(Settings.graphicsLevel);
+		builder.Append("|");
+		builder.Append(Settings.soundEnabled);
+		builder.Append("|");
+		builder.Append(Settings.masterVolume.ToString("F2"));
+		builder.Append("|");
+		builder.Append(Settings.musVolume.ToString("F2"));
+		builder.Append("|");
+		builder.Append(Settings.sfxVolume.ToString("F2"));
+
+		return builder.ToString();
+	}
 	
 	private string FormatSceneLine()
 	{
@@ -324,6 +349,29 @@ public class SaveFileAccess : MonoBehaviour
 			return false;
 		
 		return parts[1] == "Hero's Journey Save File";
+	}
+
+	private bool SetupSettings(string settingsLine)
+	{
+		string[] mainParts = settingsLine.Split(':');
+		if(mainParts.Length != 2
+		   || mainParts[0] != "Settings")
+			return false;
+
+		string settingParts = mainParts[1];
+		string[] settingItems = settingParts.Split('|');
+		if(settingItems.Length != 5)
+			return false;
+
+		Settings.graphicsLevel = Convert.ToInt32(settingItems[0]);
+		Settings.soundEnabled = Convert.ToBoolean(settingItems[1]);
+		Settings.masterVolume = Convert.ToSingle(settingItems[2]);
+		Settings.musVolume = Convert.ToSingle(settingItems[3]);
+		Settings.sfxVolume = Convert.ToSingle(settingItems[4]);
+
+		QualitySettings.SetQualityLevel((int) Settings.graphicsLevel);
+
+		return true;
 	}
 	
 	private bool SetupSceneLoad(string sceneLine)
