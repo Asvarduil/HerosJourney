@@ -310,11 +310,7 @@ public class MainForm : AsvarduilForm
 		_instructionsClicked = InstructionButton.IsClicked();
 		_supportGameClicked = SupportThisGameButton.IsClicked();
 		
-		if(_settingsClicked
-		   || _loadGameClicked
-		   || _newGameClicked
-		   || _creditsClicked
-		   || _supportGameClicked)
+		if(FormResult != Feedback.None)
 			_maestro.PlaySoundEffect(ButtonSound);
 	}
 	
