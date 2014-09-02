@@ -19,7 +19,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_WEBPLAYER;WEBPLUG;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_GENERICS;ENABLE_SUBSTANCE;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_3_0;UNITY_4_3;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_4_5_1;UNITY_4_5;UNITY_WEBPLAYER;WEBPLUG;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -39,60 +39,68 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>H:/Transport/Software/Unity4/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>H:/Transport/Software/Unity4/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Asvarduil Project AI System\Examples\ScaryObjectSense.cs" />
-     <Compile Include="Assets\Asvarduil Project AI System\Examples\SmartWanderer.cs" />
-     <Compile Include="Assets\Asvarduil Project AI System\Examples\Wanderer.cs" />
-     <Compile Include="Assets\Asvarduil Project AI System\Framework\BaseAI.cs" />
-     <Compile Include="Assets\Asvarduil Project AI System\Framework\BehaviorNode.cs" />
-     <Compile Include="Assets\Asvarduil Project AI System\Framework\ICheckableState.cs" />
-     <Compile Include="Assets\Asvarduil Project AI System\Framework\IEvaluatesState.cs" />
-     <Compile Include="Assets\Asvarduil Project AI System\Framework\State.cs" />
-     <Compile Include="Assets\Asvarduil Project AI System\Framework\StateMachine.cs" />
-     <Compile Include="Assets\Asvarduil Project GUI System\classes\AsvarduilButton.cs" />
-     <Compile Include="Assets\Asvarduil Project GUI System\classes\AsvarduilCheckbox.cs" />
-     <Compile Include="Assets\Asvarduil Project GUI System\classes\AsvarduilForm.cs" />
-     <Compile Include="Assets\Asvarduil Project GUI System\classes\AsvarduilGUIBase.cs" />
-     <Compile Include="Assets\Asvarduil Project GUI System\classes\AsvarduilGUIInterfaces.cs" />
-     <Compile Include="Assets\Asvarduil Project GUI System\classes\AsvarduilImage.cs" />
-     <Compile Include="Assets\Asvarduil Project GUI System\classes\AsvarduilImageButton.cs" />
-     <Compile Include="Assets\Asvarduil Project GUI System\classes\AsvarduilLabel.cs" />
-     <Compile Include="Assets\Asvarduil Project GUI System\classes\AsvarduilMessageBox.cs" />
-     <Compile Include="Assets\Asvarduil Project GUI System\classes\AsvarduilSlider.cs" />
-     <Compile Include="Assets\Asvarduil Project GUI System\classes\AsvarduilStaticImage.cs" />
-     <Compile Include="Assets\Asvarduil Project GUI System\classes\AsvarduilStaticLabel.cs" />
-     <Compile Include="Assets\Asvarduil Project GUI System\classes\AsvarduilTooltip.cs" />
-     <Compile Include="Assets\Asvarduil Project GUI System\classes\FloatingButton.cs" />
-     <Compile Include="Assets\Asvarduil Project GUI System\classes\FloatingGUIBase.cs" />
-     <Compile Include="Assets\Asvarduil Project GUI System\classes\FloatingTexture.cs" />
-     <Compile Include="Assets\Asvarduil Project GUI System\classes\SettingsForm.cs" />
-     <Compile Include="Assets\Asvarduil Project GUI System\classes\TweenableElement.cs" />
-     <Compile Include="Assets\Asvarduil Project GUI System\scripts\SettingsGUI.cs" />
-     <Compile Include="Assets\Asvarduil Project RPG Control System\behaviors\ManagerMonoBehavior.cs" />
-     <Compile Include="Assets\Asvarduil Project RPG Control System\behaviors\TransitionManager.cs" />
-     <Compile Include="Assets\Asvarduil Project RPG Control System\classes\Settings.cs" />
-     <Compile Include="Assets\Asvarduil Project RPG Control System\gui\Fader.cs" />
-     <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\CameraTrigger.cs" />
-     <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\Maestro.cs" />
-     <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\MapSpeechTrigger.cs" />
-     <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\MasterMaterialAssigner.cs" />
-     <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\MeshCombiner.cs" />
-     <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\RPGCamera.cs" />
-     <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\SceneDespawner.cs" />
-     <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\SceneSpawner.cs" />
-     <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\SceneTransition.cs" />
-     <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\SenseEntities.cs" />
-     <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\Teleporter.cs" />
-     <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\VolumeFromSettingsSFX.cs" />
-     <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\Waypoint.cs" />
-     <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\WaypointMapAI.cs" />
-     <Compile Include="Assets\Asvarduil Project RPG Control System\scripts\WorldMapPlayerControl.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project AI System\Examples\ScaryObjectSense.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project AI System\Examples\SmartWanderer.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project AI System\Examples\Wanderer.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project AI System\Framework\BaseAI.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project AI System\Framework\BehaviorNode.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project AI System\Framework\ICheckableState.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project AI System\Framework\IEvaluatesState.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project AI System\Framework\State.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project AI System\Framework\StateMachine.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project GUI System\classes\AsvarduilButton.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project GUI System\classes\AsvarduilCheckbox.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project GUI System\classes\AsvarduilForm.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project GUI System\classes\AsvarduilGUIBase.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project GUI System\classes\AsvarduilGUIInterfaces.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project GUI System\classes\AsvarduilImage.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project GUI System\classes\AsvarduilImageButton.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project GUI System\classes\AsvarduilLabel.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project GUI System\classes\AsvarduilMessageBox.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project GUI System\classes\AsvarduilSlider.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project GUI System\classes\AsvarduilStaticImage.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project GUI System\classes\AsvarduilStaticLabel.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project GUI System\classes\AsvarduilTooltip.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project GUI System\classes\FloatingButton.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project GUI System\classes\FloatingGUIBase.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project GUI System\classes\FloatingTexture.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project GUI System\classes\SettingsForm.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project GUI System\classes\TweenableElement.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project GUI System\scripts\SettingsGUI.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project RPG Control System\behaviors\ManagerMonoBehavior.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project RPG Control System\behaviors\TransitionManager.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project RPG Control System\classes\Settings.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project RPG Control System\gui\Fader.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project RPG Control System\scripts\CameraTrigger.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project RPG Control System\scripts\Maestro.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project RPG Control System\scripts\MapSpeechTrigger.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project RPG Control System\scripts\MasterMaterialAssigner.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project RPG Control System\scripts\MeshCombiner.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project RPG Control System\scripts\RPGCamera.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project RPG Control System\scripts\SceneDespawner.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project RPG Control System\scripts\SceneSpawner.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project RPG Control System\scripts\SceneTransition.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project RPG Control System\scripts\SenseEntities.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project RPG Control System\scripts\Teleporter.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project RPG Control System\scripts\VolumeFromSettingsSFX.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project RPG Control System\scripts\Waypoint.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project RPG Control System\scripts\WaypointMapAI.cs" />
+     <Compile Include="Assets\Framework\Asvarduil Project RPG Control System\scripts\WorldMapPlayerControl.cs" />
+     <Compile Include="Assets\Framework\Side-Scrolling Controller\Scripts\CameraFreezeTrigger.cs" />
+     <Compile Include="Assets\Framework\Side-Scrolling Controller\Scripts\PlayerControl.cs" />
+     <Compile Include="Assets\Framework\Side-Scrolling Controller\Scripts\SceneChangeTrigger.cs" />
+     <Compile Include="Assets\Framework\Side-Scrolling Controller\Scripts\SidescrollingCamera.cs" />
+     <Compile Include="Assets\Framework\Side-Scrolling Controller\Scripts\SidescrollingMovement.cs" />
+     <Compile Include="Assets\Framework\Sprite System\AnimationBase.cs" />
+     <Compile Include="Assets\Framework\Sprite System\HitboxController.cs" />
+     <Compile Include="Assets\Framework\Sprite System\SpriteSystem.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\AIBase.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\Artasandro.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\AI\Barbariccia.cs" />
@@ -141,6 +149,7 @@
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\EntitySpawner.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\IPausableEntity.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\InitializationScenePass.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\System\ObjectiveSparkle.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\PlayerDeathReloader.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\PressureSwitch.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\ProjectileGroup.cs" />
@@ -148,24 +157,13 @@
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\SwitchDespawner.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\WindBlock.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\WorldMapControl.cs" />
-     <Compile Include="Assets\Side-Scrolling Controller\Scripts\CameraFreezeTrigger.cs" />
-     <Compile Include="Assets\Side-Scrolling Controller\Scripts\PlayerControl.cs" />
-     <Compile Include="Assets\Side-Scrolling Controller\Scripts\SceneChangeTrigger.cs" />
-     <Compile Include="Assets\Side-Scrolling Controller\Scripts\SidescrollingCamera.cs" />
-     <Compile Include="Assets\Side-Scrolling Controller\Scripts\SidescrollingMovement.cs" />
-     <Compile Include="Assets\Sprite System\AnimationBase.cs" />
-     <Compile Include="Assets\Sprite System\HitboxController.cs" />
-     <Compile Include="Assets\Sprite System\SpriteSystem.cs" />
      <Compile Include="Assets\WooglieAPI\Plugins\WoogliePiracyProtection.cs" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
      <None Include="Assets\WooglieAPI\Settings\settings.txt" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
-     <None Include="Assets\Plugins\Android\res\values\strings.xml" />
      <None Include="Assets\Standard Assets\Water (Basic)\Sources\Shaders\FX-Water Simple.shader" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-LightedOutline.shader" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Lighted.shader" />
-     <None Include="Assets\Plugins\Android\res\layout\main.xml" />
-     <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\WooglieAPI\README.txt" />
   </ItemGroup>
   <ItemGroup>
