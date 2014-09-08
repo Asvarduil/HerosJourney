@@ -1,10 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\Scripts\System\ObjectiveSparkle.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\Scripts\System\SwitchComboActivator.cs">
     <Files>
-      <File FileName="Assets\Game-Specific Assets\Scripts\System\ObjectiveSparkle.cs" Line="2" Column="1" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\System\SwitchComboActivator.cs" Line="32" Column="49" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\System\SwitchComboActivator.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\System\ObjectiveSparkle.cs" Line="1" Column="1" />
       <File FileName="Assets\Game-Specific Assets\Scripts\System\Ambassador.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game-Specific Assets\Scripts\System\ObjectiveSparkle.cs" Line="19" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

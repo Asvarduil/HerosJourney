@@ -154,6 +154,7 @@
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\PressureSwitch.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\ProjectileGroup.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\SaveFileAccess.cs" />
+     <Compile Include="Assets\Game-Specific Assets\Scripts\System\SwitchComboActivator.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\SwitchDespawner.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\WindBlock.cs" />
      <Compile Include="Assets\Game-Specific Assets\Scripts\System\WorldMapControl.cs" />
