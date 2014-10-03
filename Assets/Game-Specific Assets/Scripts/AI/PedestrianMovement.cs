@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class PedestrianMovement : MonoBehaviour 
@@ -26,7 +26,7 @@ public class PedestrianMovement : MonoBehaviour
 
 	public void BeStill()
 	{
-		_movement.ClearMovement();
+		_movement.ClearHorizontalMovement();
 	}
 
 	public void MoveTowardLocation(Vector3 location)
@@ -41,12 +41,12 @@ public class PedestrianMovement : MonoBehaviour
 		if(location.x < transform.position.x)
 		{
 			IsFacingLeft = true;
-			_movement.MoveLeft();
+			_movement.MoveHorizontally(false);
 		}
 		else if(location.x > transform.position.x)
 		{
 			IsFacingLeft = false;
-			_movement.MoveRight();
+			_movement.MoveHorizontally(true);
 		}
 
 		if(DebugMode)

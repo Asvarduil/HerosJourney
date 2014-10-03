@@ -68,7 +68,7 @@ public class Slime : AIBase
 	
 	private bool IsHit()
 	{
-		return _movement.isHit;
+		return _movement.MovementType == SidescrollingMovementType.Hit;
 	}
 	
 	#endregion Condition Methods
@@ -77,7 +77,7 @@ public class Slime : AIBase
 		
 	private void Patrol()
 	{	
-		_movement.ClearMovement();
+		_movement.ClearHorizontalMovement();
 		_animation = string.Empty;
 		
 		ChangeDirections();
@@ -93,7 +93,7 @@ public class Slime : AIBase
 			return;
 		
 		_lastThought = Time.time;
-		_movement.ClearMovement();
+		_movement.ClearHorizontalMovement();
 		
 		Random generator = new Random((int) DateTime.Now.Ticks);
 		int roll = generator.Next(0, 99);
@@ -148,12 +148,12 @@ public class Slime : AIBase
 		if(_facingLeft)
 		{
 			_animation = moveLeft;
-			_movement.MoveLeft();
+			_movement.MoveHorizontally(false);
 		}
 		else
 		{
 			_animation = moveRight;
-			_movement.MoveRight();
+			_movement.MoveHorizontally(true);
 		}
 	}
 	

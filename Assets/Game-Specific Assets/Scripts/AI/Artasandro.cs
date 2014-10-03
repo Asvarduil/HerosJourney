@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 
@@ -133,7 +133,7 @@ public class Artasandro : AIBase
 
 	private void SpamMagic()
 	{
-		_movement.ClearMovement();
+		_movement.ClearHorizontalMovement();
 
 		if(_spiralProjectileSpam.IsDoneSpamming)
 		{
@@ -193,22 +193,16 @@ public class Artasandro : AIBase
 		
 		if(location.x < transform.position.x)
 		{
-			if(DebugMode)
-				Debug.Log("Moving left...");
-			
 			_currentAnimation = MoveLeft;
 			_isFacingLeft = true;
-			_movement.MoveLeft();
+			_movement.MoveHorizontally(false);
 			return;
 		}
 		else if(location.x > transform.position.x)
 		{
-			if(DebugMode)
-				Debug.Log("Moving right...");
-			
 			_currentAnimation = MoveRight;
 			_isFacingLeft = false;
-			_movement.MoveRight();
+			_movement.MoveHorizontally(true);
 			return;
 		}
 	}

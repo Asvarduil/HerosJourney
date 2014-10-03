@@ -54,7 +54,7 @@ public class PlayerHealthProvider : MonoBehaviour
 		int canvasWidth = FullHeart.width * (maxhp / 2);
 		int fullHearts = hp / 2;
 		int halfHearts = hp % 2;
-		int deadHearts = (maxhp / 2) - (hp / 2);
+		int deadHearts = (maxhp / 2) - (int) Mathf.Ceil(((float) hp / 2));
 		
 		if(DebugMode)
 		{

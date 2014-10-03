@@ -48,7 +48,7 @@ public class WebbingEffect : MonoBehaviour
 			if(DebugMode)
 				Debug.Log("Webbing has snared " + _affectedObject.name);
 			
-			_moveSystem.CanMove = false;
+			_moveSystem.AllowHorizontalMovement = false;
 		}
 		else
 		{
@@ -64,7 +64,7 @@ public class WebbingEffect : MonoBehaviour
 	public void RestoreMovement()
 	{
 		if(_moveSystem != null)
-			_moveSystem.CanMove = true;
+			_moveSystem.AllowHorizontalMovement = true;
 	}
 	
 	#endregion Methods

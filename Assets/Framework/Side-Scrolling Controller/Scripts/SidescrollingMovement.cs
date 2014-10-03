@@ -1,27 +1,31 @@
 using UnityEngine;
 using System.Collections;
 
-public class SidescrollingMovement : MonoBehaviour
+public class SidescrollingMovement : DebuggableBehavior
 {
 	#region Variables / Properties
+
+	private const float _haltFallingEpsilon = 0.01f;
 	
-	public bool CanMove = true;
-	public bool AtJumpApex = false;
-	public float walkSpeed = 5.0f;
-	public float jumpForce = 20.0f;
-	public float jumpLockout = 0.5f;
-	public float jumpDecayRate = 0.5f;
+	public bool AllowHorizontalMovement = true;
+	public bool AllowJumping = true;
+
+	public float MoveSpeed = 5.0f;
+	public int RemainingJumps = 1;
+	public int MaximumAllowedJumps = 1;
+	public float JumpForce = 20.0f;
+	public float JumpLockout = 0.5f;
+	public float JumpDecayRate = 0.5f;
 	
-	public Vector3 HurtForce = new Vector3(4, 4, 0);
-	
-	public bool facingRight;
-	public bool isGrounded;
-	public bool isHit;
-	
-	private float _lastJump;
-	public Vector3 _friction;
-	private Vector3 _moveVelocity = Vector3.zero;
+	public bool IsFacingRight;
+	public SidescrollingMovementType MovementType;
+
 	private CharacterController _controller;
+
+	private float _lastJump;
+	private bool _isMovingThisFrame = false;
+	private Vector3 _frameVelocity = Vector3.zero;
+	private Vector3 _currentVelocity = Vector3.zero;
 	
 	public CollisionFlags CollisionDirection { get; private set; }
 	
@@ -50,105 +54,162 @@ public class SidescrollingMovement : MonoBehaviour
 		_controller = GetComponent<CharacterController>();
 	}
 	
-	public void Update()
-	{	
-		isGrounded = _controller.isGrounded;
-		
-		if(_controller.isGrounded)
-		{
-			isHit = false;
-		}
-		else
-		{
-			if(HitHead)
-			{
-				AtJumpApex = true;
-				HaltJump();
-			}
-			
-			_moveVelocity.y += Physics.gravity.y * Time.deltaTime;
-			if(Mathf.Abs(_moveVelocity.y - 0.0f) < 0.1f)
-			{
-				AtJumpApex = true;
-				HaltJump();
-			}
-			else
-			{
-				AtJumpApex = false;
-			}
-		}
-		
-		CollisionDirection = _controller.Move(_moveVelocity * Time.deltaTime);
-	}
-	
 	#endregion Engine Hooks
 	
 	#region Messages
 	
 	public void TakeDamage(int damage)
 	{
-		isHit = true;
+		MovementType = SidescrollingMovementType.Hit;
 	}
 	
 	#endregion Messages
 	
 	#region Public Methods
-	
-	public void AddForce(Vector3 force)
+
+	public void HaltMotion()
 	{
-		_moveVelocity = force;
+		_currentVelocity = Vector3.zero;
 	}
-	
-	public void ClearMovement()
-	{
-		_moveVelocity.x = 0;
-		_moveVelocity.z = 0;
-	}
-	
-	public void MoveRight()
-	{
-		if(! CanMove)
-			return;
+
+	public void PerformMovement()
+	{	
+		CheckIfGrounded();
+		CheckIfHitHead();
+		CheckIfFalling();
 		
-		_moveVelocity.x = walkSpeed;
-		facingRight = true;
+		CalculateFrameVelocity();
+		ApplyVelocity();
 	}
-	
-	public void MoveLeft()
+
+	public void RepelFromObject(GameObject thing, float repelForce)
 	{
-		if(! CanMove)
-			return;
-			
-		_moveVelocity.x = -1 * walkSpeed;
-		facingRight = false;
+		Vector3 repelDirection = gameObject.transform.position - thing.transform.position;
+		repelDirection = Vector3.Normalize(repelDirection) * repelForce;
+		if(repelDirection.y == 0.0f)
+			repelDirection.y = 19.6f;
+		
+		_isMovingThisFrame = true;
+		_currentVelocity = repelDirection;
+		ApplyVelocity();
 	}
-	
-	public void Jump()
+
+	public void ClearHorizontalMovement()
 	{
-		if(Time.time < _lastJump + jumpLockout)
+		_isMovingThisFrame = MovementType != SidescrollingMovementType.Grounded;
+		_currentVelocity.x = 0.0f;
+	}
+
+	private void CalculateFrameVelocity()
+	{
+		_frameVelocity = Vector3.zero;
+		
+		if(_isMovingThisFrame)
+			_frameVelocity += _currentVelocity * Time.deltaTime;
+		
+		// Apply Gravity in a framerate-independent way...
+		float gravityEffect = Physics.gravity.y * Time.deltaTime;
+		_currentVelocity.y += gravityEffect;
+		_frameVelocity.y += gravityEffect;
+		
+		// Reduce our next frame's jump velocity, such that we get a more parabolic flight.
+		_currentVelocity.y *= JumpDecayRate;
+		if(Mathf.Abs(_currentVelocity.y - 0.0f) < _haltFallingEpsilon)
+			_currentVelocity.y = 0.0f;
+		
+		// Lock Z axis...
+		_frameVelocity.z = 0;
+	}
+
+	private void ApplyVelocity()
+	{
+		CollisionDirection = _controller.Move(_frameVelocity);
+	}
+
+	private void CheckIfGrounded()
+	{
+		if(MovementType == SidescrollingMovementType.Grounded
+		   || MovementType == SidescrollingMovementType.Jumping)
 			return;
 		
 		if(! _controller.isGrounded)
 			return;
 		
-		_lastJump = Time.time;
-		_moveVelocity.y = jumpForce;
+		// Upon becoming grounded, refresh the total number of jumps.
+		RemainingJumps = MaximumAllowedJumps;
+		MovementType = SidescrollingMovementType.Grounded;
+		_currentVelocity.y = 0;
 	}
 	
-	public void PartialJump()
+	private void CheckIfHitHead()
 	{
-		_lastJump = Time.time;
-		_moveVelocity.y = jumpForce;
+		if(MovementType != SidescrollingMovementType.Jumping)
+			return;
+		
+		if(! HitHead)
+			return;
+
+		MovementType = SidescrollingMovementType.Falling;
+		_currentVelocity.y = 0;
 	}
 	
-	public void SlowJump()
+	private void CheckIfFalling()
 	{
-		_moveVelocity.y *= jumpDecayRate;
+		if(MovementType == SidescrollingMovementType.Falling)
+			return;
+		
+		if(! _controller.isGrounded
+		   && MovementType == SidescrollingMovementType.Grounded)
+		{
+			MovementType = SidescrollingMovementType.Falling;
+			return;
+		}
+		
+		if(Mathf.Abs(_frameVelocity.y - 0.0f) < _haltFallingEpsilon
+		   && MovementType == SidescrollingMovementType.Jumping)
+		{
+			MovementType = SidescrollingMovementType.Falling;
+		}
+	}
+
+	public void MoveHorizontally(bool moveRight)
+	{
+		if(!AllowHorizontalMovement)
+			return;
+
+		IsFacingRight = moveRight;
+		_isMovingThisFrame = true;
+		_currentVelocity.x = moveRight ? MoveSpeed : -MoveSpeed;
+	}
+
+	public void Jump()
+	{
+		if(!AllowJumping)
+			return;
+		
+		if(Time.time < _lastJump + JumpLockout)
+			return;
+		
+		if(MovementType != SidescrollingMovementType.Grounded
+		   && RemainingJumps == 0)
+		{
+			DebugMessage("The player is airborne, and unable to make any additional jumps.");
+			return;
+		}
+		
+		DebugMessage("The character has made a jump!");
+		
+		_isMovingThisFrame = true;
+		_lastJump = Time.time;
+		RemainingJumps--;
+		MovementType = SidescrollingMovementType.Jumping;
+		_currentVelocity.y = JumpForce;
 	}
 	
 	public void HaltJump()
 	{
-		_moveVelocity.y = -2;
+		MovementType = SidescrollingMovementType.Falling;
+		_currentVelocity.y = Mathf.Abs(Physics.gravity.y);
 	}
 	
 	#endregion Public Methods

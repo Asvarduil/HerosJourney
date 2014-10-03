@@ -1,52 +1,38 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerControl : MonoBehaviour, IPausableEntity 
+public class PlayerControl : DebuggableBehavior, IPausableEntity 
 {
 	#region Variables / Properties
 	
 	public AudioClip attackSound;
 	public AudioClip jumpSound;
-	
-	public bool DebugMode = false;
-	public float DeadZoneRange = 0.2f;
+
+	public bool allowAction = true;
 	public bool canAttack = true;
 	public bool canOverthrust = false;
 	public bool canUnderthrust = false;
-	public bool allowAction = true;
-	public bool isCrouching = false;
+
+	public PlayerControlState controlState = PlayerControlState.IdleRight;
+
+	// TODO: Refactor to be private, AI looks at controlState instead.
+	public bool isHit = false;
 	public bool isJumping = false;
+	public bool isCrouching = false;
 	public bool isAttacking = false;
 	public bool isFacingRight = true;
-	
-	public string idleLeft;
-	public string idleRight;
-	public string hitLeft;
-	public string hitRight;
-	public string walkLeft;
-	public string walkRight;
-	public string jumpLeft;
-	public string jumpRight;
-	public string crouchLeft;
-	public string crouchRight;
-	public string attackLeft;
-	public string attackRight;
-	public string crouchAttackLeft;
-	public string crouchAttackRight;
-	public string jumpAttackLeft;
-	public string jumpAttackRight;
-	public string underCut;
-	public string overCut;
+	public bool isOverthrusting = false;
+	public bool isUnderthrusting = false;
+	public bool isMovingHorizontally = false;
+
+	public float AttackLockout = 0.25f;
+
+	private float _lastAttack;
+	private string _currentSequence;
 	
 	private SidescrollingMovement _movement;
 	private HitboxController _hitboxController;
-	
-	private float _verticalInput;
-	private float _horizontalInput;
-	private bool _isMoving = false;
-	private bool _isFalling = false;
-	private string _currentSequence;
-	private SpriteSystem _animation;
+	private PlayerAnimationManager _animation;
 	private Maestro _maestro;
 	
 	#endregion Variables / Properties
@@ -57,27 +43,16 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 	{
 		_maestro = (Maestro) FindObjectOfType(typeof(Maestro));
 		_movement = gameObject.GetComponent<SidescrollingMovement>();
-		_animation = gameObject.GetComponentInChildren<SpriteSystem>();
-		_hitboxController = gameObject.GetComponentInChildren<HitboxController>();
+		_animation = GetComponent<PlayerAnimationManager>();
 	}
 	
 	public void Update()
 	{	   	
-		CollectInput();
-		
-		CheckHorizontal();
-		CheckCrouching();
-		
-		MoveCharacter();
-		PerformJump();
-		CheckOverthrust();
-		CheckUnderthrust();
-		
-		CheckAttack();
-		CheckInjured();
-		
-		PerformAnimation(_currentSequence);
-		PerformHitboxAnimation(_currentSequence);
+		ProcessAxes();
+		DetermineControlState();
+        
+		_movement.PerformMovement();
+		_animation.PerformAnimation();
 	}
 	
 	#endregion Engine Hooks
@@ -87,13 +62,16 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 	public void Halt()
 	{
 		canAttack = false;
+		isJumping = false;
 		allowAction = false;
 		isAttacking = false;
 		isCrouching = false;
-		_verticalInput = 0;
-		_horizontalInput = 0;
-		
-		_currentSequence = isFacingRight ? idleRight : idleLeft;
+		isOverthrusting = false;
+		isUnderthrusting = false;
+		isMovingHorizontally = false;
+
+		_movement.HaltJump();
+		_movement.HaltMotion();
 	}
 	
 	public void Resume()
@@ -101,215 +79,216 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 		canAttack = true;
 		allowAction = true;
 	}
-	
-	private void CollectInput()
+
+	private void ProcessAxes()
 	{
 		if(! allowAction)
-		{
-			if(DebugMode)
-				Debug.LogWarning("Input has been suspended!  Call Resume() to give control back to the player.");
-			
-			isAttacking = false;
-			_verticalInput = 0;
-			_horizontalInput = 0;
 			return;
+
+		CheckCrouching();
+        CheckHorizontal();
+		CheckJump();
+		CheckGrounded();
+
+		CheckAttack();
+		CheckOverthrust();
+		CheckUnderthrust();
+
+		CheckInjured();
+	}
+
+	private void CheckGrounded()
+	{
+		// If grounded and no jump occurred, clear the jump flag.
+		if(_movement.MovementType != SidescrollingMovementType.Grounded)
+			return;
+
+		isJumping = false;
+		isHit = false;
+	}
+
+	private void CheckJump()
+	{		
+		if(Input.GetButtonUp("Jump"))
+		{
+			if(_movement.MovementType == SidescrollingMovementType.Jumping)
+			{
+				isJumping = false;
+				_movement.HaltJump();
+			}
 		}
-
-		if(canAttack)
-			isAttacking = Input.GetButtonUp("Fire1");
-		else
-			isAttacking = false;
-
-		_verticalInput = Input.GetAxisRaw("Vertical");
-		_horizontalInput = Input.GetAxisRaw("Horizontal");
-	}
-	
-	private bool InputIsDead(float input)
-	{
-		return input > -DeadZoneRange
-			   && input < DeadZoneRange;
-	}
-	
-	private bool InputIsPositive(float input)
-	{
-		return input > DeadZoneRange;
-	}
-	
-	private bool InputIsNegative(float input)
-	{
-		return input < DeadZoneRange;
+		else if(Input.GetButtonDown("Jump"))
+		{
+			if(_movement.MovementType == SidescrollingMovementType.Grounded)
+			{
+				DebugMessage("Player is jumping!");
+				isJumping = true;
+				_movement.Jump();
+			}
+		}
 	}
 	
 	private void CheckAttack()
 	{				
-		if(! isAttacking)
+		if(! canAttack)
 			return;
-		
-		if(DebugMode)
-			Debug.Log("The player released the attack button, so attacking!");
+
+		if(Time.time < _lastAttack + AttackLockout)
+			return;
+
+		if(! Input.GetButtonDown("Fire1"))
+		{
+			isAttacking = false;
+			return;
+		}
+
+		DebugMessage("The player is attacking!");
+
+		_lastAttack = Time.time;
+		isAttacking = true;
 
 		if(attackSound != null)
 			_maestro.PlaySoundEffect(attackSound);
+	}
 
-		_currentSequence = (isCrouching || isJumping)
-						   ? isFacingRight ? crouchAttackRight : crouchAttackLeft
-				           : isFacingRight ? attackRight : attackLeft;
-	}
-	
-	private void CheckHorizontal()
-	{
-		if(! InputIsDead(_horizontalInput))
-			isFacingRight = InputIsPositive(_horizontalInput);
-		
-		_currentSequence = (InputIsDead(_horizontalInput))
-						   ? isFacingRight ? idleRight : idleLeft
-						   : isFacingRight ? walkRight : walkLeft;
-		_isMoving = (! InputIsDead(_horizontalInput));
-	}
-	
 	private void CheckCrouching()
 	{	
-		if(isJumping
-		   || InputIsDead(_verticalInput)
-		   || InputIsPositive(_verticalInput))
+		if(_movement.MovementType != SidescrollingMovementType.Grounded
+		   || Input.GetAxis("Vertical") >= 0)
 		{
 			isCrouching = false;
 			return;
 		}
 		
-		isCrouching = true;
-		_currentSequence = isFacingRight ? crouchRight : crouchLeft;
-		_isMoving = false;
+		DebugMessage("The player is crouching!");
+        isCrouching = true;
+        isMovingHorizontally = false;
+		_movement.HaltMotion();
+    }
+	
+	private void CheckHorizontal()
+	{
+		if(! Input.GetButton("Horizontal"))
+		{
+			isMovingHorizontally = false;
+			_movement.ClearHorizontalMovement();
+			return;
+		}
+
+		isFacingRight = Input.GetAxis("Horizontal") > 0;
+
+		if(isCrouching)
+			return;
+
+		DebugMessage("The player is moving!");
+		isMovingHorizontally = true;
+
+		_movement.MoveHorizontally(isFacingRight);
 	}
 	
 	private void CheckOverthrust()
 	{	
 		if(! canOverthrust
-		   || InputIsDead(_verticalInput)
-		   || InputIsNegative(_verticalInput))
-			return;
-				
-		if(isJumping)
+		   || _movement.MovementType == SidescrollingMovementType.Grounded
+		   || _movement.MovementType == SidescrollingMovementType.Hit
+		   || Input.GetAxisRaw("Vertical") <= 0)
 		{
-			if(DebugMode)
-				Debug.Log("Performing Overthrust!");
-			
-			_currentSequence = overCut;
+			isOverthrusting = false;
+			return;
 		}
+				
+		DebugMessage("Performing Overthrust!");
+		isOverthrusting = true;
 	}
 	
 	private void CheckUnderthrust()
 	{
 		if(! canUnderthrust
-		   || InputIsDead(_verticalInput)
-		   || InputIsPositive(_verticalInput))
-			return;
-		
-		if(isJumping)
+		   || _movement.MovementType == SidescrollingMovementType.Grounded
+		   || _movement.MovementType == SidescrollingMovementType.Hit
+		   || Input.GetAxisRaw("Vertical") >= 0)
 		{
-			if(DebugMode)
-				Debug.Log("Performing Underthrust!");
-			
-			_currentSequence = underCut;
+			isUnderthrusting = false;
+			return;
 		}
+
+		DebugMessage("Performing Underthrust!");
+		isUnderthrusting = true;
 	}
 	
 	private void CheckInjured()
 	{
-		if(! _movement.isHit)
+		if(_movement.MovementType != SidescrollingMovementType.Hit)
 			return;
-		
-		if(DebugMode)
-			Debug.Log("Have been injured!  Playing the injured animation.");
-		
-		// Override all flags when hit...
-		_isMoving = false;
-		_isFalling = false;
-		isAttacking = false;
-		isCrouching = false;
-		isJumping = false;
-		
-		_currentSequence = isFacingRight ? hitRight : hitLeft;
-	}
-	
-	private void PerformJump()
-	{		
-		if(! allowAction)
-			return;
-		
-		if(isCrouching)
-			return;
-		
-		bool jumpPressed = Input.GetButtonDown("Jump"); 
-		bool jumpReleased = Input.GetButtonUp("Jump");
-			
-		if(jumpPressed
-		   && _movement.isGrounded
-		   && ! _isFalling)
-		{
-			if(jumpSound != null)
-				_maestro.PlaySoundEffect(jumpSound);
 
-			_movement.PartialJump();
-		}
-		
-		if(jumpReleased
-		   && ! _isFalling)
-		{
-			_movement.SlowJump();
-			_isFalling = true;
-		}
-		
-		if(_movement.HitHead)
-		{
-			_movement.SlowJump();
-			_isFalling = true;
-		}
-		
-		if(_movement.isGrounded
-		   && _isFalling)
-			_isFalling = false;
-		
-		isJumping = ! _movement.isGrounded;
-		
-		if(! _movement.isGrounded)
-			_currentSequence = isFacingRight ? crouchRight : crouchLeft;
+		DebugMessage("The player has been hit!");
+		isHit = true;
 	}
-	
-	private void MoveCharacter()
-	{		
-		if(! _isMoving)
+
+	private void DetermineControlState()
+	{
+		controlState = isFacingRight ? PlayerControlState.IdleRight : PlayerControlState.IdleLeft;
+
+		if(isHit)
 		{
-			_movement.ClearMovement();
+			controlState = isFacingRight ? PlayerControlState.HitRight : PlayerControlState.HitLeft;
 			return;
 		}
-		
-		if(isFacingRight)
-			_movement.MoveRight();
-		else
-			_movement.MoveLeft();
-	}
-	
-	private void PerformHitboxAnimation(string animation)
-	{
-		AnimationMode mode = isAttacking 
-			? AnimationMode.OneShot 
-			: AnimationMode.Loop;
-		
-		bool animationLocked = isAttacking || _movement.isHit;
-		
-		_hitboxController.PlaySingleFrame(animation, animationLocked, mode);
-	}
-	
-	private void PerformAnimation(string animation)
-	{
-		AnimationMode mode = isAttacking 
-			? AnimationMode.OneShot 
-			: AnimationMode.Loop;
-		
-		bool animationLocked = isAttacking || _movement.isHit;
-		
-		_animation.PlaySingleFrame(animation, animationLocked, mode);
+
+		if(isUnderthrusting)
+		{
+			controlState = PlayerControlState.Underthrust;
+			return;
+		}
+
+		if(isOverthrusting)
+		{
+			controlState = PlayerControlState.Overthrust;
+			return;
+		}
+
+		if(isAttacking)
+		{
+			// If crouching, use crouch attack animation.
+			if(isCrouching)
+				controlState = isFacingRight ? PlayerControlState.CrouchAttackRight : PlayerControlState.CrouchAttackLeft;
+			// Jumping/Falling attacks use the crouch attack animation.
+			else if(_movement.MovementType != SidescrollingMovementType.Grounded && _movement.MovementType != SidescrollingMovementType.Hit)
+				controlState = isFacingRight ? PlayerControlState.CrouchAttackRight : PlayerControlState.CrouchAttackLeft;
+			// Otherwise use standing animation.
+			else
+				controlState = isFacingRight ? PlayerControlState.AttackRight : PlayerControlState.AttackLeft;
+            
+            return;
+        }
+
+		if(isCrouching)
+		{
+			controlState = isFacingRight ? PlayerControlState.CrouchRight : PlayerControlState.CrouchLeft;
+			return;
+		}
+
+		if(isJumping)
+		{
+			controlState = isFacingRight ? PlayerControlState.JumpRight : PlayerControlState.JumpLeft;
+			return;
+		}
+
+		if(isMovingHorizontally)
+		{
+			switch(_movement.MovementType)
+			{
+				case SidescrollingMovementType.Grounded:
+					controlState = isFacingRight ? PlayerControlState.WalkRight : PlayerControlState.WalkLeft;
+					break;
+					
+				case SidescrollingMovementType.Falling:
+					controlState = isFacingRight ? PlayerControlState.FallRight : PlayerControlState.FallLeft;
+					break;
+			}
+
+			return;
+		}
 	}
 	
 	#endregion Methods
@@ -322,6 +301,8 @@ public class PlayerControl : MonoBehaviour, IPausableEntity
 			Debug.Log("Pausing player controls!");
 		
 		allowAction = false;
+		_movement.HaltMotion();
+		_movement.HaltJump();
 	}
 	
 	public void ResumeThisEntity()

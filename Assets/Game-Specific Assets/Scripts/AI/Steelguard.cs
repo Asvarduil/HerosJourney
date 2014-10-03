@@ -116,7 +116,7 @@ public class Steelguard : AIBase
 	
 	public bool IsHit()
 	{
-		return _movement.isHit;
+		return _movement.MovementType == SidescrollingMovementType.Hit;
 	}
 	
 	#endregion Conditions
@@ -198,7 +198,7 @@ public class Steelguard : AIBase
 		if(DebugMode)
 			Debug.Log((shouldCrouch ? "Crouching" : "Standing") + " to strike the player where they're not guarding!");
 		
-		_movement.ClearMovement();
+		_movement.ClearHorizontalMovement();
 		PerformAttack(shouldCrouch);
 	}
 	
@@ -211,7 +211,7 @@ public class Steelguard : AIBase
 		if(DebugMode)
 			Debug.Log((shouldCrouch ? "Crouching" : "Standing") + " to strike the player where they are guarding!");
 		
-		_movement.ClearMovement();
+		_movement.ClearHorizontalMovement();
 		PerformAttack(shouldCrouch);
 	}
 	
@@ -257,7 +257,7 @@ public class Steelguard : AIBase
 			
 			_currentAnimation = WalkLeft;
 			_isFacingLeft = true;
-			_movement.MoveLeft();
+			_movement.MoveHorizontally(false);
 			return;
 		}
 		else if(location.x > transform.position.x)
@@ -267,7 +267,7 @@ public class Steelguard : AIBase
 			
 			_currentAnimation = WalkRight;
 			_isFacingLeft = false;
-			_movement.MoveRight();
+			_movement.MoveHorizontally(true);
 			return;
 		}
 	}
@@ -278,7 +278,7 @@ public class Steelguard : AIBase
 			Debug.Log("I am being idle...");
 		
 		_lockAnimation = false;
-		_movement.ClearMovement();
+		_movement.ClearHorizontalMovement();
 		_currentAnimation = _isFacingLeft ? IdleLeft : IdleRight;
 	}
 	

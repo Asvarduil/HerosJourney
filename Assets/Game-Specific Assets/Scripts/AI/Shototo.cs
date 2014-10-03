@@ -73,7 +73,7 @@ public class Shototo : AIBase
 	
 	public bool IsHit()
 	{
-		return _movement.isHit;
+		return _movement.MovementType == SidescrollingMovementType.Hit;
 	}
 	
 	#endregion Conditions
@@ -89,12 +89,12 @@ public class Shototo : AIBase
 		if(_sense.PlayerLocation.position.x < transform.position.x)
 		{
 			_facingLeft = true;
-			_movement.MoveLeft();
+			_movement.MoveHorizontally(false);
 		}
 		else
 		{
 			_facingLeft = false;
-			_movement.MoveRight();
+			_movement.MoveHorizontally(true);
 		}
 		
 		FireProjectile();
@@ -107,7 +107,7 @@ public class Shototo : AIBase
 	
 	private void FacePlayer()
 	{
-		if(_movement.isGrounded)
+		if(_movement.MovementType == SidescrollingMovementType.Grounded)
 		{
 			_animation = _facingLeft ? faceLeft : faceRight;
 		}
@@ -116,7 +116,7 @@ public class Shototo : AIBase
 			_animation = _facingLeft ? jumpLeft : jumpRight;
 		}
 		
-		if(_movement.isHit)
+		if(_movement.MovementType == SidescrollingMovementType.Hit)
 		{
 			_animation = _facingLeft ? hitLeft : hitRight;
 		}

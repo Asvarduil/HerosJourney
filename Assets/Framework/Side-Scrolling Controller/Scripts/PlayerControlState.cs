@@ -1,0 +1,21 @@
+﻿public enum PlayerControlState
+{
+	HitLeft,
+	HitRight,
+	IdleLeft,
+	IdleRight,
+	WalkLeft,
+	WalkRight,
+	JumpLeft,
+	JumpRight,
+	FallLeft,
+	FallRight,
+	CrouchLeft,
+	CrouchRight,
+	AttackLeft,
+	AttackRight,
+	CrouchAttackLeft,
+	CrouchAttackRight,
+	Underthrust,
+	Overthrust
+}
