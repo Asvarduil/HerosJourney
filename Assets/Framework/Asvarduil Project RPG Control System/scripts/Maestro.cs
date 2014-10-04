@@ -6,55 +6,18 @@ public class Maestro : MonoBehaviour
 {
 	#region Variables / Properties
 	
-	public float fadeRate = 0.9f;
-	public float threshold = 0.05f;
-	
-	private float maxVolume;
-	private float targetVolume;
-	
-	private bool _IsFadingOut = false;
-	private bool _IsFadingIn = false;
-	public bool IsFading
-	{
-		get { return _IsFadingOut || _IsFadingIn; }
-	}
-	
-	public bool IsSilent
-	{
-		get { return Mathf.Abs(audio.volume - targetVolume) <= threshold; }
-	}
-	
 	#endregion Variables / Properties
 	
 	#region Engine Hooks
 	
 	void Awake()
 	{
-		FadeIn();
 	}
 	
 	void Update()
 	{
-		if(IsFading)
-		{			
-			audio.volume = Mathf.Lerp(audio.volume, targetVolume, fadeRate * Time.deltaTime);
-			
-			if(audio.volume <= threshold)
-			{
-				audio.volume = targetVolume;
-				_IsFadingOut = false;
-			}
-			
-			if (audio.volume >= 1.0f - threshold)
-			{
-				audio.volume = targetVolume;
-				_IsFadingIn = false;
-			}
-		}
-		else
-		{
-			audio.volume = Settings.musVolume;
-		}
+		AudioListener.volume = Settings.masterVolume;
+		audio.volume = Settings.musVolume;
 	}
 	
 	#endregion Engine Hooks
@@ -95,20 +58,6 @@ public class Maestro : MonoBehaviour
 		audio.clip = newChart;
 		audio.time = 0.0f;
 		audio.Play();
-	}
-	
-	public void FadeIn()
-	{
-		audio.volume = 0.0f;
-		targetVolume = Settings.musVolume;
-		_IsFadingIn = true;
-	}
-	
-	public void FadeOut()
-	{
-		audio.volume = Settings.musVolume;
-		targetVolume = 0.0f;
-		_IsFadingOut = true;
 	}
 	
 	#endregion Methods

@@ -2,11 +2,10 @@
 using System;
 using System.Collections;
 
-public class PlayerDeathReloader : MonoBehaviour 
+public class PlayerDeathReloader : DebuggableBehavior 
 {
 	#region Variables / Properties
-	
-	public bool DebugMode = false;
+
 	public string observedTag = "Player";
 
 	private Fader _fader;
@@ -25,7 +24,7 @@ public class PlayerDeathReloader : MonoBehaviour
 
 	public void OnLevelWasLoaded()
 	{
-		StandardDebugMessage("Level was successfully reloaded.");
+		DebugMessage("Level was successfully loaded.");
 		_fader = (Fader) FindObjectOfType(typeof(Fader));
 	}
 
@@ -38,7 +37,7 @@ public class PlayerDeathReloader : MonoBehaviour
 		if(args.Tag != observedTag)
 			return;
 
-		StandardDebugMessage("HP has changed!");
+		DebugMessage("HP has changed!");
 
 		if(args.HP > 0)
 			return;
@@ -48,12 +47,12 @@ public class PlayerDeathReloader : MonoBehaviour
 
 	private IEnumerator ReloadLevelSequence()
 	{
-		StandardDebugMessage("Reloading level...");
+		DebugMessage("Reloading level...");
 		
 		_fader.FadeOut();
 		while(_fader.ScreenShown)
 		{
-			StandardDebugMessage("Fading screen out...");
+			DebugMessage("Fading screen out...");
 			yield return 0;
 		}
 		
@@ -61,13 +60,5 @@ public class PlayerDeathReloader : MonoBehaviour
 		yield return null;
 	}
 
-	private void StandardDebugMessage(string message)
-	{
-		if(! DebugMode)
-			return;
-
-		Debug.Log(string.Format("({0}) {1}", DateTime.Now.ToString("HH:mm:ss"), message));
-	}
-	
 	#endregion Methods
 }

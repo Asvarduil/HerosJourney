@@ -24,14 +24,11 @@ public class SceneTransition : MonoBehaviour
 		_Fader = (Fader) GameObject.FindObjectOfType(typeof(Fader));
 		_Maestro = Maestro.DetectLastInstance();
 		_TransitionManager = TransitionManager.Instance;
-		
-		_Maestro.FadeIn();
 	}
 	
 	void FixedUpdate()
 	{
 		if(_Fader.ScreenHidden
-		   && _Maestro.IsSilent
 		   && _TransitionInitiated)
 		{
 			_TransitionManager.ChangeScenes();
@@ -53,7 +50,6 @@ public class SceneTransition : MonoBehaviour
 		_TransitionManager.PrepareTransition(targetPosition, targetRotation, targetSceneID);
 		
 		_Fader.FadeOut();
-		_Maestro.FadeOut();
 		_TransitionInitiated = true;
 	}
 	
