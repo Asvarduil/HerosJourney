@@ -53,6 +53,7 @@ public class Slime : AIBase
 			return;
 		
 		_states.EvaluateState();
+		_movement.PerformMovement();
 		PlayAnimations();
 	}
 	

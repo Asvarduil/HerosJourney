@@ -58,7 +58,8 @@ public class Shototo : AIBase
 		
 		FacePlayer();
 		_fsm.EvaluateState();
-		
+
+		_movement.PerformMovement();
 		PlayAnimations();
 	}
 	

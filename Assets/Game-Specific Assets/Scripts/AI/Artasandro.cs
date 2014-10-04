@@ -73,6 +73,7 @@ public class Artasandro : AIBase
 
 		_actions[_aiPhase]();
 
+		_movement.PerformMovement();
 		PlayAnimations();
 	}
 

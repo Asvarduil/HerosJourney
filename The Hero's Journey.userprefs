@@ -1,8 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\Scripts\GUI\PlayerHealthProvider.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game-Specific Assets\Scripts\AI\Shototo.cs">
     <Files>
-      <File FileName="Assets\Game-Specific Assets\Scripts\GUI\PlayerHealthProvider.cs" Line="56" Column="27" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\AI\Slime.cs" Line="57" Column="20" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\AI\Shototo.cs" Line="90" Column="1" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\AI\Steelguard.cs" Line="74" Column="3" />
+      <File FileName="Assets\Game-Specific Assets\Scripts\AI\Artasandro.cs" Line="78" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

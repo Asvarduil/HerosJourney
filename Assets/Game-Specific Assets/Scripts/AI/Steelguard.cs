@@ -68,6 +68,8 @@ public class Steelguard : AIBase
 			return;
 		
 		_states.EvaluateState();
+
+		_movement.PerformMovement();
 		PlayAnimations();
 	}
 	
